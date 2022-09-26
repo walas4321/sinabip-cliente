@@ -1,0 +1,548 @@
+
+<div>
+  <div class="row" [ngClass]="{'bloquear': active}" >   
+    <div class="col-lg-10">    
+      <div class="row">      
+          <div class="col-lg-4">            
+              <table style="width: 96%;margin-left:10px;" class="caja">
+                <tr>
+                    <td>Condición Registro</td>
+                </tr>
+                <tr>
+                    <td>
+                      <select class="form-control" (change)="validardatosgenerales(datosgenerales);resetcalif()"  [(ngModel)]="datosgenerales.condicion">
+                        <option value="0">----SELECCIONA----</option>
+                        <option value="03" >VIGENTE</option>
+                        <option value="01" [disabled]=" this.tipo_Usuario== 'E' " *ngIf="(this.codinterno !== '' && this.codinterno !== '0')">CANCELADO</option>
+                        <option value="05" disabled *ngIf="(this.codinterno !== '' && this.codinterno !== '0')">NO DETERMINADO</option>
+                        <!--
+                        <option *ngFor="let cond of condicion"
+                          value="{{cond.CODIGO_DETALLE}}">{{cond.DSC_DETALLE}}
+                        </option>
+                        -->
+                      </select>   
+                    </td>
+                </tr> 
+                
+              </table>
+          </div>
+          <div class="col-lg-4">        
+            <table style="width: 96%;margin-left:10px;" class="caja">            
+              <tr>
+                  <td>Competencia de:</td> 
+              </tr>
+              <tr>
+                  <td>
+                    <select class="form-control" [(ngModel)]="datosgenerales.competencia" (change)="validardatosgenerales(datosgenerales)">
+                      <option value="0" >----TIPO----</option>
+                      <option *ngFor="let com of competencia" value="{{com.CODIGO_COMPETENCIA}}">{{com.DESCRIPCION_COMPETENCIA}}</option>
+                    </select>
+                  </td>
+              </tr> 
+            </table>
+          </div>
+          <div class="col-lg-4">         
+            <table style="width: 96%;margin-left:10px;" class="caja">
+              <tr><td>Denominación de Predio</td></tr> 
+              <tr>
+                <td>
+                  <textarea class="form-control" placeholder="Ingrese Denominación" 
+                      style="text-transform:uppercase; font-size: small;"
+                      [(ngModel)]="datosgenerales.denominacion" (change)="validardatosgenerales(datosgenerales)" 
+                      maxlength="150"
+                      cols="30"
+                      [rows]=rows>
+                    </textarea>
+                </td>
+              </tr> 
+            </table>
+          </div>     
+      </div>
+    </div>
+    <div class="col-lg-2">
+      <div class="row"> 
+          <div class="col-lg-6">
+            <table style="width: 96%;margin-left:10px;" class="caja">
+              <tr>
+                  <td>Reserva</td>
+              </tr>
+              <tr>
+                  <td>
+                    <select id="cars" class="form-control"  [(ngModel)]="datosgenerales.reserva" (change)="validardatosgenerales(datosgenerales)">
+                      <option value="0">--Tipo--</option>
+                      <option value="3" >Ninguno</option>
+                      <option value="1">Ley 29151</option>                       
+                      <option value="2">Ley 27806</option>                    
+                    </select>
+                  </td>
+              </tr>       
+            </table>
+          </div>
+          <div class="col-lg-6">          
+          </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row" *ngIf="datosgenerales.condicion=='01'" [ngClass]="{'bloquear': active}">    
+    <div class="col-lg-8">    
+      <div class="row">      
+          <div class="col-lg-4">
+            <table style="width: 96%;margin-left:10px;" class="caja">
+              <tr>
+                  <td>Calificación Cancelado</td>
+              </tr>
+              <tr>
+                <td>
+                  <select class="form-control"  [(ngModel)]="datosgenerales.calificacion" (change)="validardatosgenerales(datosgenerales)">
+                    <option value="0" >----SELECCIONA----</option>
+                    <option *ngFor="let cal of calificacion" value="{{cal.CODIGO_DETALLE}}">{{cal.DSC_DETALLE}}</option>
+                  </select>
+                  </td>
+              </tr>             
+            </table>
+          </div>
+          <div class="col-lg-4"></div>
+          <div class="col-lg-4"></div>     
+      </div>
+    </div>
+    <div class="col-lg-4"></div>
+  </div>
+  <br>
+  <div class="row">                        
+    <div class="col-lg-12">                     
+      <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+        <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Documentos Relacionados]</legend>                               
+        <div class="row">                              
+          <div class="col-lg-2">
+            <label for="">Solicitud de Ingreso</label>
+          </div>
+          <div class="col-lg-2" [ngClass]="{'bloquear': active}">
+            <input type="text" 
+              class="form-control"   
+              style="text-transform:uppercase;" 
+              [(ngModel)]="datosgenerales.solicitud_ingreso"
+              (change)="validardatosgenerales(datosgenerales)"
+              maxlength="10"
+              >
+          </div>
+          <div class="col-lg-1">
+            <label for="">Expedientes</label>
+          </div>
+
+          <div class="col-lg-3">
+            <table>
+              <tr>
+                <td>
+                  <select 
+                    class="form-control" style="margin-top: -10px; width: 200px;" >
+                    <option *ngFor="let exp of expediente_relacionados" value="{{exp.CODIGO_EXPEDIENTE}}">{{exp.CODIGO_EXPEDIENTE}}</option>
+                  </select>
+                </td>
+                <td>
+                  <button class="" [ngClass]="{'bloquear': active}"
+                  (click)="open_expedientes_relacionados(content_expedientes)"
+                  class="btn btn-primary btn-sm"  
+                  style="margin-left:5px;margin-bottom: 10px; height: 38px;">...
+                </button>
+                </td>
+              </tr>
+            </table>
+            
+           
+          </div>
+          <div class="col-lg-1">
+            <label for="">Predios</label>
+          </div>
+          <div class="col-lg-3">
+            <table>
+              <tr>
+                <td>
+                  <select 
+                    class="form-control" style="margin-top: -10px; width: 200px;">
+                    <option *ngFor="let cus of cus_relacionados" value="{{cus.CUS}}" >{{cus.CUS}}</option>
+                  </select>
+                </td>
+                <td>
+                  <button type="button" [ngClass]="{'bloquear': active}" 
+                    (click)="open_cus_relacionados(content_cus)" 
+                    class="btn btn-primary btn-sm"  
+                    style="margin-left:5px;margin-bottom: 10px; height: 38px;" >...
+                  </button>
+                </td>
+              </tr>
+            </table>
+
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <br>
+
+
+  <div class="row" [ngClass]="{'bloquear': active}">                        
+    <div class="col-lg-8">                     
+      <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+        <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;Ubicación/Dirección</legend>                               
+        <div class="row">                              
+          <div class="col-lg-3">
+            <table class="caja" style="margin-top: 15px;margin-left: 5px;width: 100%;">
+              <tr><td>Vía</td></tr> 
+              <tr>
+                <td>
+                  <select class="form-control"  [(ngModel)]="datosgenerales.via" (change)="validardatosgenerales(datosgenerales)">
+                    <option value="0" >----TIPO----</option>
+                    <option *ngFor="let vi of via" value="{{vi.CODIGO_VIA}}">{{vi.DESCRIPCION_VIA}}</option>
+                  </select>
+                  </td>                 
+              </tr> 
+            </table>            
+          </div>
+          <div class="col-lg-7" >          
+            <table style="margin-top: 15px;width: 98%;" class="caja">
+            <tr><td>Dirección</td></tr> 
+            <tr>
+              <td>
+                <textarea class="form-control"  placeholder="Ingrese Dirección" 
+                  style="text-transform:uppercase; font-size: small;" 
+                  [(ngModel)]="datosgenerales.direccion" 
+                  (change)="validardatosgenerales(datosgenerales)"
+                  maxlength="250"
+                  cols="30"
+                  [rows]=rows2
+                >
+              </textarea>
+               
+              </td>
+          </tr> 
+          </table>
+          </div>
+          <div class="col-lg-2">
+            <table style="margin-top: 15px;width: 98%;" class="caja">
+              <tr><td>Número</td></tr> 
+              <tr><td><input type="text" class="form-control"  placeholder="-"  [(ngModel)]="datosgenerales.numero" 
+                      (change)="validardatosgenerales(datosgenerales)"
+                      maxlength="4"
+                      (change)="validarentero(datosgenerales.numero,1)"
+                      ></td></tr> 
+            </table>            
+          </div>                          
+      </div> 
+      <div class="row" style="margin-top: 5px;">
+        <div class="col-lg-3">          
+          <table class="caja" style="margin-left:5px;">
+            <tr><td>Manzana</td></tr> 
+            <tr><td>
+                  <input type="text" class="form-control"  style="text-transform:uppercase;" 
+                    placeholder="-"  
+                    [(ngModel)]="datosgenerales.manzana" 
+                    (change)="validardatosgenerales(datosgenerales)"
+                    maxlength="4"
+                  >
+            </td></tr> 
+          </table>
+        </div>
+        <div class="col-lg-3">
+          <table class="caja">
+            <tr><td>Lote</td></tr> 
+            <tr><td>
+                  <input type="text" class="form-control"  placeholder="-"  
+                    style="text-transform:uppercase;"
+                    [(ngModel)]="datosgenerales.lote" 
+                    (change)="validardatosgenerales(datosgenerales)"
+                    maxlength="5"
+                  >
+            </td></tr> 
+          </table>
+        </div>
+        <div class="col-lg-3">
+          <table class="caja" style="width: 100%;">
+            <tr><td>Detalle</td></tr> 
+            <tr>
+              <td>
+                <select class="form-control"  [(ngModel)]="datosgenerales.detalle" (change)="validardatosgenerales(datosgenerales)">
+                  <option value="0" >----TIPO----</option>
+                  <option *ngFor="let de of detalle" value="{{de.ID_TIPODETALLE}}">{{de.DESCRIPCION_TIPODETALLE}}</option>
+                </select>
+              </td>
+            </tr> 
+          </table>
+        </div>
+        <div class="col-lg-3">
+          <table  class="caja" style="margin-right: 5px;">
+            <tr><td>Nº Detalle</td></tr> 
+            <tr><td><input type="text" class="form-control"  placeholder="-"  [(ngModel)]="datosgenerales.detalledescrip" 
+                    (change)="validardatosgenerales(datosgenerales)" style="text-transform:uppercase;"                    
+                    maxlength="5"
+                    ></td></tr> 
+          </table>
+        </div>
+      </div>
+      <div class="row"  style="margin-top: 5px;">  
+        <div class="col-lg-3">
+          <table  class="caja" style="margin-left: 5px;">
+            <tr><td>Piso</td></tr> 
+            <tr><td><input type="text" class="form-control"  placeholder="-"  [(ngModel)]="datosgenerales.piso" 
+                    (change)="validardatosgenerales(datosgenerales);validarentero(datosgenerales.piso,2)" 
+                    onkeypress="return event.charCode >= 48 && event.charCode <= 57" 
+                    maxlength="2" 
+                    >
+                </td></tr> 
+          </table>
+        </div>                            
+        <div class="col-lg-3">
+          <table class="caja"style="width:100%" >
+            <tr><td>Localización</td></tr> 
+            <tr>
+              <td>
+                <select class="form-control"  [(ngModel)]="datosgenerales.habilitacion" (change)="validardatosgenerales(datosgenerales)">
+                  <option value="0" >----TIPO----</option>
+                  <option *ngFor="let hab of habilitacion" value="{{hab.CODIGO_HABILITACION}}">{{hab.DESCRIPCION_HABILITACION}}</option>
+                </select>
+              </td>
+            </tr> 
+          </table>          
+        </div>
+        <div class="col-lg-6" >
+          <table class="caja" style="width: 100%;">
+            <tr><td>Descripción de Localización</td></tr> 
+            <tr>
+              <td>
+                <input type="text" class="form-control"  (change)="validardatosgenerales(datosgenerales)"  
+                  style="text-transform:uppercase;width: 99%;" 
+                  [(ngModel)]="datosgenerales.descripcion" 
+                  placeholder="Ingrese Nombre de Localización"
+                  maxlength="150"
+                >
+              </td>
+            </tr> 
+          </table>
+        
+        </div>                          
+      </div>
+      <div class="row">                              
+        <div class="col-lg-12">
+          <table  class="caja" style="margin-top: 5px;margin-left: 5px;width: 98%;">
+            <tr><td>Referencia</td></tr> 
+            <tr><td>
+                  <input type="text" class="form-control"  (change)="validardatosgenerales(datosgenerales)" 
+                    style="text-transform:uppercase;" 
+                    [(ngModel)]="datosgenerales.referencia" 
+                    placeholder="Ingrese Referencia" 
+                    maxlength="80"  
+                  >
+            </td></tr> 
+          </table>
+        </div> 
+      </div>
+     </fieldset>  
+    </div>
+    <div class="col-lg-4">                   
+        <div class="row">                              
+            <div class="col-lg-12" style="padding-left: 0px;"> 
+              <fieldset style="margin-left: 23px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+                <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;Ubicación Geográfica</legend> 
+                <div class="row">
+                  <div class="col-lg-12">
+                    <table  class="caja" style="margin-left: 5px;width: 98%;">
+                      <tr><td>Departamento</td></tr> 
+                      <tr>
+                        <td>
+                          <select class="form-control" [(ngModel)]="ubigeo.coddepa"   (change)="obtenerubigeo(ubigeo.coddepa,0,0,2);validardatosgenerales(datosgenerales);enviarcodigodepa(datosgenerales)"
+                          style="border-right-width: 1px;border-left-width: 1px;border-top-width:1px;">
+                              <option value="0" >--Seleccione--</option>
+                              <option *ngFor="let depa of departamentos.listado" value="{{depa.Ubi_CodDepartamento}}" >{{depa.Ubi_Descripcion}}</option>
+                          </select>
+                        </td>
+                      </tr> 
+                    </table>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <table  class="caja" style="margin-top: 5px;margin-left: 5px;width: 98%;">
+                      <tr><td>Provincia</td></tr> 
+                      <tr>
+                        <td>
+                          <select class="form-control" [(ngModel)]="ubigeo.codprov" (change)="obtenerubigeo(ubigeo.coddepa,ubigeo.codprov,0,3);validardatosgenerales(datosgenerales)" 
+                          style="border-right-width: 1px;border-left-width: 1px;border-top-width: 1px;">
+                              <option value="0" >--Seleccione--</option>
+                              <option *ngFor="let prov of provincias.listado" value="{{prov.Ubi_CodProvincia}}">{{prov.Ubi_Descripcion}}</option>
+                          </select>
+                        </td>
+                      </tr> 
+                    </table>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <table  class="caja" style="margin-top: 5px;margin-left: 5px;width: 98%;">
+                      <tr><td>Distrito</td></tr> 
+                      <tr>
+                        <td>
+                          <select class="form-control" [(ngModel)]="ubigeo.coddist"
+                          style="border-right-width:1px;border-left-width: 1px;border-top-width: 1px;" (change)="obtenercodigodistrito(ubigeo.coddist);validardatosgenerales(datosgenerales)">
+                            <option value="0" >--Seleccione--</option>
+                            <option *ngFor="let dis of distritos.listado" value="{{dis.Ubi_CodDistrito}}">{{dis.Ubi_Descripcion}}</option>
+                          </select>
+                        </td>
+                      </tr> 
+                    </table>
+                  </div>
+                </div>
+              </fieldset>                      
+            </div>                                  
+        </div>     
+    </div>
+  </div>
+</div> 
+
+<ng-template #content_expedientes let-modal>            
+  <div class="modal-header">
+      <h6 class="modal-title">Expedientes Relacionados </h6>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();" id="oto">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body">  
+    <div class="col-lg-12">
+      <div class="row">         
+        <div class="col-lg-8 input-group-sm mb-3">
+          <input type="text" 
+          class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" 
+          placeholder="Ingrese Expediente" 
+          [(ngModel)] = "filtro.valor">
+        </div>
+        <div class="col-lg-2">
+          <button  style="margin-top: 2px" type="button" class="btn btn-primary btn-sm  input caja" 
+            (click)="AgregarExpediente()"
+            data-toggle="tooltip" data-placement="top" title="Agregar Expediente a la lista">
+
+            <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+        </div>         
+        <div class="col-lg-2">
+          <button  style="margin-top: 2px" type="button" class="btn btn-danger btn-sm  input caja" 
+            (click)="BorrarFiltroExpediente()"
+            data-toggle="tooltip" data-placement="top" title="Limpiar filtro">
+            
+            <i class="fa fa-ban" aria-hidden="true"></i> </button>
+        </div>         
+      </div> 
+    </div>
+    <div class="row">               
+      <div class="col-lg-12">
+          <div class="box box-solid box-danger">
+              <div class="box-header">                            
+                  <div classX="box-tools pull-right">
+                  </div>
+              </div>
+              <div class="box-body">
+                  <div class="card-body table wrap-table100">
+                    <div >
+                    <table class="table" style="font-size: 0.6rem;">
+                      <thead>
+                          <tr class="table100-head" style="font-size: 13px; font-weight: bolder;">
+                              <th><p class="text-center">Expediente</p></th>
+                              <th><p class="text-center">Eliminar</p></th>
+                          </tr>
+                      </thead>
+                      <tbody class="table-bordered3">
+                        <tr *ngFor="let objs of expediente_relacionados; let inx = index" style="font-size: 13px; font-weight: bolder;">                                                           
+                            <td style="padding-left: 2px; padding-right: 2px; margin-left: 2px; margin-right: 2px;">
+                              <p class="text-center">{{ objs.CODIGO_EXPEDIENTE }}</p>
+                            </td>  
+                            <td>
+                              <button  class='btn btn-danger espacio'>
+                                <i class="fa fa-trash" aria-hidden="true" (click)="QuitarExpediente(objs.CODIGO_EXPEDIENTE)">&nbsp;</i>
+                            </button>
+                            </td>                             
+                          </tr>
+                      </tbody>
+                  </table>
+                  </div>
+                  
+                  </div>
+              </div>
+          </div>
+      </div>
+     </div>
+  </div>
+</ng-template>
+
+<ng-template #content_cus let-modal>            
+  <div class="modal-header">
+      <h4 class="modal-title">CUS Relacionados </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();" id="oto">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body">  
+    <div class="col-lg-12">
+      <div class="row">         
+        <div class="col-lg-8">
+          <input type="text" class="form-control"  
+            placeholder="Ingrese CUS" 
+            [(ngModel)] = "filtro.valorCus" 
+            maxlength="8"
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57" >
+        </div>
+        <div class="col-lg-2">
+          <button  style="margin-top: 2px" type="button" class="btn btn-primary btn-sm  input caja" 
+            (click)="AgregarCus()"
+            data-toggle="tooltip" data-placement="top" title="Agregar CUS a la lista">
+            
+            <i class="fa fa-plus-circle" ></i>&nbsp;&nbsp;Agregar </button>
+        </div>         
+        <div class="col-lg-2">
+          <button  style="margin-top: 2px" type="button" class="btn btn-danger btn-sm  input caja" 
+          (click)="BorrarFiltroCus()"
+          data-toggle="tooltip" data-placement="top" title="Limpiar filtro">
+          
+          <i class="fa fa-ban" ></i>&nbsp;&nbsp;Borrar </button>
+        </div>         
+      </div> 
+    </div>
+    <div class="row">               
+      <div class="col-lg-12">
+          <div class="box box-solid box-danger">
+              <div class="box-header">                            
+                  <div class="box-tools pull-right">
+                  </div>
+              </div>
+              <div class="box-body">
+                  <div class="card-body table wrap-table100">
+                    <div >
+                    <table class="table" style="font-size: 0.6rem; width: 80%;">
+                      <thead>
+                          <tr class="table100-head" style="font-size: 13px; font-weight: bolder;">
+                              <th><p class="text-center">Nro Cus</p></th>
+                              <th><p class="text-center">Tipo Cus</p></th>
+                              <th><p class="text-center">Accion</p></th>
+                          </tr>
+                      </thead>
+                      <tbody class="table-bordered3">
+                        <tr *ngFor="let objs of cus_relacionados; let inx = index" style="font-size: 13px; font-weight: bolder;">                                                           
+                            <td>
+                              <p class="text-center">{{ objs.CUS }}</p>
+                            </td>
+                            <td>
+                              <p class="text-center">{{ objs.TIPO_ASIENTO2 }}</p>
+                            </td>  
+                            <td>
+                              <button  class='btn btn-danger espacio'>
+                                <i class="fa fa-trash" aria-hidden="true" (click)="QuitarCus(objs.COD_ASIENTO_RELACIONADO, objs.CUS)">&nbsp;</i>
+                            </button>
+                            </td>                             
+                          </tr>
+                      </tbody>
+                  </table>
+                  </div>
+                  
+                  </div>
+              </div>
+          </div>
+      </div>
+     </div>
+  </div>
+</ng-template>

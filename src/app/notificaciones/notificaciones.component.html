@@ -1,0 +1,64 @@
+
+  <div class="tab-pane" id="timeline">   
+    <!-- The timeline -->
+    <ul class="timeline timeline-inverse" *ngFor="let notificacion of dataNotificaciones.listadoNotificaciones">
+      <!-- timeline time label -->
+      <li class="time-label">
+            <!--<span class="bg-red">-->
+            <span class="bg-green" *ngIf="notificacion.APROBADO =='1'"> 
+              {{notificacion.FECHA_APROBACION | date: 'mediumDate'}}
+            </span>
+            <span class="bg-red" *ngIf="notificacion.APROBADO =='0'"> 
+              {{notificacion.FECHA_APROBACION | date: 'mediumDate'}}
+            </span>
+      </li>
+      <!-- /.timeline-label -->
+      <!-- timeline item -->
+      <li>
+        <i class="fa fa-envelope bg-blue"></i> 
+
+        <div class="timeline-item">
+          <span class="time"><i class="fa fa-clock-o"></i> {{ notificacion.FECHA_APROBACION | date: 'shortTime' }}</span>
+         
+            <h3 class="timeline-header" *ngIf="notificacion.APROBADO == 2"><a href="#">Equipo SBN</a> confirma aprobacion de CUS Nro. <b>{{ notificacion.NRO_RSINABIP }}</b></h3>         
+
+            <h3 class="timeline-header" *ngIf="notificacion.APROBADO == 1"><a href="#">Equipo SBN</a> informa sobre observaciones encontradas en el CUS Nro.  <b> {{ notificacion.NRO_RSINABIP }}</b></h3>
+        
+          <div class="timeline-body">
+            {{ notificacion.OBSERVACIONES }}
+          </div>
+          <div class="timeline-footer">
+            <a class="btn btn-danger btn-xs" 
+              (click)="Verificar_historico(contentHistorico, notificacion.ID_NOTIFICACION_APROB)"
+              *ngIf="notificacion.APROBADO == 1"
+              ><i class="fa fa-file-text" aria-hidden="true"></i> Ver Observaciones</a>
+            <a class="btn btn-primary btn-xs" 
+              (click)="Archivar_Notificacion(notificacion.ID_NOTIFICACION_APROB)"
+              *ngIf="notificacion.APROBADO == 2">Archivar</a>
+          </div>
+        </div>
+      </li> 
+      <!-- END timeline item -->
+      
+      
+      <li>
+        <i class="fa fa-clock-o bg-gray"></i>
+      </li>
+    </ul>
+  </div>
+
+
+
+  <ng-template #contentHistorico let-modal>            
+    <div class="modal-header fondotitulopdf">
+      <h4>Historico</h4>        
+      <button type="button" class="btn btn-box-tool" data-widget="remove" (click)="modal.close();"><i class="fa fa-remove"></i></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <iframe [src]="urlPDF_H | safe" width="100%" height="850px"></iframe>
+        </div>
+      </form>
+    </div>  
+  </ng-template>

@@ -1,0 +1,503 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="row" style="padding: 20px 20px 20px 20px;">                   
+      <div class="col-lg-8" style="top: 0px;">
+        <label class="contenido">Periodo</label>
+        <select 
+          class="form-control" 
+          [(ngModel)]="busqueda.anio">
+          <option value="2022" >2022</option>
+          <option value="2021" >2021</option>
+          <option value="2020" >2020</option>
+          <option value="2019" >2019</option>
+          <option value="2018" >2018</option>
+          <option value="2017" >2017</option>
+          <option value="2016" >2016</option>
+          <option value="2015" >2015</option>
+          <option value="2014" >2014</option>
+          <option value="2013" >2013</option>
+          <option value="2012" >2012</option>
+          <option value="2011" >2011</option>
+          <option value="2010" >2010</option>
+          <option value="2009" >2009</option>
+          <option value="2008" >2008</option>
+          <option value="2007" >2007</option>
+          <option value="2006" >2006</option>
+        </select> 
+      </div>  
+      <div class="col-lg-4" style="padding-top: 30px;">
+        <button class='btn btn-primary' (click)="traerData()">
+          <i class="fa fa-plus" aria-hidden="true">&nbsp;Buscar</i>
+        </button>
+      </div>
+    </div> 
+    
+  </div>
+  <div class="row mt-3">
+    <div class="col-12 col-lg-3">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-header-title">
+            <strong> PREDIOS <small>Estado general</small></strong>
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="row align-items-center gx-0">
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">Incorporados</h6>
+              <span class="h3 mb-0"> {{ totalIncorporados }} </span>
+              <span class="badge bg-success-soft mt-n1">
+                Total de Predios
+              </span>
+            </div>
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">SBN</h6>
+              <span class="h4 mb-0"> {{ totIncorUDInterno }} </span>
+              <span class="badge bg-success-soft mt-n1"> Avance {{ porcIncorSBN }} % </span>
+            </div>
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2 mt-3">Externo</h6>
+              <span class="h4 mb-0"> {{ totIncorUDExterno }} </span>
+              <span class="badge bg-success-soft mt-n1"> Avance {{ porcIncorExterno }} % </span>
+            </div>
+          </div>
+          <hr />
+          <div class="row align-items-center gx-0">
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">Actualizados</h6>
+              <span class="h3 mb-0"> {{ totalActualizados }} </span>
+              <span class="badge bg-success-soft mt-n1">
+                Total de Predios
+              </span>
+            </div>
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">SBN</h6>
+              <span class="h4 mb-0"> {{ totActuaUDInterno }} </span>
+              <span class="badge bg-success-soft mt-n1"> Avance {{ porcActuaSBN }} % </span>
+            </div>
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2 mt-3">Externo</h6>
+              <span class="h4 mb-0"> {{ totActuaUDExterno }} </span>
+              <span class="badge bg-success-soft mt-n1"> Avance {{ porcActuaExterno }} % </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-3">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-header-title">
+            <strong> PREDIOS <small>Poligono Aportado</small></strong>
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="row align-items-center gx-0">
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">Incorporados</h6>
+              <span class="h3 mb-0"> {{ totalIncorporados }} </span>
+              <span class="badge bg-success-soft mt-n1"> Total de Predios</span>
+            </div>
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">Con Poligono</h6>
+              <span class="h4 mb-0"> {{ totIncorConPolig }} </span>
+              <span class="badge bg-success-soft mt-n1"> Avance {{ porcIncorConPol }} % </span>
+            </div>
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2 mt-3">Sin Poligono</h6>
+              <span class="h4 mb-0 hand" (click)="open_UDsinPoligonos(modal_UDsinPoligonos, 'I')"> {{ totIncorSinPolig }} </span>
+              <span class="badge bg-success-soft mt-n1"> Avance {{ porcIncorSinPol }} % </span>
+            </div>
+          </div>
+          <hr />
+          <div class="row align-items-center gx-0">
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">Actualizados</h6>
+              <span class="h3 mb-0"> {{ totalActualizados }} </span>
+              <span class="badge bg-success-soft mt-n1"> Total de Predios</span>
+            </div>
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">Con Poligono</h6>
+              <span class="h4 mb-0"> {{ totActuaConPolig }} </span>
+              <span class="badge bg-success-soft mt-n1"> Avance {{ porcActuaConPol }} % </span>
+            </div>
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2 mt-3">Sin Poligono</h6>
+              <span class="h4 mb-0 hand" (click)="open_UDsinPoligonos(modal_UDsinPoligonos, 'A')"> {{ totActuaSinPolig }} </span>
+              <span class="badge bg-success-soft mt-n1"> Avance {{ porcActuaSinPol }} % </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-4 col-xl">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-header-title">
+            <strong> PREDIOS <small>Tipo de Registro</small></strong>
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="row align-items-center gx-0">
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">Incorporados</h6>
+              <span class="h3 mb-0"> {{ totalIncorporados }} </span>
+              <span class="badge bg-success-soft mt-n1"> Total de Predios</span>
+            </div>
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">Empresarial</h6>
+              <span class="h5 mb-0"> {{ empresarialIncor }} </span>
+              <span class="badge bg-success-soft mt-n1"> Avance {{ porcIncorporadosEmpresariales }} % </span>
+            </div>
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">Municipal</h6>
+              <span class="h5 mb-0"> {{ municipalIncor }} </span>
+              <span class="badge bg-success-soft mt-n1"> Avance {{ porcIncorporadosMunicipal }} % </span>
+            </div>
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">Estatal</h6>
+              <span class="h5 mb-0"> {{ estatalIncor }} </span>
+              <span class="badge bg-success-soft mt-n1"> Avance {{ porcIncorporadosEstatal }} % </span>
+            </div>
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">Provisional</h6>
+              <span class="h5 mb-0"> {{ provisionalIncor }} </span>
+              <span class="badge bg-success-soft mt-n1"> Avance {{ porcIncorporadosProvisional }} % </span>
+            </div>
+          </div>
+          <hr />
+          <div class="row align-items-center gx-0">
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">Actualizados</h6>
+              <span class="h3 mb-0"> {{ totalActualizados }} </span>
+              <span class="badge bg-success-soft mt-n1"> Total de Predios</span>
+            </div>
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">Empresarial</h6>
+              <span class="h5 mb-0"> {{ empresarialActua }} </span>
+              <span class="badge bg-success-soft mt-n1"> Avance {{ porcActuaEmpresariales }} % </span>
+            </div>
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">Municipal</h6>
+              <span class="h5 mb-0"> {{ municipalActua }} </span>
+              <span class="badge bg-success-soft mt-n1"> Avance {{ porcActuaMunicipal }} % </span>
+            </div>
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">Estatal</h6>
+              <span class="h5 mb-0"> {{ estatalActua }} </span>
+              <span class="badge bg-success-soft mt-n1"> Avance {{ porcActuaEstatal }} % </span>
+            </div>
+            <div class="col">
+              <h6 class="text-uppercase text-muted mb-2">Provisional</h6>
+              <span class="h5 mb-0"> {{ provisionalActua }} </span>
+              <span class="badge bg-success-soft mt-n1"> Avance {{ porcActuaProvisional }} % </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-12 col-xl-12">
+      <div class="card">
+        <div class="card-body">
+          <span class="h4">EJECUCIÓN PREDIOS INCORPORADOS</span>
+          <p>Brigada por Departamento</p>
+          <table class="table table-sm table-nowrap mt-4">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Descripcion de la Actividad POI</th>
+                <th scope="col">Total Anual</th>
+                <th scope="col">Enero</th>
+                <th scope="col">Febrero</th>
+                <th scope="col">Marzo</th>
+                <th scope="col">Abril</th>
+                <th scope="col">Mayo</th>
+                <th scope="col">Junio</th>
+                <th scope="col">Julio</th>
+                <th scope="col">Agosto</th>
+                <th scope="col">Setiembre</th>
+                <th scope="col">Octubre</th>
+                <th scope="col">Noviembre</th>
+                <th scope="col">Diciembre</th>
+              </tr>
+            </thead>
+            <tbody> 
+              <ng-container *ngFor="let resultado of filas; let i = index">
+                <tr>
+                  <th scope="row">{{resultado.item}}</th>       
+                  <td>{{resultado.brigada}}</td>
+                  <td>{{resultado.total}}</td>
+                  <td class="hand" (click)="open_brigadaDepartamento(modal_brigadaDepartamento, resultado.cod_tecnico, resultado.cod_legal, '1')">{{resultado.enero}}</td>
+                  <td class="hand" (click)="open_brigadaDepartamento(modal_brigadaDepartamento, resultado.cod_tecnico, resultado.cod_legal, '2')">{{resultado.febrero}}</td>
+                  <td class="hand" (click)="open_brigadaDepartamento(modal_brigadaDepartamento, resultado.cod_tecnico, resultado.cod_legal, '3')">{{resultado.marzo}}</td>
+                  <td class="hand" (click)="open_brigadaDepartamento(modal_brigadaDepartamento, resultado.cod_tecnico, resultado.cod_legal, '4')">{{resultado.abril}}</td>
+                  <td class="hand" (click)="open_brigadaDepartamento(modal_brigadaDepartamento, resultado.cod_tecnico, resultado.cod_legal, '5')">{{resultado.mayo}}</td>
+                  <td class="hand" (click)="open_brigadaDepartamento(modal_brigadaDepartamento, resultado.cod_tecnico, resultado.cod_legal, '6')">{{resultado.junio}}</td>
+                  <td class="hand" (click)="open_brigadaDepartamento(modal_brigadaDepartamento, resultado.cod_tecnico, resultado.cod_legal, '7')">{{resultado.julio}}</td>
+                  <td class="hand" (click)="open_brigadaDepartamento(modal_brigadaDepartamento, resultado.cod_tecnico, resultado.cod_legal, '8')">{{resultado.agosto}}</td>
+                  <td class="hand" (click)="open_brigadaDepartamento(modal_brigadaDepartamento, resultado.cod_tecnico, resultado.cod_legal, '9')">{{resultado.setiembre}}</td>
+                  <td class="hand" (click)="open_brigadaDepartamento(modal_brigadaDepartamento, resultado.cod_tecnico, resultado.cod_legal, '10')">{{resultado.octubre}}</td>
+                  <td class="hand" (click)="open_brigadaDepartamento(modal_brigadaDepartamento, resultado.cod_tecnico, resultado.cod_legal, '11')">{{resultado.noviembre}}</td>
+                  <td class="hand" (click)="open_brigadaDepartamento(modal_brigadaDepartamento, resultado.cod_tecnico, resultado.cod_legal, '12')">{{resultado.diciembre}}</td>
+                </tr>
+              </ng-container>
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <span class="h4">EJECUCIÓN PREDIOS INCORPORADOS</span>
+          <p>Brigada por Etapa UD</p>
+          <table class="table table-sm table-nowrap mt-4">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Descripcion  de la Actividad  POI</th>
+                <th scope="col">Total Anual</th>
+                <th scope="col">Generado</th>
+                <th scope="col">Evaluacion Tecnica</th>
+                <th scope="col">Evaluacion Legal</th>
+                <th scope="col">Informe Legal</th>
+                <th scope="col">Informe Tecnico</th>
+                <th scope="col">Proyecto Respuesta</th>
+                <th scope="col">Control Calidad</th>
+                <th scope="col">Finalizado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let resultado of filas2; let i = index">
+                <tr>
+                  <th scope="row">{{resultado.item}}</th>
+                  <td>{{resultado.brigada}}</td>
+                  <td>{{resultado.total}}</td>
+                  <td class="hand" (click)="open_brigadaEtapas(modal_brigadaEtapas, resultado.cod_tecnico, resultado.cod_legal, '1')">{{resultado.generado}}</td>
+                  <td class="hand" (click)="open_brigadaEtapas(modal_brigadaEtapas, resultado.cod_tecnico, resultado.cod_legal, '2')">{{resultado.evaluacionTecnica}}</td>
+                  <td class="hand" (click)="open_brigadaEtapas(modal_brigadaEtapas, resultado.cod_tecnico, resultado.cod_legal, '3')">{{resultado.evaluacionLegal}}</td>
+                  <td class="hand" (click)="open_brigadaEtapas(modal_brigadaEtapas, resultado.cod_tecnico, resultado.cod_legal, '4')">{{resultado.informeLegal}}</td>
+                  <td class="hand" (click)="open_brigadaEtapas(modal_brigadaEtapas, resultado.cod_tecnico, resultado.cod_legal, '5')">{{resultado.informeTecnico}}</td>
+                  <td class="hand" (click)="open_brigadaEtapas(modal_brigadaEtapas, resultado.cod_tecnico, resultado.cod_legal, '6')">{{resultado.proyectoRespuesta}}</td>
+                  <td class="hand" (click)="open_brigadaEtapas(modal_brigadaEtapas, resultado.cod_tecnico, resultado.cod_legal, '7')">{{resultado.controlCalidad}}</td>
+                  <td class="hand" (click)="open_brigadaEtapas(modal_brigadaEtapas, resultado.cod_tecnico, resultado.cod_legal, '8')">{{resultado.finalizado}}</td>
+                </tr>
+              </ng-container>              
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<ng-template #modal_brigadaDepartamento let-modal>            
+  <div class="modal-header">
+      <h4 class="modal-title">Brigada por Departamento </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();" id="oto">
+              <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">  
+    <div class="row">               
+      <div class="col-lg-12">
+          <div class="box box-solid box-danger">
+              <div class="box-header">                            
+                  <div class="box-tools pull-right">
+                    <a href="{{service.API_URL}}prediosIncorporados/descargarXLS_detalleporDepartamento/{{codigoTecnico}}/{{codigoLegal}}/{{mes}}/{{busqueda.anio}}" target="_blank">
+                      <img src="../assets/images/excel.png" width="20" height="20" border="0" />&nbsp;&nbsp;&nbsp;
+                      Descargar aquí
+                    </a>
+                  </div>
+              </div>
+              <div class="box-body">
+                  <div class="card-body table wrap-table100">
+                    <div >
+                    <table class="table" style="font-size: 0.6rem;">
+                      <thead>
+                          <tr class="table100-head">                 
+                            <th><p class="text-center">Item</p></th>                                                                   
+                            <th><p class="text-center">Nro U. Documental</p></th>
+                            <th><p class="text-center">Documento</p></th>
+                            <th><p class="text-center">campo</p></th>
+                          </tr>
+                      </thead>
+                      <tbody class="table-bordered3">
+                        <ng-container *ngIf="dataResultadoDetalle.length!==0">
+                          <tr *ngFor="let objs of dataResultadoDetalle;let inx = index">
+                            <!-- *ngFor="let objs of dataResultadoDetalle;let inx = index"  -->
+                            <td>{{ objs.ROW_NUMBER_ID}}</td>                                                           
+                              <td>
+                                <p class="text-center">{{ objs.CUS }}</p>
+                              </td>  
+                              <td>{{ objs.fecini_udocumental }}</td>
+                              <td>
+                                <p class="text-center">{{ objs.Documento}} </p>
+                              </td>     
+                          </tr>
+                        </ng-container>
+                        
+                        <ng-container *ngIf="dataResultadoDetalle.length==0">
+                          <tr>
+                            <td colspan="4">
+                              <span style="color: red; font-size: medium;" *ngIf="buscar == '1'">
+                                No se ha encontrado registros
+                              </span>
+                            </td>
+                          </tr>
+                        </ng-container>
+                      </tbody>
+                  </table>
+                  </div>
+                  <!-- <nav class="mt-3" *ngIf="total2 >= itemsPerPage2">
+                      <ngb-pagination [collectionSize]="total2" [pageSize]="itemsPerPage2" [(page)]="filtroSearch_.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage2($event)"></ngb-pagination>
+                  </nav> -->
+                  </div>
+              </div>
+          </div>
+      </div>
+     </div>
+  </div>
+</ng-template>
+
+
+<ng-template #modal_brigadaEtapas let-modal>            
+  <div class="modal-header">
+      <h4 class="modal-title">Brigada por Etapas </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();" id="oto">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body">  
+    <div class="row">               
+      <div class="col-lg-12">
+          <div class="box box-solid box-danger">
+              <div class="box-header">                            
+                  <div class="box-tools pull-right">
+                    <a href="{{service.API_URL}}prediosIncorporados/descargarXLS_detalleporEtapas/{{codigoTecnico}}/{{codigoLegal}}/{{mes}}/{{busqueda.anio}}" target="_blank">
+                      <img src="../assets/images/excel.png" width="20" height="20" border="0" />&nbsp;&nbsp;&nbsp;
+                      Descargar aquí
+                    </a>
+                  </div>
+              </div>
+              <div class="box-body">
+                  <div class="card-body table wrap-table100">
+                    <div >
+                    <table class="table" style="font-size: 0.6rem;">
+                      <thead>
+                          <tr class="table100-head">                 
+                            <th><p class="text-center">campo 1</p></th>                                                                   
+                            <th><p class="text-center">campo 2</p></th>
+                            <th><p class="text-center">campo 3</p></th>
+                            <th><p class="text-center">campo 4</p></th>
+                          </tr>
+                      </thead>
+                      <tbody class="table-bordered3">
+                        <ng-container *ngIf="dataResultadoDetalle.length!==0">
+                          <tr *ngFor="let objs of dataResultadoDetalle;let inx = index">
+                            <!-- *ngFor="let objs of dataResultadoDetalle;let inx = index"  -->
+                            <td>{{ objs.ROW_NUMBER_ID}}</td>                                                           
+                              <td>
+                                <p class="text-center">{{ objs.CUS }}</p>
+                              </td>  
+                              <td>{{ objs.fecini_udocumental }}</td>
+                              <td>
+                                <p class="text-center">{{ objs.Documento}} </p>
+                              </td>     
+                          </tr>
+                        </ng-container>
+                        
+                        <ng-container *ngIf="dataResultadoDetalle.length==0">
+                          <tr>
+                            <td colspan="4">
+                              <span style="color: red; font-size: medium;" *ngIf="buscar == '1'">
+                                No se ha encontrado registros
+                              </span>
+                            </td>
+                          </tr>
+                        </ng-container>
+                      </tbody>
+                  </table>
+                  </div>
+                  <!-- <nav class="mt-3" *ngIf="total2 >= itemsPerPage2">
+                      <ngb-pagination [collectionSize]="total2" [pageSize]="itemsPerPage2" [(page)]="filtroSearch_.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage2($event)"></ngb-pagination>
+                  </nav> -->
+                  </div>
+              </div>
+          </div>
+      </div>
+     </div>
+  </div>
+</ng-template>
+
+
+<ng-template #modal_UDsinPoligonos let-modal>            
+  <div class="modal-header">
+      <h4 class="modal-title">U.D. sin Poligonos </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();" id="oto">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body">  
+    <div class="row">               
+      <div class="col-lg-12">
+          <div class="box box-solid box-danger">
+              <div class="box-header">                            
+                  <div class="box-tools pull-right">
+                    <a href="{{service.API_URL}}prediosIncorporados/descargarXLS_detallesinPoligonos/{{busqueda.anio}}/{{accion}}" target="_blank">
+                      <img src="../assets/images/excel.png" width="20" height="20" border="0" />&nbsp;&nbsp;&nbsp;
+                      Descargar aquí
+                    </a>
+                  </div>
+              </div>
+              <div class="box-body">
+                  <div class="card-body table wrap-table100">
+                    <div >
+                    <table class="table" style="font-size: 0.6rem;">
+                      <thead>
+                          <tr class="table100-head">                 
+                            <th><p class="text-center">campo 1</p></th>                                                                   
+                            <th><p class="text-center">campo 2</p></th>
+                            <th><p class="text-center">campo 3</p></th>
+                            <th><p class="text-center">campo 4</p></th>
+                          </tr>
+                      </thead>
+                      <tbody class="table-bordered3">
+                        <ng-container *ngIf="dataResultadoDetalle.length!==0">
+                          <tr *ngFor="let objs of dataResultadoDetalle;let inx = index">
+                            <!-- *ngFor="let objs of dataResultadoDetalle;let inx = index"  -->
+                            <td>{{ objs.ROW_NUMBER_ID}}</td>                                                           
+                              <td>
+                                <p class="text-center">{{ objs.CUS }}</p>
+                              </td>  
+                              <td>{{ objs.fecini_udocumental }}</td>
+                              <td>
+                                <p class="text-center">{{ objs.Documento}} </p>
+                              </td>     
+                          </tr>
+                        </ng-container>
+                        
+                        <ng-container *ngIf="dataResultadoDetalle.length==0">
+                          <tr>
+                            <td colspan="4">
+                              <span style="color: red; font-size: medium;" *ngIf="buscar == '1'">
+                                No se ha encontrado registros
+                              </span>
+                            </td>
+                          </tr>
+                        </ng-container>
+                      </tbody>
+                  </table>
+                  </div>
+                  <!-- <nav class="mt-3" *ngIf="total2 >= itemsPerPage2">
+                      <ngb-pagination [collectionSize]="total2" [pageSize]="itemsPerPage2" [(page)]="filtroSearch_.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage2($event)"></ngb-pagination>
+                  </nav> -->
+                  </div>
+              </div>
+          </div>
+      </div>
+     </div>
+  </div>
+</ng-template>

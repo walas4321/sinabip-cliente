@@ -1,0 +1,336 @@
+
+:root {
+  --bs-chart-gray-300: #e3ebf6;
+  --bs-chart-gray-600: #95aac9;
+  --bs-chart-gray-700: #6e84a3;
+  --bs-chart-gray-800: #3b506c;
+  --bs-chart-gray-900: #283e59;
+  --bs-chart-primary-100: #d2ddec;
+  --bs-chart-primary-300: #a6c5f7;
+  --bs-chart-primary-700: #2c7be5;
+  --bs-chart-default-color: #95aac9;
+  --bs-chart-default-font-color: #95aac9;
+  --bs-chart-arc-border-color: #fff;
+  --bs-chart-arc-hover-border-color: #fff;
+  --bs-chart-grid-line-color: #e3ebf6;
+}
+
+body {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(18,38,63,0);
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  margin: 0;
+}
+
+.list-group{
+    border:0;
+}
+.list-group-item{
+    border:0;
+    padding: 0.35rem;
+}
+.menu-list{
+    padding:5px !important;
+}
+.menu-list li{
+    padding:6px 1rem;
+    cursor: pointer;
+}
+.menu-list li.final{
+    border-top: 1px solid #ddd;
+}
+.dropdown-item:hover, .dropdown-item:focus{
+    background : rgba(220, 53, 69, 0.3);
+}
+.thead-dark{
+    border-radius: 5px 0 0 5px;
+}
+
+
+html {
+    font-family: sans-serif;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -ms-overflow-style: scrollbar;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    min-height: 100%;
+  }
+  @page {
+    margin: 0cm 0cm;
+  }
+  .logo2{
+    display:none;
+  } 
+  body {
+    margin: 0;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #efefef;
+  }
+  .cabecera{
+    background-color:#8a2a2b;
+  
+  }
+  .navbar-custom {
+    background-color: #8a2a2b;
+    border-radius: 0;
+    margin-bottom: 0;
+    padding: 0 10px;
+    margin-left: 250px;
+    min-height: 50px;
+    height: 90px;
+  }
+  .headerbar {
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 999;
+    
+  }
+  .headerbar .headerbar-left {
+    background: #8a2a2b;
+    float: left;
+    text-align: center;
+    position: relative;
+    width: 20%;
+    z-index: 1;
+    height: 90px;
+  }
+  .headerbar .headerbar-right {
+    background: #8a2a2b;
+    float: right;
+    text-align: center;
+    position: relative;
+    width: 20%;
+    z-index: 1;
+    height: 90px;
+  }
+  .logo {
+    color: #e3ebf3!important;
+    font-size: 20px;
+    font-weight: 200;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 48px;
+  }
+  .headerbar .headerbar-left .logo img {
+    max-width: 240px;
+    max-height: 86px;
+    width: auto;
+    height: auto;
+    padding-top: 3px;
+  }
+  .headerbar .headerbar-right .logo img {
+    max-width: 240px;
+    max-height: 72px;
+    width: auto;
+    height: auto;
+    padding-top: 15px;
+  }
+  img {
+    vertical-align: middle;
+    border: 0;
+  }
+  .texto2 {
+    padding-top: 20px;
+    font-size: 32PX;
+    color: #fff;
+    font-weight: 600;
+    font-family: "Trebuchet MS",Helvetica,sans-serif;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    
+  }
+  .card-page{
+  
+    margin-top: 7rem;
+  }
+  .card-header {
+    color: #6b6b6b;
+    background-color: rgba(0,0,0,.03);
+    border-bottom: 1px solid rgba(111,111,111,.13);
+  }
+  .card-body {
+    flex: 1 1 auto;
+    padding: 1.25rem;
+  }
+  label {
+    display: inline-block;
+    margin-bottom: .5rem;
+    font-weight: 500;
+  }
+  
+  .swal2-popup {
+    display: none;
+    position: relative;
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: center;
+    width: 32em;
+    max-width: 100%;
+    padding: 1.25em;
+    border: none;
+    border-radius: .3125em;
+    background: #fff;
+    font-family: inherit;
+    font-size: 14px !important;
+  }
+  .btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+  }
+  .mostrar{
+    border-radius: 100%;
+    margin-top: 33px;
+  }
+  /* .btn-outline-danger {
+    color: #ff5d48;
+    background-image: none;
+    background-color: transparent;
+    border-color: transparent;
+  } */
+  .navbar {
+    /* position: relative; */
+    display: -ms-flexbox;
+    display: block;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 0px;
+  }
+  
+  
+  .swal2-popup {
+    width: 42em !important;
+  }
+  .swal2-styled.swal2-confirm {
+    background-color: #8a2a2b !important;
+  }
+  .swal2-styled.swal2-cancel {
+    background-color: #ff5d48 !important;
+  }
+  .botonguia{
+    background-color: #8a2a2b !important;
+    color: white;
+  }
+  .botonguia:hover {
+    color: #8a2a2b !important;
+    background-color: white !important;
+    border-color: #8a2a2b !important;
+  }
+  
+  .container-cb {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 20px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default radio button */
+  .container-cb input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom radio button */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .container-cb:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  /* When the radio button is checked, add a blue background */
+  .container-cb input:checked ~ .checkmark {
+    background-color: #ff5d48;
+  }
+  
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the indicator (dot/circle) when checked */
+  .container-cb input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the indicator (dot/circle) */
+  .container-cb .checkmark:after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+  }
+  .selectores{
+    margin-top: 10px;
+    height: 60px;
+    font-size: 20px;
+    border-style: double;
+  }
+  .textoContenido{
+    font-size: 20px;
+  }
+  .mensaje{
+    margin-left: 100px;
+    margin-right: 100px; 
+    padding: 20px;
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+    font-style: italic;
+  }
+  @media screen and (max-width: 600px) {
+    .header{
+        display:none;
+    } 
+   .logo2{
+       display: inline;
+   }
+    .texto2{
+        font-size: 25px;
+    }
+    }

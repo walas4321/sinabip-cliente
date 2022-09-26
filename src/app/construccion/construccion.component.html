@@ -1,0 +1,546 @@
+<div class="row" [ngClass]="{'bloquear': active}">                        
+  <div class="col-lg-12">
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+      <legend><i class="fa fa-building"></i>&nbsp;Restricciones de Derecho</legend> 
+      <div class="row" style="margin-bottom: 5px;">                              
+          <div class="col-lg-4" style="margin-left: 10px;">
+            <table class="caja" style="width: 96%;margin-left:10px;">
+              <tr><td>Estado de habilitación</td></tr> 
+              <tr>
+                <td>
+                  <select class="form-control" [(ngModel)]="construccion.habilitacion" (change)="validarconstruccion(construccion)">
+                    <option value="0" >----TIPO----</option>
+                    <option *ngFor="let es of EstadoHabilitacion" value="{{es.CODIGO_DETALLE}}">{{es.DSC_DETALLE}}</option>
+                 </select>
+                </td>
+              </tr> 
+            </table>           
+          </div>
+          <div class="col-lg-4" style="margin-left: 10px;">
+            <table class="caja" style="width: 96%;margin-left:10px;">
+              <tr><td>Situación Física</td></tr> 
+              <tr>
+                <td>
+                  <select class="form-control" [(ngModel)]="construccion.situacion" (change)="validarconstruccion(construccion)">
+                    <option value="0" >----TIPO----</option>
+                    <option *ngFor="let si of SituacionFisica" value="{{si.CODIGO_DETALLE}}">{{si.DSC_DETALLE}}</option>
+                 </select>
+                </td>
+              </tr> 
+            </table>           
+          </div>    
+          <div class="col-lg-3" style="margin-left: 10px;">
+            <table class="caja" style="width: 96%;margin-left:10px;">
+              <tr><td>Nº de Piso</td></tr> 
+              <tr>
+                <td>
+                  <input type="text" class="form-control"  placeholder="-" [(ngModel)]="construccion.nropiso" maxlength="2"
+                  (change)="validarconstruccion(construccion);validardecimal(construccion.nropiso,1)" onkeypress="return event.charCode >= 48 && event.charCode <= 57">  
+                </td>
+              </tr> 
+            </table>           
+          </div>                                         
+      </div>  
+      <div class="row" style="margin-bottom: 5px;">                              
+        <div class="col-lg-4" style="margin-left: 10px;">
+          <table class="caja" style="width: 96%;margin-left:10px;">
+            <tr><td>Porcentaje del Avance %</td></tr> 
+            <tr>
+              <td>
+                <input type="text" class="form-control"  placeholder="-" [(ngModel)]="construccion.porcentaje"
+                (change)="validarconstruccion(construccion);validardecimal(construccion.porcentaje,6); validar_cantidad_porcentaje()" 
+                onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="3">                
+              </td>
+            </tr> 
+          </table>           
+        </div>  
+        <div class="col-lg-4" style="margin-left: 10px;">
+          <table class="caja" style="width: 96%;margin-left:10px;">
+            <tr><td>Material predominante en la Construcción</td></tr> 
+            <tr>
+              <td>
+                <select class="form-control" [(ngModel)]="construccion.material"  
+                (change)="validarconstruccion(construccion)">
+                  <option value="0" >----TIPO----</option>
+                  <option *ngFor="let ma of MaterialesConstruccion" value="{{ma.CODIGO_MATERIAL}}">{{ma.DESCRIPCION_MATERIAL}}</option>
+               </select>
+              </td>
+            </tr> 
+          </table>           
+        </div>    
+        <div class="col-lg-3" style="margin-left: 10px;">                  
+        </div>                                         
+    </div>         
+    </fieldset>  
+  </div>
+</div>
+<div class="row">                        
+  <div class="col-lg-12">
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+      <legend><i class="fa fa-building" [ngClass]="{'bloquear': active}"></i>&nbsp;Construcciones y/o Edificaciones</legend> 
+      <div class="row">                        
+        <div class="col-lg-12">               
+          <div class="row fila">
+              <div class="col-md-12"> 
+                <div class="row" [ngClass]="{'bloquear': active}">
+                  <div class="col-lg-2" style="margin-top: 20px;">
+                    <p style="text-transform:uppercase;font-size: 12px;width: 260px; font-weight: bold">Denominación</p>
+                  </div>
+                  <div class="col-lg-3">
+                    <button  class='btn btn-primary' style="margin-bottom: 10px;margin-top:10px;" (click)="modal1(content,0)">
+                      <i class="fa fa-plus" aria-hidden="true">&nbsp;Agregar</i>
+                   </button>                  
+                  </div>
+                  <div class="col-lg-7">
+                  </div>
+                </div>                                   
+               <div >
+                  <table id="example2" class="table table-bordered table-striped table-hover" style="font-size: 10px;">
+                      <thead>
+                          <tr>														
+                              <th>Item</th>
+                              <th>Nombre de la Construcción</th>                                          
+                              <th>Área Total</th>                                                                                      
+                              <th>Acción</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container *ngFor="let c of construccion.construcciones let i = index">
+                              <tr>                                      
+                                <td>{{c.codigo}}</td>
+                                <td>{{c.nombreconst}}</td> 
+                                <td>{{c.area}}</td>                                                               
+                                  <td>                                                                      
+                                    <div ngbDropdown class="d-inline-block">
+                                      <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Selecciona</button>
+                                      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                        <button ngbDropdownItem [ngClass]="{'bloquear': active}" (click)="modificarconstruccion(i,content)"><i class="fa fa-pencil" aria-hidden="true">&nbsp;Editar</i></button>
+                                        <button ngbDropdownItem [ngClass]="{'bloquear': active}" (click)="modal2(content1,c.codigo,0,0,c.codigo)"> <i class="fa fa-plus" aria-hidden="true">&nbsp;Detalles</i></button>
+                                        <button ngbDropdownItem (click)="CargarDetalles(c.codigo)"> <i class="fa fa-folder-open-o" aria-hidden="true">&nbsp;Ver</i></button>
+                                        <button ngbDropdownItem [ngClass]="{'bloquear': active}" (click)="quitarconstruccion(i,c.codigo)"> <i class="fa fa-trash-o" aria-hidden="true">&nbsp;Eliminar</i></button>
+                                      </div>
+                                    </div>
+                                  </td>                                  
+                              </tr>                              
+                          </ng-container>
+                      </tbody>													
+                  </table> 
+              </div>
+              </div>
+          </div>        
+        </div> 
+      </div>    
+      <div class="row">                        
+        <div class="col-lg-12">               
+          <div class="row fila">
+              <div class="col-md-12"> 
+                <div class="row">
+                  <div class="col-lg-4" style="margin-top: 20px;">
+                    <label 
+                      [ngClass]="{'bloquear': active}"
+                      style="text-transform:uppercase;font-size: 12px;width: 260px; font-weight: bold">
+                        Detalle por Piso de Item {{coditem}}
+                    </label>
+                  </div>
+                  <div class="col-lg-3"></div>
+                  <div class="col-lg-7"></div>
+                </div>                                   
+               <div style=" overflow-x: scroll;">
+                  <table id="example2" class="table table-bordered table-striped table-hover" style="font-size: 10px;">
+                      <thead>
+                          <tr>														
+                              <th>Item</th>                              
+                              <th>Piso</th>  
+                              <th>Construcción</th>                                         
+                              <th>Valor Unitario</th>  
+                              <th>Área Construida</th> 
+                              <th>Valor Estimado</th>                                                                                      
+                              <th>Acción</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container *ngFor="let d of aux.objarray ; let i  = index">
+                              <tr>                                      
+                                  <td>{{d.itemx}}</td>                                  
+                                  <td>{{d.piso}}</td>
+                                  <td>{{d.mes}} - {{d.anio}}</td>
+                                  <td>{{d.valorunitario}}</td>
+                                  <td>{{d.area}}</td>
+                                  <td>{{d.valorestimado | number:'1.2-2'}}</td>
+                                  <td>
+                                    <button  class='btn btn-success espacio' (click)="modificardetalle(d.itemx,d.codigoconstruccion, content1)" style="margin-right: 5px;">
+                                      <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </button> 
+                                    <button  class='btn btn-danger espacio' (click)="quitardetallepiso(i,d.itemx,d.codigoconstruccion,d.area)"
+                                    [ngClass]="{'bloquear': active}">
+                                          <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </button>                                                                                                                                                                
+                                  </td>
+                              </tr>
+                          </ng-container>
+                      </tbody>													
+                  </table> 
+              </div>
+              </div>
+          </div>        
+        </div> 
+      </div>            
+    </fieldset>  
+  </div>
+</div>
+
+<ng-template #content let-modal>            
+  <div class="modal-header">
+      <h4 class="modal-title" >Construcciones y Edificaciones</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body" [ngClass]="{'bloquear': active}">                                 
+    <div class="row">                        
+      <div class="col-lg-12">
+        <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+          <legend><i class="fa fa-building"></i>&nbsp;Denominación</legend> 
+          <div class="row fila" style="margin-bottom: 10px;">
+            <div class="col-lg-6">         
+               <label>Nombre de la construcción</label>
+            </div>
+            <div class="col-lg-6">         
+              <input type="text" class="form-control"  placeholder="-"  [(ngModel)]="construcciones.nombreconst"
+              (change)="validarconstruccion(construccion)" style="text-transform:uppercase"> 
+            </div>
+          </div>
+        </fieldset>  
+      </div>
+    </div>                
+    <div class="row"> 
+      <div class="col-lg-7"></div>
+      <div class="col-lg-3">
+        <button  class='btn btn-primary caja' style="margin-bottom: 10px;margin-top:10px;" (click)="agregarconstruccion()" *ngIf="tipoc==0">
+            <i class="fa fa-plus" aria-hidden="true">&nbsp;Agregar Const.</i>
+        </button>
+        <button  class='btn btn-primary caja' style="margin-bottom: 10px;margin-top:10px;" (click)="editarconstruccion()" *ngIf="tipoc==1">
+          <i class="fa fa-plus" aria-hidden="true">&nbsp;Editar Const.</i>
+        </button>
+      </div>
+      <div class="col-lg-2">
+        <button  class='btn btn-danger caja' style="margin-bottom: 10px;margin-top:10px;" (click)="limpiarconstruccion()">
+          <i class="fa fa-trash-o" aria-hidden="true">&nbsp;Limpiar</i>
+        </button>
+      </div>  
+    </div> 
+  </div>
+</ng-template>
+
+
+<ng-template #content1 let-modal>            
+  <div class="modal-header">
+      <h4 class="modal-title" >Construcciones y Edificaciones</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body" [ngClass]="{'bloquear': active}">                                 
+    <div class="row">                        
+      <div class="col-lg-12">
+        <div class="row">                        
+          <div class="col-lg-6">
+            <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+              <legend><i class="fa fa-building"></i>&nbsp;Tipo y Construcción</legend> 
+              <div class="row bloque">                              
+                  <div class="col-lg-3">
+                    <table class="caja" style="margin-left: 5px;width: 100%;margin-bottom: 5px;">
+                      <tr><td>Piso</td></tr> 
+                      <tr>
+                         <td>
+                          <input type="text" class="form-control"  placeholder="-" [(ngModel)]="detalle.piso"
+                          (change)="validarconstruccion(construccion);validardecimal(detalle.piso,5)" maxlength="2"
+                          onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                         </td>
+                      </tr> 
+                    </table>            
+                  </div>
+                  <div class="col-lg-5" >          
+                    <table style="width: 98%;" class="caja">
+                      <tr><td>Mes</td></tr> 
+                      <tr>
+                        <td>                                          
+                          <select class="form-control" [(ngModel)]="detalle.mes" 
+                          (change)="validarconstruccion(construccion)">
+                            <option value="">--Mes--</option>                             
+                            <option value="01">Enero</option>                             
+                            <option value="02">Febrero</option>
+                            <option value="03">Marzo</option>
+                            <option value="04">Abril</option>
+                            <option value="05">Mayo</option>
+                            <option value="06">Junio</option>
+                            <option value="07">Julio</option>
+                            <option value="08">Agosto</option>
+                            <option value="09">Setiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                          </select>
+
+                        </td>
+                      </tr> 
+                    </table>
+                  </div> 
+                  <div class="col-lg-4">
+                    <table class="caja" style="margin-bottom: 5px;width: 95%;">
+                      <tr><td>Año</td></tr> 
+                      <tr>
+                         <td>
+                          <input type="text" class="form-control"  placeholder="-"  [(ngModel)]="detalle.anio"
+                          (change)="validarconstruccion(construccion);validarfecha(detalle.anio)" maxlength="4"
+                          onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                         </td>
+                      </tr> 
+                    </table>            
+                  </div>                         
+              </div> 
+            </fieldset>  
+          </div>
+          <div class="col-lg-6">                   
+              <div class="row">                              
+                  <div class="col-lg-12" style="padding-left: 0px;"> 
+                    <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+                      <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;Estructura y Conservación</legend> 
+                      <div class="row bloque">
+                        <div class="col-lg-6">
+                          <table class="caja" style="margin-left: 5px;width: 100%;margin-bottom: 5px;">
+                            <tr><td>Material</td></tr> 
+                            <tr>
+                               <td>
+                                <select class="form-control"  [(ngModel)]="detalle.codmaterial"  
+                                (change)="validarconstruccion(construccion)">
+                                    <option value="0" >----TIPO----</option>
+                                   <option *ngFor="let ma of materiales" value="{{ma.CODIGO_MATERIAL}}">{{ma.DESCRIPCION_MATERIAL}}</option>
+                               </select>
+                               </td>
+                            </tr> 
+                          </table>            
+                        </div>
+                        <div class="col-lg-6">
+                          <table class="caja" style="margin-left: 5px;width: 100%;margin-bottom: 5px;">
+                            <tr><td>Estado</td></tr> 
+                            <tr>
+                               <td>
+                                <select class="form-control"  [(ngModel)]="detalle.codestado"  style="width: 100%;margin-bottom: 5px"
+                                (change)="validarconstruccion(construccion)">
+                                  <option value="0" >----TIPO----</option>
+                                  <option *ngFor="let es of estado" value="{{es.CODIGO_ESTADO}}">{{es.DESCRIPCION_ESTADO}}</option>
+                               </select>
+                               </td>
+                            </tr> 
+                          </table>            
+                        </div>
+                        
+                      </div>              
+                    </fieldset>                      
+                  </div>                                  
+              </div>     
+          </div>
+        </div>        
+        <div class="row">                        
+          <div class="col-lg-6">
+            <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+              <legend><i class="fa fa-building"></i>&nbsp;Estructuras e Instalaciones</legend>             
+              <div class="row bloque">    
+                <div class="col-lg-12">    
+                  <div class="row">      
+                      <div class="col-lg-6">
+                          <table class="caja" >
+                          <tr><td>Muro</td></tr> 
+                          <tr>
+                            <td>                
+                              <select class="form-control"  [(ngModel)]="detalle.muro"  style="width: 100%;margin-bottom: 5px"
+                              (change)="validarconstruccion(construccion)">
+                                <option value="0" >----TIPO----</option>
+                                <option *ngFor="let es of combo" value="{{es.CODIGO_DETALLE}}">{{es.DSC_DETALLE}}</option>
+                             </select>
+                            </td>
+                          </tr> 
+                        </table>
+                      </div>
+                      <div class="col-lg-6">
+                        <table style="width: 99%;">
+                          <tr><td>Techo</td></tr> 
+                          <tr>
+                             <td>
+                              <select class="form-control"  [(ngModel)]="detalle.techo"  style="width: 100%;margin-bottom: 5px"
+                              (change)="validarconstruccion(construccion)">
+                                <option value="0" >----TIPO----</option>
+                                <option *ngFor="let es of combo" value="{{es.CODIGO_DETALLE}}">{{es.DSC_DETALLE}}</option>
+                             </select>
+                             </td>
+                          </tr> 
+                        </table> 
+                      </div>                     
+                  </div>
+                </div>
+              </div>  
+              <div class="row">    
+                <div class="col-lg-12">    
+                  <div class="row">                                                  
+                      <div class="col-lg-6">
+                        <table class="caja">
+                          <tr><td>Eléctrica/Sanitaria</td></tr> 
+                          <tr>
+                             <td>
+                              <select class="form-control"  [(ngModel)]="detalle.elect"  style="width: 100%;margin-bottom: 5px"
+                              (change)="validarconstruccion(construccion)" >
+                                <option value="0" >----TIPO----</option>
+                                <option *ngFor="let es of combo" value="{{es.CODIGO_DETALLE}}">{{es.DSC_DETALLE}}</option>
+                             </select>
+                             </td>
+                          </tr> 
+                        </table> 
+                      </div>
+                      <div class="col-lg-6"></div>
+                  </div>
+                </div>
+              </div>                           
+            </fieldset>  
+            <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+              <legend><i class="fa fa-building"></i>&nbsp;Valores y Área</legend>             
+              <div class="row">    
+                <div class="col-lg-12">    
+                  <div class="row">      
+                      <div class="col-lg-6">
+                          <table class="caja">
+                          <tr><td>Valor Unitario($)</td></tr> 
+                          <tr>
+                            <td>                
+                              <input type="text" class="form-control"  placeholder="-"  [(ngModel)]="detalle.valorunitario"
+                              (change)="validarconstruccion(construccion);validardecimal(detalle.valorunitario,3)" (keyup)="onValor($event)"
+                              appTwoDigitDecimaNumber onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46">  
+                            </td>
+                          </tr> 
+                        </table>
+                      </div>
+                      <div class="col-lg-6">
+                        <table  style="width: 99%;" >
+                          <tr><td>Área Const. m²</td></tr> 
+                          <tr>
+                             <td>
+                                <input type="text" class="form-control"  placeholder="-"  [(ngModel)]="detalle.area"
+                                (change)="validarconstruccion(construccion);validardecimal(detalle.area,4)" (keyup)="onArea($event)"
+                                appTwoDigitDecimaNumber onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46">  
+                             </td>
+                          </tr> 
+                        </table> 
+                      </div>                     
+                  </div>
+                  <div class="row">      
+                    <div class="col-lg-6">
+                      <table class="caja">
+                        <tr><td>Valor Estimado Total($)</td></tr> 
+                        <tr>
+                           <td>
+                            <input type="text" class="form-control"  
+                            (change)="validarconstruccion(construccion)" 
+                            [ngModel]="detalle.valorestimado | number : '1.2-2'" (ngModelChange)="detalle.valorestimado = $event"
+                            readonly
+                            >                             
+                           </td>
+                        </tr> 
+                      </table> 
+                    </div>
+                    <div class="col-lg-6"></div>                    
+                </div>
+                </div>
+              </div>            
+                                      
+            </fieldset>  
+          </div>        
+          <div class="col-lg-6">                   
+              <div class="row">                              
+                  <div class="col-lg-12" style="padding-left: 0px;"> 
+                    <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+                      <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;Acabados</legend> 
+                      <div class="row" style="margin-bottom:5px;">
+                        <div class="col-lg-4">
+                          <table class="caja input">
+                            <tr><td>Pisos</td></tr> 
+                            <tr>
+                              <td>                
+                                <select class="form-control"  [(ngModel)]="detalle.pisos"  style="width: 100%;margin-bottom: 5px"
+                                (change)="validarconstruccion(construccion)">
+                                  <option value="0" >----TIPO----</option>
+                                  <option *ngFor="let es of combo" value="{{es.CODIGO_DETALLE}}">{{es.DSC_DETALLE}}</option>
+                               </select>
+                              </td>
+                            </tr> 
+                          </table>
+                        </div>
+                        <div class="col-lg-6">
+                          <table class="caja input">
+                            <tr><td>Puerta/Ventana</td></tr> 
+                            <tr>
+                              <td>                
+                                <select class="form-control"  [(ngModel)]="detalle.puerta"  style="width: 100%;margin-bottom: 5px"
+                                (change)="validarconstruccion(construccion)">
+                                <option value="0" >----TIPO----</option>
+                                <option *ngFor="let es of combo" value="{{es.CODIGO_DETALLE}}">{{es.DSC_DETALLE}}</option>
+                             </select>
+                              </td>
+                            </tr> 
+                          </table>
+                        </div>
+                      </div>
+                      <div class="row" style="margin-bottom:5px;">
+                        <div class="col-lg-6">
+                          <table class="caja input">
+                            <tr><td>Revestimiento</td></tr> 
+                            <tr>
+                              <td>                
+                                <select class="form-control"  [(ngModel)]="detalle.revest"  style="width: 100%;margin-bottom: 5px"
+                                (change)="validarconstruccion(construccion)">
+                                  <option value="0" >----TIPO----</option>
+                                  <option *ngFor="let es of combo" value="{{es.CODIGO_DETALLE}}">{{es.DSC_DETALLE}}</option>
+                               </select>
+                              </td>
+                            </tr> 
+                          </table>
+                        </div>
+                        <div class="col-lg-6">
+                          <table class="caja input">
+                            <tr><td>Baño</td></tr> 
+                            <tr>
+                              <td>                
+                                <select class="form-control"  [(ngModel)]="detalle.banio"  style="width: 100%;margin-bottom: 5px"
+                                (change)="validarconstruccion(construccion)">
+                                <option value="0" >----TIPO----</option>
+                                <option *ngFor="let es of combo" value="{{es.CODIGO_DETALLE}}">{{es.DSC_DETALLE}}</option>
+                             </select>
+                              </td>
+                            </tr> 
+                          </table>
+                        </div>
+                      </div>                                               
+                  </fieldset>                      
+                </div>                                  
+              </div>        
+          </div>
+        </div>                       
+      </div>
+    </div>                
+    <div class="row"> 
+      <div class="col-lg-7"></div>
+      <div class="col-lg-3">
+        <button  class='btn btn-primary caja' style="margin-bottom: 10px;margin-top:10px;" (click)="agregardetalle()" *ngIf="tipop==0">
+            <i class="fa fa-plus" aria-hidden="true">&nbsp;Agregar Detalle</i>
+        </button>        
+        <button  class='btn btn-primary caja' style="margin-bottom: 10px;margin-top:10px;" (click)="editardetalle(aux_item)" *ngIf="tipop==1">
+          <i class="fa fa-plus" aria-hidden="true">&nbsp;Editar Detalle</i>
+        </button>
+      </div>
+      <div class="col-lg-2">
+        <button  class='btn btn-danger caja' style="margin-bottom: 10px;margin-top:10px;" (click)="limpiardetalle()">
+          <i class="fa fa-trash-o" aria-hidden="true">&nbsp;Limpiar</i>
+        </button>
+      </div>  
+    </div> 
+  </div>
+</ng-template>

@@ -1,0 +1,274 @@
+<!--<button (click)="openBusquedaUD(buscarUD)"  
+style="width: 100%;visibility: hidden"><i class="fa fa-search-minus" ></i>&nbsp;&nbsp;Buscar U.D.</button>
+-->
+<!--
+<ng-template #buscarUD let-modal>            
+  <div class="modal-header">
+      <h4 class="modal-title">Búsqueda por CUS</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+        <span aria-hidden="true">&times;</span> 
+      </button>  
+  </div>
+  <div class="modal-body" >  
+    <div class="row">
+      <div class="col-lg-12" align="center">
+        <label>Ingrese el Nro de CUS</label>
+        <input type="text" 
+          class="form-control" 
+          [(ngModel)]="aux.nroCUS"
+          onkeypress="return event.charCode >= 48 && event.charCode <= 57" 
+          placeholder="Ingresar CUS"
+          maxlength="8">
+      </div>      
+      <div class="col-lg-12">
+        <button type="button" class="btn btn-primary btn-sm" (click)="busquedaCUSparaActualizar(modalpredio,aux.nroCUS)"
+         style="width: 100%;margin-top: 10px;">
+         <i class="fa fa-plus" ></i>&nbsp;&nbsp;Buscar</button>
+      </div>   
+    </div> 
+  </div>      
+</ng-template>
+ 
+-->
+<br>
+<div class="row"> 
+  <div class="col-lg-3"></div>
+  <div class="col-lg-5">
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+      <legend><i class="fa fa-building"></i>&nbsp;Búsqueda por CUS</legend> 
+      <div class="row" style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                              
+        <div class="col-lg-12" align="center">
+          <label>Ingrese el Nº de CUS</label>
+          <input type="text" 
+            class="form-control" 
+            [(ngModel)]="aux.nroCUS"
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57" 
+            placeholder="Ingresar CUS"
+            maxlength="8">
+        </div>      
+        <div class="col-lg-12">
+          <button type="button" class="btn btn-primary btn-sm" (click)="busquedaCUSparaActualizar(modalpredio,aux.nroCUS)"
+           style="width: 100%;margin-top: 10px;">
+           <i class="fa fa-plus" ></i>&nbsp;&nbsp;Buscar</button>
+        </div>
+      </div>        
+    </fieldset>
+  </div>
+  <div class="col-lg-3"></div>
+</div>
+
+ 
+
+<ng-template #modalpredio let-modal>   
+  <div style="background-color: #8a2a2b;">      
+    <div class="row" style="height: 60px;">
+      <div class="col-lg-4">
+        <img _ngcontent-aou-c1="" style="width: 35%;margin-top: 5px;padding-left: 10px" class="img" src="../assets/images/principal.png">
+      </div>
+      <div class="col-lg-4">
+        <h4 class="modal-title " style="color:white;padding-top: 5px;" align="center">SINABIP</h4>
+      </div>
+      <div class="col-lg-4">
+        <img _ngcontent-aou-c1="" class="img" style="width: 35%;margin-top: 5px;float: right;padding-right: 10px" src="../assets/images/logo-sbn-blanco.png" >            
+      </div>
+    </div>                            
+  </div>            
+  <div class="modal-header">
+    <h4 *ngIf="numerocus!=''" class="modal-title" >Información del Predio Nº de CUS {{numerocus}} </h4>
+    <h4 class="modal-title" > - TIPO DE CUS: {{ tipoRegistro }}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="cerrarventana()">
+        <span aria-hidden="true">&times;</span>
+      </button>    
+  </div>
+  <div class="modal-body" >                                 
+    <div class="row">          
+      <div class="col">
+          <div class="box box-solid box-danger">									
+              <div class="box-body">
+                  <div class="card">
+                      <nav class="card-header" style="font-size: 10px;">
+                          <div class="nav nav-pills" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-datg-tab" data-toggle="tab" href="#nav-datg" role="tab" aria-controls="nav-datg" aria-selected="true"><strong>Datos generales</strong></a>
+                            <a (click)="cargar(1)" class="nav-item nav-link" id="nav-titu-tab" data-toggle="tab" href="#nav-titu" role="tab" aria-controls="nav-titu" aria-selected="false" ><strong>Adquisicion e Inscripcion</strong></a>
+                            <a (click)="cargar(9)"class="nav-item nav-link " id="nav-fablin-tab" data-toggle="tab" href="#nav-fablin" role="tab" aria-controls="nav-fablin" aria-selected="false" ><strong>Fábrica y Linderos</strong></a>
+                            <a (click)="cargar(2)"class="nav-item nav-link " id="nav-lim-tab" data-toggle="tab" href="#nav-lim" role="tab" aria-controls="nav-lim" aria-selected="false" ><strong>Limitaciones a la Propiedad</strong></a>                          
+                            <a (click)="cargar(3)"class="nav-item nav-link " id="nav-opor-tab" data-toggle="tab" href="#nav-opor" role="tab" aria-controls="nav-opor" aria-selected="false" ><strong>Actos de Administración y Disposición</strong></a>
+                            <a (click)="cargar(4)"class="nav-item nav-link " id="nav-dat-tab" data-toggle="tab" href="#nav-dat" role="tab" aria-controls="nav-dat" aria-selected="false"><strong>Datos Técnicos</strong></a>
+                            <a (click)="cargar(5)"class="nav-item nav-link " id="nav-con-tab" data-toggle="tab" href="#nav-con" role="tab" aria-controls="nav-con" aria-selected="false"><strong>Construcciones</strong></a>
+                            <a (click)="cargar(6)"class="nav-item nav-link " id="nav-pote-tab" data-toggle="tab" href="#nav-pote" role="tab" aria-controls="nav-pote" aria-selected="false" ><strong>Obras y Valorización</strong></a>                          
+                            <a (click)="cargar(7)"class="nav-item nav-link " id="nav-zon-tab" data-toggle="tab" href="#nav-zon" role="tab" aria-controls="nav-zon" aria-selected="false"><strong>Zona de Playa</strong></a>                          
+                            <a (click)="cargar(10)"class="nav-item nav-link " id="nav-riesgo-tab" data-toggle="tab" href="#nav-riesgo" role="tab" aria-controls="nav-riesgo" aria-selected="false"><strong>Riesgo de Desastres</strong></a>                          
+                            <a (click)="cargar(8)" class="nav-item nav-link " id="nav-leg-tab" data-toggle="tab" href="#nav-leg" role="tab" aria-controls="nav-leg" aria-selected="false"><strong>Legajo Digital</strong></a>
+                            <a class="nav-item nav-link " id="nav-fot-tab" data-toggle="tab" href="#nav-fot" role="tab" aria-controls="nav-fot" aria-selected="false"><strong>Aporte de Fotos</strong></a>                                                       
+                            <a (click)="cargar(10)" class="nav-item nav-link " id="nav-infaso-tab" data-toggle="tab" href="#nav-infaso" role="tab" aria-controls="nav-infaso" aria-selected="false"><strong>Informes Asociados</strong></a>                            
+                            <!--<a class="nav-item nav-link " id="nav-pol-tab" data-toggle="tab" href="#nav-pol" role="tab" aria-controls="nav-pol" aria-selected="false"><strong>Aporte de Poligonos</strong></a>-->
+                          </div>
+                      </nav>                      
+                      <div class="tab-content" id="nav-tabContent" style="margin-top: 5px;">
+                          <div class="tab-pane fade show active" id="nav-datg" role="tabpanel" aria-labelledby="nav-datg-tab">
+                              <app-datos-generales     
+                              [codigo_interno]="aux.codigo_interno"
+                              [coddocumental]="aux.coddocumental"
+                              [tipo_registro]="aux.tipo_registro"
+                              [bloquear]="0"
+                              [flagaux]="flagaux"
+                              [tipoUsuario]="tipoUsuario"
+                              (callbackcodigo) ="actualizarcodigo($event)"                      
+                              (callback)="actualizardatosgenerales($event)"                                
+                              ></app-datos-generales> 
+                              <br>
+                              <button type="button" class="btn btn-primary btn-sm" 
+                              style="margin-left: 15px;margin-bottom: 10px;"
+                              (click)="guardar(predio)">
+                              <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-titu" role="tabpanel" aria-labelledby="nav-titu-tab">                            
+                            <app-adquisicion                            
+                            [coddepa]="aux.codigodepa"   
+                            [detalle]="aux.detalle"                          
+                            [codigo_interno]="aux.codigo_interno"
+                            [grabado]="aux.grabado"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                             (callback)="actualizaadquision($event)"
+                            ></app-adquisicion>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardar(predio)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-fablin" role="tabpanel" aria-labelledby="nav-fablin-tab">
+                            <app-fabrica-linderos
+                              [codigo_interno]="aux.codigo_interno"
+                              [cargar]="aux.cargar"
+                              [bloquear]="0"
+                              (callback)="actualizarfabricalinderos($event)"
+                            ></app-fabrica-linderos>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarfabricalinderos(fabricacionlimitaciones)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>                          
+                          <div class="tab-pane fade" id="nav-lim" role="tabpanel" aria-labelledby="nav-lim-tab">
+                            <app-limitaciones
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizarlimitaciones($event)"
+                            ></app-limitaciones>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarlimitaciones(limitaciones)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-pote" role="tabpanel" aria-labelledby="nav-pote-tab">
+                            <app-obras
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizarobras($event)"  ></app-obras>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarobras(obras)">
+                            <i class="fa fa-save" aria-hidden="true"></i>GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-opor" role="tabpanel" aria-labelledby="nav-opor-tab">
+                            <app-actos
+                            [coddepa]="aux.codigodepa"
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizaractos($event)"
+                            ></app-actos>
+                              <button type="button" class="btn btn-primary btn-sm" 
+                              style="margin-left: 15px;margin-bottom: 10px;"
+                              (click)="guardaractos(actos)">
+                              <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>                         
+                          <div class="tab-pane fade" id="nav-zon" role="tabpanel" aria-labelledby="nav-zon-tab">
+                            <app-zona
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizarzona($event)"  
+                            ></app-zona>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarzona(zona)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-riesgo" role="tabpanel" aria-labelledby="nav-riesgo-tab">
+                            <app-riesgo-desastre
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="bloqueaCondicion"
+                            (callback)="actualizarRiesgo($event)"  
+                            ></app-riesgo-desastre>
+                            <button type="button" class="btn btn-primary btn-sm"
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarRiesgo(riesgo)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-con" role="tabpanel" aria-labelledby="nav-con-tab">
+                            <app-construccion
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            [grabado]="aux.grabado"
+                            (callback)="actualizarconstruccion($event)" 
+                            ></app-construccion>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarconstruccion(construccion)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                        
+                          <div class="tab-pane fade" id="nav-dat" role="tabpanel" aria-labelledby="nav-dat-tab">
+                            <app-datos-tecnicos
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizardatos($event)"
+                            ></app-datos-tecnicos>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardardatostecnicos(datos)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-leg" role="tabpanel" aria-labelledby="nav-leg-tab">
+                            <app-legajo
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizarzona($event)"  
+                            ></app-legajo>
+                          </div>
+                          <div class="tab-pane fade" id="nav-fot" role="tabpanel" aria-labelledby="nav-fot-tab">
+                            <app-aporte-fotos
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"                            
+                            [bloquear]="0"
+                            ></app-aporte-fotos>                            
+                          </div> 
+                          <div class="tab-pane fade" id="nav-infaso" role="tabpanel" aria-labelledby="nav-infaso-tab">
+                             <app-informes-asociados     
+                              [codigo_interno]="aux.codigo_interno"
+                              [cargar]="aux.cargar"
+                            >
+                            </app-informes-asociados>
+                          </div>
+                          <!--<div class="tab-pane fade" id="nav-pol" role="tabpanel" aria-labelledby="nav-pol-tab">
+                            <app-aporte-poligono
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            (callback)="actualizarzona($event)"   
+                            ></app-aporte-poligono>
+                          </div>-->
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>      
+  </div>
+  </div>   
+</ng-template>

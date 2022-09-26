@@ -1,0 +1,308 @@
+<section class="content">    
+    <h2>Web</h2>                    
+    <div class="col-lg-12">                       
+        <div class="tab-content" id="pills-tabContent">                            
+            <div *ngIf="formulario" >
+                <div class="row"> 
+                    <div class="col-md-10">
+                        <button type="button" class="btn btn-success btn-sm" (click)="regresar()" style="width: 70%;margin-bottom: 5px;">Actualizar RUC </button>              
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-primary btn-sm" (click)="regresar()" style="width: 70%;margin-bottom: 5px;"><i class="fa fa-mail-forward"></i> </button>              
+                    </div>                    
+                </div>
+                <div class="row">                    
+                    <div class="col-md-12">
+                        <div class="card bg-light mb-3 top">  
+                            <div class="box-body">
+                            <br>                                         
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group" style="margin-left: 30px;">
+                                        <label> <b>RUC</b></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" >
+                                    <div class="form-group" style="margin-left: 0px;">                                   
+                                        <p>{{predio.ruc}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" style="margin-left: 10px;">
+                                        <label><b>Nombre Entidad</b></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="right: 20px;">
+                                    <div class="form-group">                                       
+                                        <p>{{predio.entidad}}</p>
+                                    </div>
+                                </div>
+                            </div>                    
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group" style="margin-left: 30px;">
+                                        <label><b>Denominacion del Predio</b></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">                                        
+                                        <p>{{predio.denominacion}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" >
+                                    <div class="form-group" style="margin-left: 10px;">
+                                        <label><b>Departamento</b></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="right: 20px;">
+                                    <div class="form-group" >                                     
+                                        <p>{{predio.departamento}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" style="margin-left: 30px;">
+                                        <label><b>Provincia</b></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" >                                       
+                                        {{predio.provincia}}
+                                    </div>
+                                </div>
+                                <div class="col-md-3" >
+                                    <div class="form-group" style="margin-left: 10px;">
+                                        <label><b>Distrito</b></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="right: 20px;">
+                                    <div class="form-group">                                      
+                                        <p>{{predio.distrito}}</p>
+                                    </div>
+                                </div>
+                            </div>                                    
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group" style="margin-left: 30px;">
+                                        <p><b>Direccion</b></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">                                     
+                                    <p>{{predio.direccion}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" style="margin-left: 10px;">
+                                        <label><b>Propiedad</b></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="right: 20px;">
+                                    <div class="form-group" style="right: 20px;">                                        
+                                        <p>{{predio.propiedad}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="row">                        
+                                <div class="col-md-3">
+                                    <div class="form-group" style="margin-left: 30px;">
+                                        <label><b>Propietario registral</b></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" >
+                                    <div class="form-group">                                    
+                                        <p>{{predio.propietario}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" style="margin-left: 10px;">
+                                        <label><b>Tomo</b></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="right: 20px;">
+                                    <div class="form-group">                                        
+                                        <p>{{predio.tomo}}</p>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="row">                        
+                                <div class="col-md-3">
+                                    <div class="form-group" style="margin-left: 30px;">
+                                        <label><b>Codigo Predio</b></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" >                                        
+                                        <p>{{predio.codigopredio}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" style="margin-left: 10px;">
+                                        <label><b>Fichas</b></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="right: 20px;">
+                                    <div class="form-group" >                                        
+                                        <p>{{predio.fichas}}</p>
+                                    </div>
+                                </div>
+                            </div>        
+                            <div class="row">                                
+                                <div class="col-md-3">
+                                    <div class="form-group" style="margin-left: 30px;">
+                                        <label><b>Fojas</b></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" >                                        
+                                        <p>{{predio.fojas}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="right: 0px;">
+                                    <div class="form-group" style="margin-left: 10px;">
+                                        <label><b>Area Terreno</b></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="right: 20px;">
+                                    <div class="form-group" >                                        
+                                        <p>{{predio.area_terreno}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">                        
+                                <div class="col-md-3">
+                                    <div class="form-group" style="margin-left: 30px;">
+                                        <p><b>Area Registral</b></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">                                        
+                                        <p>{{predio.area_registral}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        <div>
+                            <div class="row justify-content-center">
+                                <fieldset class="col-8 col-md-6 px-3" style="flex: 0 0 100%;max-width: 80%;">
+                                    <legend>Aporte de Documentos</legend>
+                                </fieldset>                                                                        
+                            </div>
+                            <br>                            
+                            <br>
+                            <div class="row justify-content-center">  
+                                <div class="col-8 col-md-6 px-3" style="flex: 0 0 100%;max-width: 80%;">
+                                  <div class="form-group">
+                                    <div class="box box-solid">									
+                                           <div class="box-body">                         
+                                           <table id="example2" class="table table-bordered table-striped table-hover">
+                                               <thead>
+                                                   <tr>	
+                                                       <th>Nombre del Archivo</th>                                                                                													                                                                                                                                              
+                                                       <th>Acción</th>
+                                                   </tr>
+                                               </thead>
+                                           <tbody>
+                                            <ng-container *ngFor="let ad of adjuntossolicitud, let i = index">												
+                                                <tr style="font-size: 12px;">                                                                                                                                                                                
+                                                   <td>{{ad.archivo}}</td>                                           
+                                                   <td>                                                         
+                                                         <button  (click)="quitarpdf(i,ad.id,ad.codrecep)"  class='btn btn-danger espacio' ><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                   </td>
+                                                </tr>
+                                            </ng-container>
+                                           </tbody>													
+                                           </table>                                                   
+                                           </div>
+                                       </div>
+                                   </div>
+                                </div>    
+                              </div>
+                            </div>   
+                         </div>
+                        </div>  
+                    </div>                    
+                </div>
+                              
+            </div>
+            
+            <div *ngIf="!formulario">
+                <div class="row">                        
+                    <div class="col-lg-2" style="padding-top: 5px;">
+                        Busqueda
+                    </div>  
+                    <div class="col-lg-4">
+                        <input type="text" class="form-control"  placeholder="Ingrese RUC" [(ngModel)] = "buscar.valor">
+                    </div>
+                    <div class="col-lg-1">
+                        <button type="button" class="btn btn-primary btn-sm" (click)="BuscarPrediosWeb()"><i class="fa fa-search"></i> </button>
+                    </div>
+                    <div class="col-lg-1">
+                        <button type="button" class="btn btn-primary btn-sm" (click)="LimpiarWeb()"><i class="fa fa-navicon"></i> </button>
+                    </div>
+                    <div class="col-lg-4">
+                        <button *ngIf="!flag" type="button" class="btn btn-success btn-sm" disabled><i class="fa fa-angle-double-right"></i> Migrar</button>
+                        <button *ngIf="flag" type="button" class="btn btn-success btn-sm" (click)="migrar()"><i class="fa fa-angle-double-right"></i> Migrar</button>
+                    </div>            
+                </div>                   
+                <div class="col-xs-12">
+                    <div class="box box-solid box-danger">
+                        <div class="box-header">                            
+                            <div class="box-tools pull-right">
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="card-body table wrap-table100">
+                                <table class="table" style="font-size: 0.6rem;">
+                                    <thead>
+                                        <tr class="table100-head">                                            
+                                            <th>
+                                                <p class="text-center">Ruc</p>
+                                            </th>
+                                            <th>
+                                                <p class="text-center">Nombre de la Entidad</p>
+                                            </th>      
+                                            <th>
+                                                <p class="text-center">Dirección</p>
+                                            </th>                                                                                 
+                                            <th>                                            
+                                                <p class="text-center">Marcar</p>
+                                            </th>                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-bordered3">
+                                        <tr *ngFor="let obj of dataResultado.listado;let inx = index" [ngClass]="{'table-active':seleccionRows==obj.COD_UE_BIEN_ALTA}"
+                                          style="cursor: pointer">
+                                            <td (click)="pasar_datos(dataResultado.listado[inx])">
+                                                <p class="text-center">{{ obj.RUC_ENTIDAD }}</p>
+                                            </td>
+                                            <td (click)="pasar_datos(dataResultado.listado[inx])">
+                                                <p class="text-center">{{ obj.NOM_ENTIDAD }}</p>
+                                            </td>
+                                            <td (click)="pasar_datos(dataResultado.listado[inx])">
+                                                <p class="text-center">{{ obj.DIRECCION }}<p>
+                                            </td>
+                                            <td>                                                
+                                                <label class="container">
+                                                    <input type="checkbox" [(ngModel)]="obj.estado"  name="seleccion_{{obj.ROW_NUMBER_ID}}" (change)="marcar(obj,inx)">
+                                                    <span class="checkmark"></span>
+                                                  </label>
+                                            </td>                                            
+                                        </tr>
+                                   </tbody>
+                                </table>
+                                <nav class="mt-3" *ngIf="total >= itemsPerPage">
+                                    <ngb-pagination [collectionSize]="total" [pageSize]="itemsPerPage" [(page)]="filtro.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+</section>

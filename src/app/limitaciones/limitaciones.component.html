@@ -1,0 +1,835 @@
+<div class="row">
+  <div class="col-lg-12" style="margin-left: 15px;">
+    <button  class='btn btn-success' style="margin-bottom: 10px;margin-top:10px;" (click)="procesoJudiales(modalJudiciales,0)">
+      <i class="fa fa-plus" aria-hidden="true">&nbsp;Procesos Judiciales</i>
+    </button> 
+  </div>
+</div>
+
+<div [ngClass]="{'bloquear': active}">
+  <div class="row">                        
+  <div class="col-lg-12">
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+      <legend><i class="fa fa-building"></i>&nbsp;Restricciones de Derecho</legend> 
+      <div class="row" style="margin-bottom: 5px;">                              
+          <div class="col-lg-4" style="margin-left: 10px;">
+            <table class="caja" style="width: 96%;margin-left:10px;">
+              <tr><td>Restricciones</td></tr> 
+              <tr>
+                <td>
+                  <select class="form-control" [(ngModel)]="limitaciones.restricciones"  (change)="cargadetalleCambiar(limitaciones.restricciones);validarlimitaciones(limitaciones)">
+                    <option value="0" >----TIPO----</option>
+                    <option *ngFor="let re of restricciones" value="{{re.CODIGO_DETALLE}}" [disabled]="re.CODIGO_DETALLE== '03' || re.CODIGO_DETALLE== '05' ">{{re.DSC_DETALLE}}</option>
+                  </select>
+                </td>
+              </tr> 
+            </table>           
+          </div>  
+          <div class="col-lg-4" style="margin-left: 10px;">
+            <table class="caja" style="width: 96%;margin-left:10px;">
+              <tr><td>Detalle</td></tr> 
+              <tr>
+                <td>
+                  <select class="form-control" [(ngModel)]="limitaciones.coddetalle" (change)="validarlimitaciones(limitaciones)" >
+                    <option value="0" >----TIPO----</option>
+                    <option *ngFor="let de of detalle" value="{{de.CODIGO_DETALLE}}">{{de.DSC_DETALLE}}</option>
+                  </select>
+                </td>
+              </tr> 
+            </table>           
+          </div>    
+          <div class="col-lg-3" style="margin-left: 10px;">
+            <table class="caja" style="width: 96%;margin-left:10px;">
+              <tr><td>Área en m²</td></tr> 
+              <tr>
+                <td>
+                  <input type="text" class="form-control"  placeholder="-" 
+                    [ngModel]="limitaciones.area" 
+                    (ngModelChange)="limitaciones.area = $event"
+                    (change)="validarlimitaciones(limitaciones);validardecimal(limitaciones.area,2);" appTwoDigitDecimaNumber
+                    onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46"  
+                    maxlength="13"
+                    (focus)="foco(1)" (focusout)="processMyValue(1)"         
+                   >  
+
+                </td>
+              </tr> 
+            </table>           
+          </div>                                         
+      </div>          
+    </fieldset>  
+  </div>
+  </div>
+</div>
+
+<div class="row">                        
+  <div class="col-lg-12">
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+      <legend><i class="fa fa-building"></i>&nbsp;Restricciones por Proceso Judicial</legend> 
+      <div class="row" style="margin-left: 10px;margin-right: 10px;">
+        <div class="col-md-12">                 
+          <div [ngClass]="{'bloquear': active}">
+            <button  class='btn btn-primary' style="margin-bottom: 10px;margin-top:10px;" (click)="modal(content,0)">
+              <i class="fa fa-plus" aria-hidden="true">&nbsp;Agregar</i>
+            </button> 
+          </div>
+         <div style=" overflow-x: scroll;">
+            <table id="example2" class="table table-bordered table-striped table-hover" style="font-size: 12px;">
+                <thead>
+                    <tr>														
+                        <th>Item</th>
+                        <th>Materias</th>                                          
+                        <th>Nº Exp.</th>                                                        
+                        <th>Demandante</th> 
+                        <th>Demandado</th>                                                       
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let proceso of limitaciones.procesos let i = index">										
+                        <tr>                                      
+                            <td>{{proceso.item}}</td>
+                            <td>{{proceso.nombremateria}}</td>  
+                            <td>{{proceso.numero}}</td>
+                            <td>{{proceso.demandante}}</td>  
+                            <td>{{proceso.demandado}}</td>                                   
+                            <td>                       
+                              <button  class='btn btn-success espacio' (click)="modificarproceso(i,content)">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                              </button>                                
+                              <button  [ngClass]="{'bloquear': active}" class='btn btn-danger espacio' (click)="quitarproceso(i,proceso.item)">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                              </button>                              
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>													
+            </table> 
+         </div>
+        </div>
+    </div>          
+    </fieldset>  
+  </div>
+</div>
+  
+
+  <ng-template #content let-modal>         
+      <div class="modal-header">
+          <h4 class="modal-title" >Restricciones por proceso Judicial</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+                  <span aria-hidden="true">&times;</span>
+          </button>  
+      </div>
+    <div [ngClass]="{'bloquear': active}">
+      <div class="modal-body" >                                 
+        <div class="row">                              
+          <div class="col-lg-12" style="padding-left: 0px;"> 
+            <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+              <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;Restricción por Proceso Judicial</legend> 
+              <div class="row">
+                <div class="col-lg-6">
+                  <table class="caja" style="width: 96%;margin-left:10px;">
+                    <tr><td>Materias</td></tr> 
+                    <tr>
+                      <td>
+                        <select class="form-control"  [(ngModel)]="proceso.codmateria" (change)="ObtenerNombre(proceso.codmateria)">
+                          <option value="0" >----TIPO----</option>
+                          <option *ngFor="let ma of materias" value="{{ma.CODIGO_MATERIAS}}">{{ma.DESCRIPCION_MATERIAS}}</option>
+                        </select>
+                      </td>
+                    </tr> 
+                  </table>
+                </div>
+                <div class="col-lg-6">
+                  <table class="caja" style="width: 96%;margin-left:10px;">
+                    <tr><td>Nº de Expediente Judicial</td></tr> 
+                    <tr>
+                      <td>
+                        <input type="text" class="form-control"  placeholder="-"  
+                          [(ngModel)]="proceso.numero"
+                          style="text-transform:uppercase;" maxlength="25">
+                      </td>
+                    </tr> 
+                  </table>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <table class="caja" style="width: 96%;margin-left:10px;">
+                    <tr><td>Demandante</td></tr> 
+                    <tr>
+                      <td>
+                        <input type="text" class="form-control"  placeholder="-"  [(ngModel)]="proceso.demandante" style="text-transform:uppercase;"
+                          onkeypress="return event.charCode >= 65 && event.charCode <= 90 || event.charCode >= 97 && event.charCode <= 122 || event.charCode==32"
+                          maxlength="150">
+                      </td>
+                    </tr> 
+                  </table>
+                </div>
+                <div class="col-lg-6">
+                  <table class="caja" style="width: 96%;margin-left:10px;">
+                    <tr><td>Demandado</td></tr> 
+                    <tr>
+                      <td>
+                        <input type="text" class="form-control"  placeholder="-" [(ngModel)]="proceso.demandado"
+                        style="text-transform:uppercase;"
+                        onkeypress="return event.charCode >= 65 && event.charCode <= 90 || event.charCode >= 97 && event.charCode <= 122 || event.charCode==32" 
+                        maxlength="150">
+                      </td>
+                    </tr> 
+                  </table>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <table class="caja" style="width: 96%;margin-left:10px;">
+                    <tr><td>Área en m²</td></tr> 
+                    <tr>
+                      <td>
+                        <input type="text" class="form-control"  placeholder="-" [(ngModel)]="proceso.area"
+                        appTwoDigitDecimaNumber onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46"
+                        (change)="validardecimal(proceso.area,1)"
+                        maxlength="13"
+                        >
+                      </td>
+                    </tr> 
+                  </table>
+                </div>
+                <div class="col-lg-6">
+                  <table class="caja" style="width: 96%;margin-left:10px;">
+                    <tr><td>Situación Actual</td></tr> 
+                    <tr>
+                      <td>
+                        <input type="text" class="form-control"  style="text-transform:uppercase;"
+                        placeholder="-" [(ngModel)]="proceso.situacion" maxlength="50">
+                      </td>
+                    </tr> 
+                  </table>
+                </div>
+              </div>             
+            </fieldset>                      
+          </div>                                  
+        </div>                 
+        <div class="row"> 
+          <div class="col-lg-7"></div>
+          <div class="col-lg-3">
+            <button  class='btn btn-primary caja' style="margin-bottom: 10px;margin-top:10px;" *ngIf="tipo==0">
+                <i class="fa fa-plus" aria-hidden="true" (click)="agregarproceso()">&nbsp;Agregar Proceso</i>
+            </button>
+            <button  class='btn btn-primary caja' style="margin-bottom: 10px;margin-top:10px;" *ngIf="tipo==1">
+              <i class="fa fa-plus" aria-hidden="true" (click)="editarproceso()">&nbsp;Editar Proceso</i>
+            </button>
+          </div>
+          <div class="col-lg-2">
+            <button  class='btn btn-danger caja' style="margin-bottom: 10px;margin-top:10px;" (click)="limpiarproceso()">
+              <i class="fa fa-trash-o" aria-hidden="true">&nbsp;Limpiar</i>
+            </button>
+          </div>  
+        </div> 
+      </div>
+    </div>
+  </ng-template>
+
+
+
+  <ng-template #modalJudiciales let-modal>         
+    <div class="modal-header">
+        <h4 class="modal-title" >Detalle de Procesos Judiciales</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+                <span aria-hidden="true">&times;</span>
+        </button>
+    </div>    
+     
+   
+    <div class="modal-body">    
+      <div class="row" style=" overflow-x: scroll;">
+        <div class="col-lg-12">
+          <div style="height:200px">
+            <table id="example2" class="table table-bordered table-striped table-hover header_fijo" style="font-size: 11px;">
+                <thead>
+                    <tr>								
+                        <th style="width: 80px;">Nro Procesos</th>  						
+                        <th style="width: 100px;">Nro Legajo</th>                                          
+                        <th style="width: 120px;">Expediente Judicial</th>                                                        
+                        <th style="width: 120px;">Solicitud Ingreso</th>
+                        <th style="width: 100px;">Inicio Proceso</th>
+                        <th style="width: 120px;">Clase Proceso</th>
+                        <th style="width: 100px;">Ver Detalle</th>
+                    </tr>
+                </thead>
+                <tbody style="height: 180px;">
+                  <ng-container *ngFor="let tip of listadoProcesosJud; let i = index">												
+                        <tr>             
+                            <td style="width: 90px;">{{tip.ROW_NUMBER_ID}}</td>                           
+                            <td style="width: 110px;">{{tip.CODIGO_LEGAJO}}</td>   
+                            <td style="width: 130px;">{{tip.CODIGO_EXPEDIENTE_JUDICIAL}}</td>      
+                            <td style="width: 130px;">{{tip.CODIGO_EXPEDIENTE}}</td>   
+                            <td style="width: 110px;">{{tip.FEC_INICIO_PROCESO_JUDICIAL | date:'dd/MM/yyyy'}}</td>     
+                            <td style="width: 130px;">{{tip.CLASE_PROCESO}}</td>     
+                            <td style="width: 110px;">
+                                <button  class='btn btn-success espacio boton' (click)="verDetallesProceso(tip.CODIGO_JUDICIAL, tip.ROW_NUMBER_ID)">
+                                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>                                                                                                                                                            
+                            </td>
+                        </tr>
+                  </ng-container>
+                </tbody>													
+            </table> 
+          </div>
+        </div>
+      </div>            
+       
+      
+      <div class="row" style="padding-top: 60px;">           
+        <hr>             
+        <div class="col-lg-12">
+          
+          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Antecedentes</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Datos Judiciales</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Sentencia Judicial</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+              <div class="row">
+                <div class="col-lg-12">
+                  <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+                  <legend><i class="fa fa-building"></i>&nbsp;[Nro Procesos]</legend> 
+                    <div class="row bloque bordes">                              
+                        <div class="col-lg-3">
+                          <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-2 col-form-label-sm">Item: </label>
+                            <div class="col-sm-10">
+                              <input type="text" 
+                                class="form-control form-control-sm" 
+                                id="inputPassword"
+                                [(ngModel)]="antecedentes.FILA"
+                                readonly>
+                            </div>
+                          </div>   
+                          <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-2 col-form-label-sm">De: </label>
+                            <div class="col-sm-10">
+                              <input type="text" 
+                                class="form-control form-control-sm" 
+                                id="inputPassword" 
+                                [(ngModel)]="antecedentes.ITEM_JUDICIAL"
+                                readonly>
+                            </div>
+                          </div>       
+                        </div>
+                        <div class="col-lg-4">
+                          <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-2 col-form-label-sm">Nro Legajo: </label>
+                            <div class="col-sm-10">
+                              <input type="text" 
+                                class="form-control form-control-sm" 
+                                id="inputPassword" 
+                                [(ngModel)]="antecedentes.CODIGO_LEGAJO"
+                                readonly>
+                            </div>
+                          </div>   
+                          <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-2 col-form-label-sm">Exp. Judicial: </label>
+                            <div class="col-sm-10">
+                              <input type="text" 
+                                class="form-control form-control-sm" 
+                                id="inputPassword"
+                                [(ngModel)]="antecedentes.CODIGO_EXPEDIENTE_JUDICIAL"
+                                readonly>
+                            </div>
+                          </div>       
+                        </div>  
+                        <div class="col-lg-5">
+                          <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-2 col-form-label-sm">Solicitud Ingreso: </label>
+                            <div class="col-sm-10">
+                              <input type="text" 
+                                class="form-control form-control-sm" 
+                                id="inputPassword"
+                                [(ngModel)]="antecedentes.CODIGO_EXPEDIENTE"
+                                readonly>
+                            </div>
+                          </div>   
+                          <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-2 col-form-label-sm">Expediente: </label>
+                            <div class="col-sm-10">
+                              <input type="text" 
+                                class="form-control form-control-sm" 
+                                id="inputPassword"
+                                [(ngModel)]="antecedentes.CODIGO_MATRIZ"
+                                readonly>
+                            </div>
+                          </div>       
+                        </div>                  
+                    </div> 
+                  </fieldset> 
+                  <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+                    <legend><i class="fa fa-building"></i>&nbsp;[Localizacion]</legend> 
+                    <div class="row bloque bordes">                              
+                        <div class="col-lg-6">
+                          <table class="caja" style="margin-left: 5px;width: 100%;margin-bottom: 5px;">
+                            <tr><td>Numero Asiento</td></tr> 
+                            <tr>
+                               <td>
+                                <input type="text" 
+                                  class="form-control form-control-sm"  
+                                  placeholder="-" 
+                                  [(ngModel)]="antecedentes.NRO_ASIENTO"
+                                  readonly>
+                               </td>
+                            </tr> 
+                          </table>            
+                        </div>
+                        <div class="col-lg-6" >          
+                          <table style="width: 98%;" class="caja">
+                            <tr><td>Departamento</td></tr> 
+                            <tr>
+                              <td>                  
+                                <input type="text" 
+                                  class="form-control form-control-sm"  
+                                  placeholder="-" 
+                                  [(ngModel)]="antecedentes.DEPARTAMENTO"
+                                  readonly>
+                              </td>
+                            </tr> 
+                          </table>
+                        </div>                       
+                    </div> 
+                    <div class="row bloque bordes">                              
+                      <div class="col-lg-6">
+                        <table class="caja" style="margin-left: 5px;width: 100%;margin-bottom: 5px;">
+                          <tr><td>Provincia</td></tr> 
+                          <tr>
+                             <td>
+                              <input type="tePROVINCIAxt" 
+                                class="form-control form-control-sm"  
+                                placeholder="-" 
+                                [(ngModel)]="antecedentes.PROVINCIA"
+                                readonly>
+                             </td>
+                          </tr> 
+                        </table>            
+                      </div>
+                      <div class="col-lg-6" >          
+                        <table style="width: 98%;" class="caja">
+                          <tr><td>Distrito</td></tr> 
+                          <tr>
+                            <td>                  
+                              <input type="text" 
+                                class="form-control form-control-sm"  
+                                placeholder="-" 
+                                [(ngModel)]="antecedentes.DISTRITO"
+                                readonly>
+                            </td>
+                          </tr> 
+                        </table>
+                      </div>                       
+                  </div> 
+                  <div class="row bloque bordes">                              
+                    <div class="col-lg-12">
+                      <table class="caja" style="margin-left: 5px;width: 98%;margin-bottom: 5px;">
+                        <tr><td>Direccion</td></tr> 
+                        <tr>
+                           <td>
+                            <textarea 
+                              class="form-control form-control-sm"  
+                              placeholder="-" 
+                              [(ngModel)]="antecedentes.DIRECCION_INMUEBLE"
+                              readonly>
+                             </textarea>
+                           </td>
+                        </tr> 
+                      </table>            
+                    </div>                   
+                  </div> 
+                  </fieldset>
+                </div>
+              </div>  
+              <div class="row">
+                <div class="col-lg-5">
+        
+                  <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+                    <legend><i class="fa fa-building"></i>&nbsp;[Fecha del Proceso]</legend> 
+                    <div class="row bloque bordes">                              
+                        <div class="col-lg-11">
+                          <table class="caja" style="margin-left: 5px;width: 100%;margin-bottom: 5px;">
+                            <tr><td>Iniciado</td></tr> 
+                            <tr>
+                               <td>
+                                <input type="text" 
+                                  class="form-control form-control-sm"  
+                                  placeholder="-" 
+                                  [(ngModel)]="antecedentes.FEC_INICIO_PROCESO_JUDICIAL"
+                                  readonly>
+                               </td>
+                            </tr> 
+                          </table>            
+                        </div>
+                                          
+                    </div> 
+                    <div class="row bloque bordes">                              
+                      <div class="col-lg-11">
+                        <table class="caja" style="margin-left: 5px;width: 100%;margin-bottom: 5px;">
+                          <tr><td>Finalizado</td></tr> 
+                          <tr>
+                             <td>
+                              <input type="text" 
+                                class="form-control form-control-sm"  
+                                placeholder="-" 
+                                [(ngModel)]="antecedentes.FEC_FIN_PROCESO_JUDICIAL"
+                                readonly>
+                             </td>
+                          </tr> 
+                        </table>            
+                      </div>                   
+                  </div> 
+                  </fieldset> 
+                </div>  
+        
+                <div class="col-lg-7">
+                  <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+                    <legend><i class="fa fa-building"></i>&nbsp;[Clase de Proceso Judicial]</legend> 
+                    <div class="row bloque bordes">                              
+                        <div class="col-lg-11">
+                          <table class="caja" style="margin-left: 5px;width: 100%;margin-bottom: 5px;">
+                            <tr><td>Clase</td></tr> 
+                            <tr>
+                               <td>
+                                <input type="text" 
+                                  class="form-control form-control-sm"  
+                                  placeholder="-" 
+                                  [(ngModel)]="antecedentes.CLASE_PROCESO"
+                                  readonly>
+                               </td>
+                            </tr> 
+                          </table>            
+                        </div>                   
+                    </div> 
+                    <div class="row bloque bordes">                              
+                      <div class="col-lg-6">
+                        <table class="caja" style="margin-left: 5px;width: 100%;margin-bottom: 5px;">
+                          <tr><td>Valor</td></tr> 
+                          <tr>
+                             <td>
+                              <input type="text" 
+                                class="form-control form-control-sm"  
+                                placeholder="-" 
+                                [(ngModel)]="antecedentes.MONTO"
+                                readonly>
+                             </td>
+                          </tr> 
+                        </table>            
+                      </div>                   
+                  </div> 
+                  
+                  </fieldset> 
+                </div>
+          
+              </div>                      
+
+            </div>
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">     
+                      <div style="margin-left: 10px; margin-right: 10px;">           
+                      <legend><i class="fa fa-building"></i>&nbsp;[Datos del Proceso Judicial]</legend> 
+                        <div class="row bloque bordes">                           
+                            <div class="col-lg-12">
+                              <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-2 col-form-label-sm">Demandante: </label>
+                                <div class="col-sm-10">
+                                  <input type="text" 
+                                    class="form-control form-control-sm" 
+                                    id="inputPassword" 
+                                    [(ngModel)]="datosJudiciales.DEMANDANTE"
+                                    readonly>
+                                </div>
+                              </div>          
+                            </div>               
+                        </div> 
+                        <div class="row bloque bordes">                             
+                          <div class="col-lg-12">
+                            <div class="form-group row">
+                              <label for="inputPassword" class="col-sm-2 col-form-label-sm">Demandado: </label>
+                              <div class="col-sm-10">
+                                <input type="text" 
+                                  class="form-control form-control-sm" 
+                                  id="inputPassword"
+                                  [(ngModel)]="datosJudiciales.DEMANDADO"
+                                  readonly>
+                              </div>
+                            </div>          
+                          </div>               
+                        </div> 
+                        <div class="row bloque bordes">                             
+                          <div class="col-lg-12">
+                            <div class="form-group row">
+                              <label for="inputPassword" class="col-sm-2 col-form-label-sm">Materia Legal: </label>
+                              <div class="col-sm-10">
+                                <input type="text" 
+                                  class="form-control form-control-sm" 
+                                  id="inputPassword"
+                                  [(ngModel)]="datosJudiciales.MATERIA_LEGAL"
+                                  readonly>
+                              </div>
+                            </div>          
+                          </div>               
+                        </div> 
+                        <div class="row bloque bordes">                             
+                          <div class="col-lg-12">
+                            <div class="form-group row">
+                              <label for="inputPassword" class="col-sm-2 col-form-label-sm">Org. Jurisdiccional: </label>
+                              <div class="col-sm-10">
+                                <input type="text"  
+                                  class="form-control form-control-sm" 
+                                  id="inputPassword"
+                                  [(ngModel)]="datosJudiciales.ORG_JURISDICCIONAL"
+                                  readonly>
+                              </div>
+                            </div>          
+                          </div>               
+                        </div> 
+                        <div class="row bloque bordes">                             
+                          <div class="col-lg-12">
+                            <div class="form-group row">
+                              <label for="inputPassword" class="col-sm-2 col-form-label-sm">Datos del Predio: </label>
+                              <div class="col-sm-10">
+                                <input type="text" 
+                                  class="form-control form-control-sm" 
+                                  id="inputPassword"
+                                  [(ngModel)]="datosJudiciales.NOMBRE_PREDIO"
+                                  readonly>
+                              </div>
+                            </div>          
+                          </div>               
+                        </div> 
+                        <div class="row bloque bordes">                             
+                          <div class="col-lg-12">
+                            <div class="form-group row">
+                              <label for="inputPassword" class="col-sm-2 col-form-label-sm">Observaciones: </label>
+                              <div class="col-sm-10">
+                                <textarea style="height: 50px;"
+                                  class="form-control form-control-sm" 
+                                  id="inputPassword"
+                                  [(ngModel)]="datosJudiciales.COMENTARIO"
+                                  readonly>
+                                </textarea>
+                              </div>
+                            </div>          
+                          </div>               
+                        </div> 
+                        <div class="row bloque bordes">                             
+                          <div class="col-lg-8">
+                            <div class="form-group row">
+                              <label for="inputPassword" class="col-sm-2 col-form-label-sm">Proxima Diligencia: </label>
+                              <div class="col-sm-10">
+                                <input type="text" style="margin-left: 40px; width: 350px;"
+                                  class="form-control form-control-sm margen" 
+                                  id="inputPassword"
+                                  [(ngModel)]="datosJudiciales.DILIG_PROCESAL"
+                                  readonly>
+                              </div>
+                            </div>          
+                          </div>   
+                          <div class="col-lg-4 bordes">
+                            <div class="form-group row">
+                              <label for="inputPassword" class="col-sm-2 col-form-label-sm">Fecha: </label>
+                              <div class="col-sm-10">
+                                <input type="text" 
+                                  class="form-control form-control-sm" 
+                                  id="inputPassword"
+                                  [(ngModel)]="datosJudiciales.FECHA_DILIGENCIA_PROCESAL"
+                                  readonly>
+                              </div>
+                            </div>          
+                          </div>               
+                        </div>
+                        <div class="row bloque bordes">                             
+                          <div class="col-lg-12">
+                            <div class="form-group row">
+                              <label for="inputPassword" class="col-sm-2 col-form-label-sm">Tipo Proceso: </label>
+                              <div class="col-sm-10">
+                                <input type="text" 
+                                  class="form-control form-control-sm" 
+                                  id="inputPassword"
+                                  [(ngModel)]="datosJudiciales.TIPO_PROCESO"
+                                  readonly>
+                              </div>
+                            </div>          
+                          </div>               
+                        </div> 
+                      </div>
+                      </fieldset> 
+                      
+
+
+                      <div class="row">
+                        <div class="col-lg-4">
+                
+                          <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+                            <legend><i class="fa fa-building"></i>&nbsp;[Estado Proceso]</legend> 
+                            <div class="row bloque bordes">                              
+                                <div class="col-lg-11">
+                                  <table class="caja" style="margin-left: 5px;width: 100%;margin-bottom: 5px;">
+                                    <tr>
+                                       <td>
+                                        <input type="text" 
+                                          class="form-control form-control-sm"  
+                                          placeholder="-" 
+                                          [(ngModel)]="datosJudiciales.EST_PROCESO"
+                                          readonly
+                                        >  
+                                       </td>
+                                    </tr> 
+                                  </table>            
+                                </div>                    
+                            </div> 
+                            <div class="row bloque bordes">                              
+                              <div class="col-lg-11">
+                                <table class="caja" style="margin-left: 5px;width: 100%;margin-bottom: 5px;">
+                                  <tr>
+                                     <td>
+                                      <input type="text" 
+                                        class="form-control form-control-sm"  
+                                        placeholder="-"
+                                        [(ngModel)]="datosJudiciales.EST_CONCLUIDO"
+                                        readonly
+                                      >
+                                     </td>
+                                  </tr> 
+                                </table>            
+                              </div>                   
+                          </div> 
+                          </fieldset> 
+                        </div>  
+                
+                        <div class="col-lg-8">
+                          <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+                            <legend><i class="fa fa-building"></i>&nbsp;[Derivado a...]</legend> 
+                            <div style="margin-left: 10px; margin-right: 10px;">
+                            <div class="row bloque bordes">                              
+                                <div class="col-lg-12">
+                                  <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-2 col-form-label-sm">Area: </label>
+                                    <div class="col-sm-10">
+                                      <input type="text" 
+                                        class="form-control form-control-sm" 
+                                        id="inputPassword"
+                                        [(ngModel)]="datosJudiciales.AREA"
+                                        readonly>
+                                    </div>
+                                  </div>     
+                                </div>                   
+                            </div> 
+                            <div class="row bloque">                              
+                              <div class="col-lg-12">
+                                <div class="form-group row">
+                                  <label for="inputPassword" class="col-sm-2 col-form-label-sm">Comentario: </label>
+                                  <div class="col-sm-10">
+                                    <textarea
+                                      class="form-control form-control-sm" 
+                                      id="inputPassword"
+                                      [(ngModel)]="datosJudiciales.COMENTARIO"
+                                      readonly>
+                                    </textarea>
+                                  </div>
+                                </div>     
+                              </div>                   
+                            </div> 
+                          </div>
+                          </fieldset> 
+                        </div>
+                      </div>  
+                    </div>
+                  </div>  
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+              <div class="row">
+                <div class="col-lg-12">
+                  
+                  <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+                    <legend><i class="fa fa-building"></i>&nbsp;[Sentencias Judiciales]</legend> 
+                    <div class="row bloque">                              
+                        <div class="col-lg-12">
+                          <div style="overflow-x:scroll;overflow-y: scroll;height:138px">
+                            <table id="example2" class="table table-bordered table-striped table-hover" style="font-size: 8px;">
+                                <thead>
+                                    <tr>														
+                                        <th>Item</th>                                          
+                                        <th>Instancia</th>                                                        
+                                        <th>Sentencia</th>
+                                        <th>Nro. Resolucion</th>
+                                        <th>Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  <ng-container *ngFor="let tip of sentencia; let i = index">												
+                                        <tr>                                      
+                                            <td>{{ tip.ITEM }}</td>   
+                                            <td>{{ tip.NMB_INSTANCIA }}</td>      
+                                            <td>{{ tip.EST_JUICIO }}</td>   
+                                            <td>{{ tip.RESOLUCION }}</td>     
+                                            <td>{{ tip.FECHA | date:'dd/MM/yyyy' }}</td>     
+                                        </tr>
+                                  </ng-container>
+                                </tbody>													
+                            </table> 
+                          </div>
+                        </div>                   
+                    </div> 
+                  
+                  </fieldset> 
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  
+                  <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+                    <legend><i class="fa fa-building"></i>&nbsp;[Observaciones]</legend> 
+                    <div class="row bloque">                              
+                        <div class="col-lg-12">
+                          <table class="caja" style="margin-left: 5px;width: 100%;margin-bottom: 5px;"> 
+                            <tr>
+                               <td>
+                                <textarea 
+                                  class="form-control form-control-sm"  
+                                  placeholder="-" 
+                                  [(ngModel)]="antecedentes.OBSERVACION"
+                                  readonly
+                                  >
+                               </textarea> 
+                               </td>
+                            </tr> 
+                          </table>            
+                        </div>                   
+                    </div> 
+                  
+                  </fieldset> 
+                </div>
+              </div>
+
+            </div>
+          </div>
+    
+        </div>
+      </div>   
+      
+      
+      
+    </div>
+  </ng-template>
+
+

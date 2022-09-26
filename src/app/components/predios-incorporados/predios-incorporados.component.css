@@ -1,0 +1,62 @@
+
+body, h2, h3, h6, span, small, strong,.text-muted, hr, p, th, td, tr{
+    color: #336699 !important;
+}
+
+.table thead th {
+    border-bottom: 2px solid #336699
+}
+.header-body {
+    border-bottom: 1px solid #e3ebf6;
+    padding-bottom: 1.5rem;
+    padding-top: 1.5rem;
+}
+.card-title {
+    margin-bottom: 0.5rem;
+}
+.card {
+    word-wrap: break-word;
+    background-clip: border-box;
+    background-color: #fff;
+    border: 1px solid #edf2f9;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    position: relative;
+}
+.card {
+    border-color: #edf2f9;
+    box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+    padding-bottom: 0.75rem;
+    padding-top: 0.75rem;
+}
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid #edf2f9;
+    margin-bottom: 0;
+    padding: 1rem 1.5rem;
+}
+.h6, h6 {
+    font-size: 0.7rem;
+}
+
+td.hand{ 
+    cursor: pointer;
+	margin: 15px 0;
+}
+
+.hand{
+    cursor: pointer;
+	margin: 15px 0;
+}
+
+

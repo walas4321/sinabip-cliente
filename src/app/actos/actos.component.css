@@ -1,0 +1,13 @@
+.caja
+{
+  margin-bottom: 20px;
+  margin-left: 10px;
+  margin-top: 20px;
+  width: 90%;
+}
+
+
+.bloquear{
+  pointer-events: none;
+  opacity: 0.8;
+}

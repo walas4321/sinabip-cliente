@@ -1,0 +1,57 @@
+<div class="row">                      
+  <div class="col-lg-12" style="top:4px;">  
+    <div class="row">                        
+      <div class="col-lg-12">                     
+        <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+          <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Restricciones Legales a la Propiedad]</legend>                               
+          <div class="row" style="margin-bottom: 15px;">
+            <div class="col-lg-3">
+              <label for="">Normatividad Aplic.</label>
+            </div>
+            <div class="col-lg-6">              
+              <textarea  type="text"  rows="4" 
+              [(ngModel)]="datospredio.normatividad"
+                class="form-control"   
+                style="text-transform:uppercase;resize: none"   
+                disabled              
+              >
+              </textarea>
+            </div>
+          </div>
+          <div class="row">                              
+            <div class="col-lg-3">
+              <label for="">Restricciones</label>
+            </div>
+            <div class="col-lg-6">
+              <input type="text" 
+              [(ngModel)]="datospredio.restricciones"
+                class="form-control"   
+                style="text-transform:uppercase;" 
+               disabled
+              >
+            </div>
+          </div>         
+        </fieldset>
+      </div>
+    </div>
+    <div class="row">                        
+      <div class="col-lg-12">                     
+        <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+          <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Observaciones Legales]</legend>                               
+          <div class="row">                                         
+            <div class="col-lg-12">
+              <textarea  type="text"  rows="10" 
+              [(ngModel)]="datospredio.observaciones"
+                class="form-control"   
+                style="text-transform:uppercase;resize: none"   
+                disabled              
+              >
+              </textarea>
+            </div>           
+          </div>         
+        </fieldset>
+      </div>
+    </div>             
+    <br>
+  </div>
+</div>

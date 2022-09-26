@@ -1,0 +1,92 @@
+<div [ngClass]="{'bloquear': active}">
+  <div class="row">                        
+  <div class="col-lg-12">
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+      <legend><i class="fa fa-building"></i>&nbsp;Línea de más alta marea</legend> 
+      <div class="row fila" >                                      
+        <div class="col-lg-2" style="margin-top:5px">
+            <p>LAM</p>           
+        </div>
+        <div class="col-lg-10" >           
+          <select class="form-control" [(ngModel)]="zona.codlam" (change)="validarzona(zona)" >
+            <option value="0" >----TIPO----</option>
+            <option *ngFor="let la of lam" value="{{la.CODIGO_DETALLE}}">{{la.DSC_DETALLE}}</option>
+          </select>                        
+        </div>                                         
+      </div>
+      <div class="row fila">
+        <div class="col-lg-2" style="margin-top:5px">
+          <p>Observaciones</p>           
+        </div>
+        <div class="col-lg-10" >           
+          <textarea class="form-control"  [(ngModel)]="zona.observaciones" style="text-transform:uppercase"
+            (change)="validarzona(zona)" placeholder="Ingrese Observaciones" rows="4" maxlength="500">
+          </textarea>
+        </div>  
+      </div>
+    </fieldset>  
+  </div>
+  </div>
+
+  <div class="row">                        
+  <div class="col-lg-12">
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+      <legend><i class="fa fa-building"></i>&nbsp;Cálculos de Áreas</legend> 
+      <div class="row fila" >                                      
+            <div class="col-lg-3" style="margin-top:5px">
+                <p>Inmueble en Zona de Playa</p>           
+            </div>
+            <div class="col-lg-3" >           
+              <select class="form-control" [(ngModel)]="zona.codzona" (change)="validarzona(zona);bloquear_1(zona.codzona)">
+                <option value="0" >----TIPO----</option>
+                <option *ngFor="let pl of playa" value="{{pl.CODIGO_DETALLE}}">{{pl.DSC_DETALLE}}</option>
+             </select>                        
+            </div> 
+            <div class="col-lg-2" style="margin-top:5px">
+              <p>Área m²</p>           
+            </div>
+            <div class="col-lg-4" >           
+              <input type="text" class="form-control" [(ngModel)]="zona.areazona"  [disabled]="flag_bloq_1"
+              (change)="validarzona(zona);validardecimal(zona.areazona,1)" appTwoDigitDecimaNumber onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46">                        
+            </div>                                          
+      </div>
+      <div class="row fila">                                      
+        <div class="col-lg-3" style="margin-top:5px">
+            <p>Inmueble en Zona de Dominio Restringido</p>           
+        </div>
+        <div class="col-lg-3" >           
+          <select class="form-control"  [(ngModel)]="zona.codrestringido" (change)="validarzona(zona);bloquear_2(zona.codrestringido)">
+            <option value="0" >----TIPO----</option>
+            <option *ngFor="let re of restringido" value="{{re.CODIGO_DETALLE}}">{{re.DSC_DETALLE}}</option>
+         </select>                          
+        </div> 
+        <div class="col-lg-2" style="margin-top:5px">
+          <p>Área m²</p>           
+        </div>
+        <div class="col-lg-4" >           
+          <input type="text" class="form-control" [(ngModel)]="zona.arearestringido" [disabled]="flag_bloq_2"
+          (change)="validarzona(zona);validardecimal(zona.arearestringido,2)" appTwoDigitDecimaNumber onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46">                        
+        </div>                                          
+      </div>
+      <div class="row fila" >                                      
+        <div class="col-lg-3" style="margin-top:5px">
+            <p>Inmueble en Zona de Dominio Privado</p>           
+        </div>
+        <div class="col-lg-3" >           
+          <select class="form-control" [(ngModel)]="zona.codprivado" (change)="validarzona(zona);bloquear_3(zona.codprivado)">
+            <option value="0" >----TIPO----</option>
+            <option *ngFor="let pr of privado" value="{{pr.CODIGO_DETALLE}}">{{pr.DSC_DETALLE}}</option>
+         </select>                         
+        </div> 
+        <div class="col-lg-2" style="margin-top:5px">
+          <p>Área m²</p>           
+        </div>
+        <div class="col-lg-4" >           
+          <input type="text" class="form-control" [(ngModel)]="zona.areaprivado" [disabled]="flag_bloq_3"
+          (change)="validarzona(zona);validardecimal(zona.areaprivado,2)" appTwoDigitDecimaNumber onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46">                        
+        </div>                                          
+      </div>
+    </fieldset>  
+  </div>
+  </div>
+</div>

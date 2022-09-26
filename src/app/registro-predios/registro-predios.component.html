@@ -1,0 +1,614 @@
+<section class="content" >    
+  <h2 class="mifuente">Búsqueda Alfanumérica</h2> 
+  <div class="col-lg-12">                       
+      <div class="tab-content" id="pills-tabContent">                                                
+          <div>
+              <fieldset>                
+                <div class="row">                        
+                    <div class="col-lg-2" >
+                      <input type="text" class="form-control input caja"  placeholder="RUC" [(ngModel)] = "filtroSearch.ruc"
+                       (change)="validarruc(filtroSearch.ruc)" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="11">
+                    </div>  
+                    <div class="col-lg-2">
+                      <input type="text" class="form-control  input caja"  placeholder="Ingrese CUS o Denominación" [(ngModel)] = "filtroSearch.denominacion_cus">
+                    </div>
+                    <div class="col-lg-2">
+                      <button type="button" class="btn btn-primary btn-sm  input caja" (click)="BusquedaAvanzadaPredios()"><i class="fa fa-search" ></i>&nbsp;&nbsp;Buscar </button>
+                    </div> 
+                    <div class="col-lg-2">
+                      <button (click)="modal1(content1)"  type="button" class="btn btn-success btn-sm  input caja" ><i class="fa fa-search-plus" ></i>&nbsp;&nbsp;Avanzada </button>                    
+                    </div>                     
+                    <div class="col-lg-2">
+                      <button type="button" class="btn btn-danger btn-sm  input caja" (click)="LimpiarFiltros()"><i class="fa fa-trash-o" ></i>&nbsp;&nbsp;Limpiar </button>                    
+                    </div>
+                    <div class="col-lg-1">
+                      <button type="button" class="btn btn-light btn-sm  input caja" (click)="DescargarInfo(contentDescargaInfo)">
+                        <img _ngcontent-aou-c1="" class="img" src="../assets/images/pdf.png" width="27" height="27" border="0" align="absmiddle">
+                      </button> 
+                    </div>
+                    <div class="col-lg-1" style="padding-right: 25px;">
+                      <button type="button" class="btn btn-light btn-sm  input caja" (click)="ExportaPrediosExcel();">
+                        <img  _ngcontent-aou-c1="" class="img" src="../assets/images/excel.png" width="27" height="27" border="0" align="absmiddle"> 
+                      </button> 
+                    </div>
+                </div>             
+              </fieldset>  
+          <div class="row">               
+              <div class="col-lg-12">
+                  <div class="box box-solid box-danger">
+                      <div class="box-header">                            
+                          <div class="box-tools pull-right">
+                          </div>
+                      </div>
+                      <div class="box-body">
+                          <div class="card-body table wrap-table100">
+                            <div >
+                            <table class="table" style="font-size: 0.6rem;">
+                              <thead>
+                                  <tr class="table100-head">                                            
+                                      <th>
+                                          <p class="text-center">Item</p>
+                                      </th>                                      
+                                      <th>
+                                          <p class="text-center">Nro. CUS</p>
+                                      </th>
+                                      <th>
+                                          <p class="text-center">Denominación del Predio</p>
+                                      </th>                                        
+                                      <th>
+                                          <p class="text-center">Dep.</p>
+                                      </th>                                          
+                                      <th>
+                                          <p class="text-center">Prov.</p>
+                                      </th>
+                                      <th>
+                                          <p class="text-center">Dist.</p>
+                                      </th>   
+                                      <th>
+                                        <p class="text-center">Tipo partida</p>
+                                       </th> 
+                                       <th>
+                                        <p class="text-center">Titular</p>
+                                       </th>
+                                       <th *ngIf="filtroSearch.ruc !==''">
+                                        <p class="text-center">Competencia</p>
+                                       </th> 
+                                       <th>
+                                        <p class="text-center">Área m²</p>
+                                      </th> 
+                                      <th *ngIf="filtroSearch.ruc !==''">
+                                        <p class="text-center">Situación</p>
+                                      </th>                                                                                    
+                                      <th >
+                                          <p class="text-center">Visualizar</p>
+                                      </th>
+                                  </tr>
+                              </thead>
+                              <tbody class="table-bordered3">
+                                  <tr *ngFor="let obj of dataResultado.listado;let inx = index" [ngClass]="{'table-active':seleccionRows==obj.COD_UE_BIEN_ALTA}"
+                                    >                                           
+                                      <td>
+                                          <p class="text-center">{{ obj.ROW_NUMBER_ID }}</p>
+                                      </td>  
+                                      <td>
+                                          <p class="text-center">{{ obj.NRO_RSINABIP }}</p>
+                                      </td>  
+                                     <td>
+                                          <p class="text-center">{{ obj.DENOMINACION_INMUEBLE }}</p>
+                                      </td>                                                                                                                   
+                                      <td >
+                                          <p class="text-center">{{ obj.NOMBRE_DEPARTAMENTO }}</p>
+                                      </td>
+                                      <td>
+                                          <p class="text-center">{{ obj.NOMBRE_PROVINCIA }}</p>
+                                      </td>
+                                      <td>
+                                          <p class="text-center">{{ obj.NOMBRE_DISTRITO }}</p>
+                                      </td>                                    
+                                      <td>
+                                        <p class="text-center">{{ obj.CODIGO_PARTIDA }} - {{ obj.NRO_PARTIDA_REGISTRAL }}</p>
+                                      </td>
+                                      <td>
+                                        <p class="text-center">{{ obj.NMB_ENTE }}</p>
+                                      </td>
+                                      <td *ngIf="filtroSearch.ruc !==''">
+                                        <p class="text-center">{{ obj.NOMBRE_ESTANDARIZADO }}</p>
+                                      </td>
+                                      <td>
+                                        <p class="text-center">{{ obj.AREA_REGISTRAL }}</p>
+                                      </td>
+                                      <td *ngIf="filtroSearch.ruc !==''">
+                                        <p class="text-center">{{ obj.CONDICION }}</p>
+                                      </td>
+                                      <td>
+                                        <button class='btn btn-primary espacio' (click)="modalregistro(modalpredio,obj.CODIGO_INTERNO,obj.NRO_RSINABIP, obj.TIPO_ASIENTO)" ><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                          </div>
+                          <nav class="mt-3" *ngIf="total1 >= itemsPerPage1">
+                              <ngb-pagination [collectionSize]="total1" [pageSize]="itemsPerPage1" [(page)]="filtroSearch.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage1($event)"></ngb-pagination>
+                          </nav>                          
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+
+<ng-template #modalpredio let-modal>  
+  <div style="background-color: #8a2a2b;">      
+      <div class="row" style="height: 60px;">
+        <div class="col-lg-4">
+          <img _ngcontent-aou-c1="" style="width: 35%;margin-top: 5px;padding-left: 10px" class="img" src="../assets/images/principal.png">
+        </div>
+        <div class="col-lg-4">
+          <h4 class="modal-title " style="color:white;padding-top: 5px;" align="center">SINABIP</h4>
+        </div>
+        <div class="col-lg-4">
+          <img _ngcontent-aou-c1="" class="img" style="width: 35%;margin-top: 5px;float: right;padding-right: 10px" src="../assets/images/logo-sbn-blanco.png" >            
+        </div>
+      </div>                            
+  </div>
+  <div class="modal-header">
+    <h4 class="modal-title">Información del Predio Nº de CUS: {{numerocus}}  </h4>
+    <h4 class="modal-title" > - TIPO DE CUS: {{ tipoRegistro }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="cerrarventana()">
+      <span aria-hidden="true">&times;</span>
+    </button> 
+  </div>   
+
+  <div class="modal-body" >                                 
+    <div class="row">          
+      <div class="col">
+          <div class="box box-solid box-danger">									
+              <div class="box-body">
+                  <div class="card">
+                      <nav class="card-header" style="font-size: 10px;">
+                          <div class="nav nav-pills" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-datg-tab" data-toggle="tab" href="#nav-datg" role="tab" aria-controls="nav-datg" aria-selected="true"><strong>Datos generales</strong></a>
+                            <a (click)="cargar(1)" class="nav-item nav-link" id="nav-titu-tab" data-toggle="tab" href="#nav-titu" role="tab" aria-controls="nav-titu" aria-selected="false" ><strong>Adquisicion e Inscripcion</strong></a>
+                            <a (click)="cargar(9)"class="nav-item nav-link " id="nav-fablin-tab" data-toggle="tab" href="#nav-fablin" role="tab" aria-controls="nav-fablin" aria-selected="false" ><strong>Fábrica y Linderos</strong></a>
+                            <a (click)="cargar(2)"class="nav-item nav-link " id="nav-lim-tab" data-toggle="tab" href="#nav-lim" role="tab" aria-controls="nav-lim" aria-selected="false" ><strong>Limitaciones a la Propiedad</strong></a>                          
+                            <a (click)="cargar(3)"class="nav-item nav-link " id="nav-opor-tab" data-toggle="tab" href="#nav-opor" role="tab" aria-controls="nav-opor" aria-selected="false" ><strong>Actos de Administración y Disposición</strong></a>
+                            <a (click)="cargar(4)"class="nav-item nav-link " id="nav-dat-tab" data-toggle="tab" href="#nav-dat" role="tab" aria-controls="nav-dat" aria-selected="false"><strong>Datos Técnicos</strong></a>
+                            <a (click)="cargar(5)"class="nav-item nav-link " id="nav-con-tab" data-toggle="tab" href="#nav-con" role="tab" aria-controls="nav-con" aria-selected="false"><strong>Construcciones</strong></a>
+                            <a (click)="cargar(6)"class="nav-item nav-link " id="nav-pote-tab" data-toggle="tab" href="#nav-pote" role="tab" aria-controls="nav-pote" aria-selected="false" ><strong>Obras y Valorización</strong></a>                          
+                            <a (click)="cargar(7)"class="nav-item nav-link " id="nav-zon-tab" data-toggle="tab" href="#nav-zon" role="tab" aria-controls="nav-zon" aria-selected="false"><strong>Zona de Playa</strong></a>                          
+                            <a (click)="cargar(10)"class="nav-item nav-link " id="nav-riesgo-tab" data-toggle="tab" href="#nav-riesgo" role="tab" aria-controls="nav-riesgo" aria-selected="false"><strong>Riesgo de Desastres</strong></a>                          
+                            <a (click)="cargar(8)" class="nav-item nav-link " id="nav-leg-tab" data-toggle="tab" href="#nav-leg" role="tab" aria-controls="nav-leg" aria-selected="false"><strong>Legajo Digital</strong></a>
+                            <a class="nav-item nav-link " id="nav-fot-tab" data-toggle="tab" href="#nav-fot" role="tab" aria-controls="nav-fot" aria-selected="false"><strong>Aporte de Fotos</strong></a>
+                            <div *ngIf="flag=='1'">
+                              <a (click)="cargar(10)" class="nav-item nav-link " id="nav-infaso-tab" data-toggle="tab" href="#nav-infaso" role="tab" aria-controls="nav-infaso" aria-selected="false"><strong>Informes Asociados</strong></a>
+                            </div>
+                            <!--<a class="nav-item nav-link " id="nav-pol-tab" data-toggle="tab" href="#nav-pol" role="tab" aria-controls="nav-pol" aria-selected="false"><strong>Aporte de Poligonos</strong></a>-->
+                          </div>
+                      </nav>
+                      <br>
+                      <div class="tab-content" id="nav-tabContent">
+                          <div class="tab-pane fade show active" id="nav-datg" role="tabpanel" aria-labelledby="nav-datg-tab">
+                              <app-datos-generales     
+                              [codigo_interno]="aux.codigo_interno"
+                              [coddocumental]="aux.coddocumental"
+                              [tipo_registro]="aux.tipo_registro"
+                              [bloquear]="1"
+                              (callbackcodigo) ="actualizarcodigo($event)"                      
+                              (callback)="actualizardatosgenerales($event)"                                
+                              ></app-datos-generales>                               
+                          </div>
+                          <div class="tab-pane fade" id="nav-titu" role="tabpanel" aria-labelledby="nav-titu-tab">                            
+                            <app-adquisicion                            
+                            [coddepa]="aux.codigodepa"                            
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="1"
+                             (callback)="actualizaadquision($event)"
+                            ></app-adquisicion>                           
+                          </div>  
+                          <div class="tab-pane fade" id="nav-fablin" role="tabpanel" aria-labelledby="nav-fablin-tab">
+                            <app-fabrica-linderos
+                              [codigo_interno]="aux.codigo_interno"
+                              [cargar]="aux.cargar"
+                              [bloquear]="1"
+                              (callback)="actualizarfabricalinderos($event)"
+                            ></app-fabrica-linderos>
+                          </div>                            
+                          <div class="tab-pane fade" id="nav-lim" role="tabpanel" aria-labelledby="nav-lim-tab">
+                            <app-limitaciones
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="1"
+                            (callback)="actualizarlimitaciones($event)"
+                            ></app-limitaciones>                           
+                          </div>
+                          <div class="tab-pane fade" id="nav-pote" role="tabpanel" aria-labelledby="nav-pote-tab">
+                            <app-obras
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"   
+                            [bloquear]="1"                         
+                            (callback)="actualizarobras($event)"  ></app-obras>                      
+                          </div>
+                          <div class="tab-pane fade" id="nav-opor" role="tabpanel" aria-labelledby="nav-opor-tab">
+                            <app-actos
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="1"
+                            (callback)="actualizaractos($event)"                            
+                            ></app-actos>                          
+                          </div>                         
+                          <div class="tab-pane fade" id="nav-zon" role="tabpanel" aria-labelledby="nav-zon-tab">
+                            <app-zona
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="1"
+                            (callback)="actualizarzona($event)"  
+                            ></app-zona>                            
+                          </div>
+                          <div class="tab-pane fade" id="nav-riesgo" role="tabpanel" aria-labelledby="nav-riesgo-tab">
+                            <app-riesgo-desastre
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="1"
+                            (callback)="actualizarRiesgo($event)"  
+                            ></app-riesgo-desastre>
+                          </div>
+                          <div class="tab-pane fade" id="nav-con" role="tabpanel" aria-labelledby="nav-con-tab">
+                            <app-construccion
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="1"
+                            (callback)="actualizarconstruccion($event)" 
+                            ></app-construccion>                          
+                          </div>
+                        
+                          <div class="tab-pane fade" id="nav-dat" role="tabpanel" aria-labelledby="nav-dat-tab">
+                            <app-datos-tecnicos
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="1"
+                            (callback)="actualizardatos($event)"
+                            ></app-datos-tecnicos>                           
+                          </div>
+                          <div class="tab-pane fade" id="nav-leg" role="tabpanel" aria-labelledby="nav-leg-tab">
+                            <app-legajo
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="1"
+                            (callback)="actualizarzona($event)"  
+                            ></app-legajo>
+                          </div>
+                          <div class="tab-pane fade" id="nav-fot" role="tabpanel" aria-labelledby="nav-fot-tab">
+                            <app-aporte-fotos
+                            [codigo_interno]="aux.codigo_interno"
+                            [bloquear]="1"
+                            [cargar]="aux.cargar"  
+                                                      
+                            ></app-aporte-fotos>                            
+                          </div>
+                          <div class="tab-pane fade" id="nav-infaso" role="tabpanel" aria-labelledby="nav-infaso-tab">
+                            <app-informes-asociados     
+                             [codigo_interno]="aux.codigo_interno"
+                             [cargar]="aux.cargar"
+                           >
+                           </app-informes-asociados>
+                         </div>
+                          <!--<div class="tab-pane fade" id="nav-pol" role="tabpanel" aria-labelledby="nav-pol-tab">
+                            <app-aporte-poligono
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            (callback)="actualizarzona($event)"   
+                            ></app-aporte-poligono>
+                          </div>-->
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>      
+  </div>
+  </div>   
+</ng-template>
+
+
+<ng-template #content1 let-modal>            
+  <div class="modal-header">
+      <h4 class="modal-title" >Búsqueda Avanzada</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body" >                                 
+    <div class="row">          
+      <div class="col-lg-4" >
+        <table style="margin-bottom: 0px;margin-left: 0px;width: 100%;">
+          <tr><td>Departamento</td></tr> 
+          <tr>
+             <td>
+              <select class="form-control" [(ngModel)]="filtroSearch.departamento" (change)="obtenerubigeo(filtroSearch.departamento,0,0,2)" 
+              style="margin-bottom: 5px;margin-left: 5px;">
+                <option value="0" >:: Seleccionar ::</option>
+                <option *ngFor="let depa of departamentos.listado" value="{{depa.Ubi_CodDepartamento}}" >{{depa.Ubi_Descripcion}}</option>
+              </select>
+             </td>
+          </tr> 
+        </table>
+       
+      </div>  
+      <div class="col-lg-4">
+        <table style="margin-bottom: 0px;margin-left: 0px;width: 100%;">
+          <tr><td>Provincia</td></tr> 
+          <tr>
+             <td>
+              <select class="form-control" [(ngModel)]="filtroSearch.provincia" (change)="obtenerubigeo(filtroSearch.departamento,filtroSearch.provincia,0,3)" required>
+                <option value="0" >:: Seleccionar ::</option>
+                <option *ngFor="let prov of provincias.listado" value="{{prov.Ubi_CodProvincia}}">{{prov.Ubi_Descripcion}}</option>
+              </select>
+             </td>
+          </tr> 
+        </table>
+        
+      </div>
+      <div class="col-lg-4">
+        <table style="margin-bottom: 0px;margin-left: 0px;width: 100%;">
+          <tr><td>Distrito</td></tr> 
+          <tr>
+             <td>
+              <select class="form-control" [(ngModel)]="filtroSearch.distrito"  required>
+                <option value="0" >:: Seleccionar ::</option>
+                <option *ngFor="let dis of distritos.listado" value="{{dis.Ubi_CodDistrito}}">{{dis.Ubi_Descripcion}}</option>
+              </select>
+             </td>
+          </tr> 
+        </table>       
+      </div>  
+    </div>
+    <div class="row">          
+      <div class="col-lg-8">
+        <table style="margin-top: 0px;margin-left: 5px;width: 98%;margin-bottom: 15px;">
+          <tr><td>Dirección</td></tr> 
+          <tr>
+             <td>
+              <input type="text" class="form-control" placeholder="Ingrese" [(ngModel)]="filtroSearch.direccion">
+             </td>
+          </tr> 
+        </table>
+      </div>  
+      <div class="col-lg-4">
+        <table style="margin-top: 0px;margin-left: 5px;width: 98%;margin-bottom: 15px;">
+          <tr><td>Nº de SI</td></tr> 
+          <tr>
+             <td>
+              <input type="text" class="form-control" placeholder="Ingrese" [(ngModel)]="filtroSearch.nroSI">
+             </td>
+          </tr> 
+        </table>
+      </div>  
+    </div>
+    <div class="row">          
+      <div class="col-lg-4" >
+        <table style="margin-top: 0px;margin-left: 5px;width: 98%;margin-bottom: 15px;">
+          <tr><td>Titular</td></tr> 
+          <tr>
+             <td>
+              <input type="text" class="form-control" placeholder="Ingrese" [(ngModel)]="filtroSearch.propietario">
+             </td>
+          </tr> 
+        </table>
+      </div>  
+      <div class="col-lg-4">
+        <table style="margin-top: 0px;margin-left: 5px;width: 98%;margin-bottom: 15px;">
+          <tr><td>Área mínima en m²</td></tr> 
+          <tr>
+             <td>
+              <input type="text" class="form-control" 
+                placeholder="Ingrese" 
+                [ngModel]="filtroSearch.areaMinima"
+                (ngModelChange)="filtroSearch.areaMinima = $event"
+                (change)="validardecimal(filtroSearch.areaMinima,2);" appTwoDigitDecimaNumber
+                onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46 " 
+                maxlength="10"
+                (focus)="foco(1)" (focusout)="processMyValue(1)"
+              >
+             </td>
+          </tr> 
+        </table>
+      </div>
+      <div class="col-lg-4">
+        <table style="margin-top: 0px;margin-left: 5px;width: 98%;margin-bottom: 15px;">
+          <tr><td>Área máxima en m²</td></tr> 
+          <tr>
+             <td>
+              <input type="text" class="form-control" 
+                placeholder="Ingrese" 
+                [ngModel]="filtroSearch.areaMaxima"
+                (ngModelChange)="filtroSearch.areaMaxima = $event"
+                (change)="validardecimal(filtroSearch.areaMaxima,2);" appTwoDigitDecimaNumber
+                onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46"
+                maxlength="10"
+                (focus)="focoMax(1)" (focusout)="processMyValueMax(1)"
+              >
+             </td>
+          </tr> 
+        </table>
+      </div>  
+    </div>
+    <div class="row">          
+      <div class="col-lg-4" >
+        <table style="margin-top: 0px;margin-left: 5px;width: 98%;margin-bottom: 15px;">
+          <tr><td>Partida</td></tr> 
+          <tr>
+             <td>
+                <select id="cars" class="form-control" [(ngModel)]="filtroSearch.tipoPartida">  
+                  <option value="">--Tipo--</option>
+                  <option value="1">Codigo de Predio</option>                       
+                  <option value="2">Partida Electronica</option>
+                  <option value="3">Ficha</option>
+                  <option value="4">Tomo</option>
+                </select>
+             </td>
+          </tr> 
+        </table>
+      </div>  
+      <div class="col-lg-4">
+        <table style="margin-top: 0px;margin-left: 5px;width: 98%;margin-bottom: 15px;">
+          <tr><td>Número</td></tr> 
+          <tr>
+             <td>                
+                <div class="form-group">                  
+                  <div class="input-group">
+                    <label for=""  *ngIf="filtroSearch.tipoPartida=='1'"
+                    style="font-weight: bold; font-size:23px"
+                    >P</label>  
+                    <span class="input-group-addon">&nbsp;</span>
+                    <input type="text" class="form-control" placeholder="Ingrese" [(ngModel)]="filtroSearch.nroPartida"
+                    onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="8" (change)="validarpartida(filtroSearch.nroPartida,filtroSearch.tipoPartida)"
+                    >
+                  </div>
+                </div>
+             </td>
+          </tr> 
+        </table>
+      </div>
+      <div class="col-lg-4">       
+      </div>  
+    </div>
+
+
+    <div class="row">          
+      <div class="col-lg-12" >
+        <table style="margin-top: 0px;margin-left: 5px;width: 98%;margin-bottom: 15px;">
+          <tr><td>Ocurrencia</td></tr> 
+          <tr>
+             <td>
+              <input type="text" class="form-control" 
+                placeholder="Ingrese ocurrencia" 
+                [(ngModel)]="filtroSearch.ocurrencia"
+                maxlength="50"
+              >
+             </td>
+          </tr> 
+        </table>
+      </div>   
+    </div>
+
+
+    <div class="row">
+      <div class="col-lg-4" ></div>
+      <div class="col-lg-4" >
+         <table style="width: 100%;">
+            <tr>
+              <td>
+                <button type="button" class="btn btn-success btn-sm" style="margin-top: 20px;width: 100%;" (click)="BusquedaAvanzadaPredios()"><i class="fa fa-search-plus" ></i>&nbsp;&nbsp;Buscar </button>                    
+              </td>
+              <td>
+                <button type="button" class="btn btn-danger btn-sm" style="margin-top: 20px;width: 95%;" (click)="LimpiarFiltroAvanzado()"><i class="fa fa-trash-o" ></i>&nbsp;&nbsp;Limpiar </button>                    
+                 
+              </td>
+            </tr>
+         </table>
+      </div>
+      <div class="col-lg-4" ></div>
+    </div>
+  </div>   
+</ng-template>
+
+
+<ng-template #contentDescargaInfo let-modal>            
+  <div class="modal-header">
+      <h5 class="modal-title" >Personalización de Logo Institucional</h5>
+      <button type="button" class="close" aria-label="Close" (click)="cerrarPersonalizacionLogo();">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body" >                                 
+    <div class="row">          
+      <div class="col-lg-8" >
+        <fieldset class="borde" style="margin-left: 10px;margin-right: 10px;margin-bottom: 31px; width: 750px; height: 139px;" >                
+          <legend><i class="fa fa-building"></i>&nbsp;Adjuntar logo institucional</legend> 
+          <div class="row" style="margin-bottom: 5px;">       
+            <div class="col-lg-5">
+              <div class="form-group text-left">
+                <input class="input-file" (change)="capturarFile($event)" type="file" style="padding-left: 5px;">
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="form-group text-left">
+                <div *ngIf="previsualizacion">
+                  <img width="90px" height="90px" [src]="previsualizacion" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div class="form-group text-left">
+                <button class="btn btn-primary btn-sm" type="button" [disabled]="loading" (click)="subirArchivo()" *ngIf="ocultarBotonSubirFile ==false">
+                  {{ (loading) ? 'Cargando...' : 'Subir archivo' }}
+                </button>
+              </div>
+            </div>
+            <div class="col-lg-2" style="padding-left: 2px;">
+              <div class="form-group text-left">
+                <button type="button" class="btn btn-success btn-sm" (click)="verReportePDF(contentReportePDF)">
+                  Ver Reporte
+                </button>
+              </div>
+            </div>
+            
+            
+            <!-- <div class="box-body centrado margin2" style="margin-top: 15px;">
+              <table *ngIf="filtro.codigo_documento!=='0000' && filtro.codigo_documento!=='0'">
+                <tr>
+                  <td>
+                    <input class="input-file" (change)="capturarFile($event)" type="file">
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div>
+                      <button type="button" [disabled]="loading" (click)="subirArchivo()" *ngIf="ocultarBotonSubirFile ==false">
+                        {{ (loading) ? 'Cargando...' : 'Subir archivo' }}
+                      </button>
+                      <button type="button" class="btn btn-primary btn-sm" (click)="verReportePDF(contentReportePDF)">Ver Reporte</button>
+                    </div>
+                  </td>
+                  <td>
+                    <div *ngIf="previsualizacion">
+                      <img width="100px" [src]="previsualizacion" alt="">
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div> -->
+                                                             
+          </div>     
+          <!-- <div class="row">
+            <div class="col-lg-12">
+              <div *ngIf="previsualizacion">
+                <img width="90px" height="90px" [src]="previsualizacion" alt="">
+              </div>
+            </div>
+          </div> -->
+        </fieldset>  
+      </div>  
+    </div>
+  </div>   
+</ng-template>
+
+
+<ng-template #contentReportePDF let-modal>            
+  <div class="modal-header fondotitulopdf">
+		
+		<button type="button" style="width: 150px; height: 35px; font-size: 15px;" class="btn btn-primary btn-sm" (click)="cerrarReporte();">Cerrar</button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="form-group">
+				<iframe [src]="urlPDF | safe" width="100%" height="850px"></iframe>
+			</div>
+		</form>
+	</div>
+</ng-template>
+

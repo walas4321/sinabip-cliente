@@ -1,0 +1,132 @@
+<div class="row">                        
+  <div class="col-lg-6">
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+      <legend><i class="fa fa-building"></i>&nbsp;Busqueda</legend> 
+      <div class="row">                              
+          <div class="col-lg-4">
+            <table class="caja" style="margin-left: 5px;width: 100%;margin-bottom: 5px;">
+              <tr><td>RUC</td></tr> 
+              <tr>
+                 <td>
+                   <input type="text" class="form-control"  placeholder="Ingrese Dirección" >
+                 </td>
+              </tr> 
+            </table>            
+          </div>
+          <div class="col-lg-4" >          
+            <table style="width: 98%;" class="caja">
+              <tr><td>CUS</td></tr> 
+              <tr>
+                <td>                  
+                  <select id="cars" class="form-control" >
+                    <option value="">--Tipo--</option>
+                    <option value="volvo">Calle</option>                       
+                    <option value="volvo">Avenida</option>
+                    <option value="volvo">Jirón</option>
+                  </select>
+                </td>
+              </tr> 
+            </table>
+          </div> 
+          <div class="col-lg-4">
+            <button type="button" class="btn btn-primary btn-sm  input caja"><i class="fa fa-search" ></i>&nbsp;&nbsp;Buscar </button>            
+          </div>                         
+      </div> 
+      <div class="row">                              
+        <div class="col-lg-4">
+          <table  class="caja" style="margin-left: 5px;width: 98%;">
+            <tr><td>Departamento</td></tr> 
+            <tr>
+              <td>
+                <select class="form-control" [(ngModel)]="ubigeo.coddepa"   (change)="obtenerubigeo(ubigeo.coddepa,0,0,2)"
+                style="border-right-width: 1px;border-left-width: 1px;border-top-width:1px;">
+                    <option value="0" >--Seleccione--</option>
+                    <option *ngFor="let depa of departamentos.listado" value="{{depa.Ubi_CodDepartamento}}" >{{depa.Ubi_Descripcion}}</option>
+                </select>
+              </td>
+            </tr> 
+          </table>        
+        </div>
+        <div class="col-lg-4" >          
+          <table  class="caja" style="margin-top: 5px;margin-left: 5px;width: 98%;">
+            <tr><td>Provincia</td></tr> 
+            <tr>
+              <td>
+                <select class="form-control" [(ngModel)]="ubigeo.codprov" (change)="obtenerubigeo(ubigeo.coddepa,ubigeo.codprov,0,3)" 
+                style="border-right-width: 1px;border-left-width: 1px;border-top-width: 1px;">
+                    <option value="0" >--Seleccione--</option>
+                    <option *ngFor="let prov of provincias.listado" value="{{prov.Ubi_CodProvincia}}">{{prov.Ubi_Descripcion}}</option>
+                </select>
+              </td>
+            </tr> 
+          </table>
+        </div> 
+        <div class="col-lg-4">
+          <table  class="caja" style="margin-top: 5px;margin-left: 5px;width: 98%;">
+            <tr><td>Distrito</td></tr> 
+            <tr>
+              <td>
+                <select class="form-control" [(ngModel)]="ubigeo.coddist"
+                style="border-right-width:1px;border-left-width: 1px;border-top-width: 1px;">
+                  <option value="0" >--Seleccione--</option>
+                  <option *ngFor="let dis of distritos.listado" value="{{dis.Ubi_CodDistrito}}">{{dis.Ubi_Descripcion}}</option>
+                </select>
+              </td>
+            </tr> 
+          </table>
+        </div>                         
+    </div>
+    </fieldset>  
+  </div>
+  <div class="col-lg-6">                   
+      <div class="row">                              
+          <div class="col-lg-12" style="padding-left: 0px;"> 
+            <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+              <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;Muestra para CC. SBN</legend> 
+              <div class="row">
+                <div class="col-lg-6">
+                  <table  class="caja" style="margin-top: 5px;margin-left: 5px;width: 98%;">
+                    <tr><td>Fecha Min.</td></tr> 
+                    <tr>
+                      <td>
+                        <input type="date" class="form-control" >
+                      </td>
+                    </tr> 
+                  </table>
+                </div> 
+                <div class="col-lg-6">
+                  <table  class="caja" style="margin-top: 5px;margin-left: 5px;width: 98%;">
+                    <tr><td>Fecha Max.</td></tr> 
+                    <tr>
+                      <td>
+                        <input type="date" class="form-control" >
+                      </td>
+                    </tr> 
+                  </table>
+                </div>
+              </div>  
+              <div class="row">
+                <div class="col-lg-6">
+                  <table  class="caja" style="margin-top: 5px;margin-left: 5px;width: 98%;">
+                    <tr><td>Tipo Seleccion</td></tr> 
+                    <tr>
+                      <td>
+                        <select id="cars" class="form-control" >
+                          <option value="">--Tipo--</option>
+                          <option value="volvo">Calle</option>                       
+                          <option value="volvo">Avenida</option>
+                          <option value="volvo">Jirón</option>
+                        </select>
+                      </td>
+                    </tr> 
+                  </table>
+                </div> 
+                <div class="col-lg-6">
+                  <button type="button" class="btn btn-primary btn-sm  input caja"><i class="fa fa-search" ></i>&nbsp;&nbsp;Buscar </button>            
+                </div>
+              </div>            
+            </fieldset>                      
+          </div>                                  
+      </div>     
+  </div>
+</div>

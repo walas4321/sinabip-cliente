@@ -1,0 +1,329 @@
+<div class="row">                      
+  <div class="col-lg-12" style="top:4px;">        
+    <div class="row">                        
+      <div class="col-lg-12">                     
+        <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+          <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Estado de la Construccion]</legend>                               
+          <div class="row">                              
+            <div class="col-lg-2">
+              <label for="">Estado del Terreno</label>
+            </div>
+            <div class="col-lg-4">              
+                <input type="text" *ngIf="datospredio.terreno=='1'"                
+                class="form-control"   
+                style="text-transform:uppercase;" 
+                disabled
+                value = "TERRENO PARA EDIFICACION">
+                <input type="text" *ngIf="datospredio.terreno=='2'"                
+                class="form-control"   
+                style="text-transform:uppercase;" 
+                disabled
+                value = "TERRENO PARA HABILITACION">
+            </div>                                   
+            <div class="col-lg-2">
+              <label for="">Porcentaje de Avance</label>
+            </div>
+            <div class="col-lg-4">
+              <input type="text"      
+              [(ngModel)]="datospredio.porcentaje"                   
+                class="form-control"   
+                style="text-transform:uppercase;" 
+                disabled>
+            </div>
+          </div>        
+        </fieldset>
+      </div>
+    </div> 
+    <div class="row">                        
+      <div class="col-lg-12">                     
+        <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+          <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Denominación de la Construcción]</legend>                               
+          <div class="row" style="margin-left: 10px;margin-right: 10px;">
+            <div class="col-md-12" id="div1">                                    
+                <table id="example2" class="table table-bordered table-striped table-hover" style="font-size: 12px">
+                    <thead>
+                        <tr>													
+                            <th>Item</th>                                                                
+                            <th>Descripcion</th>                         
+                        </tr>
+                    </thead> 
+                    <tbody>
+                        <ng-container>												
+                            <tr *ngFor="let list of listado"  (click)="cargar(list.codigo)" style="cursor:pointer">
+                              <td>{{ list.item }} </td>                              
+                              <td>{{ list.nombre }} </td>                           
+                            </tr>
+                        </ng-container>                    
+                    </tbody>		                       
+                </table>                    
+            </div>
+           </div>       
+        </fieldset>
+      </div>
+    </div> 
+    <div class="row" style="margin-top: 10px;margin-bottom: 10px">
+      <div class="col-lg-12 pl-5"> 
+        <button type="button" class="btn btn-secondary" (click)="moveItemListado('P')"><i class="fa fa-fast-backward" aria-hidden="true"></i></button>&nbsp;
+        <button type="button" class="btn btn-secondary" (click)="moveItemListado('A')"><i class="fa fa-backward" aria-hidden="true"></i></button>&nbsp;
+        <button type="button" class="btn btn-secondary" (click)="moveItemListado('S')"><i class="fa fa-forward" aria-hidden="true"></i></button>&nbsp;
+        <button type="button" class="btn btn-secondary" (click)="moveItemListado('U')"><i class="fa fa-fast-forward" aria-hidden="true"></i></button>
+      </div>
+    </div>
+    <div  class="row" style="margin-left: 0px;">   
+      <div class="col-lg-12">
+        <div class="row">                        
+          <div class="col-lg-6">
+            <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+              <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Nro Informes]</legend>                               
+              <div class="row">                              
+                <div class="col-lg-2">
+                  <label for="">Item: </label>
+                </div>
+                <div class="col-lg-4">
+                  <input type="text" 
+                    [(ngModel)]="itemActual"
+                    class="form-control"   
+                    style="text-transform:uppercase;" 
+                    disabled
+                  >
+                </div>
+                <div class="col-lg-2">
+                  <label for="">De: </label>
+                </div>
+                <div class="col-lg-4">
+                  <input type="text" 
+                    [(ngModel)]="cantidadRegistros"
+                    class="form-control"   
+                    style="text-transform:uppercase;" 
+                    disabled
+                  >
+                </div>
+              </div>      
+            </fieldset>
+          </div>
+          <div class="col-lg-6">
+            <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+              <legend><i class="fa fa-building"></i>&nbsp;Tipo y Construcción</legend> 
+              <div class="row bloque">                              
+                  <div class="col-lg-3">
+                    <table class="caja" style="margin-left: 5px;width: 100%;margin-bottom: 5px;">
+                      <tr><td>Piso</td></tr> 
+                      <tr>
+                         <td>
+                          <input type="text" class="form-control"  [(ngModel)]="dataRegistroActual.PISO" disabled>  
+                         </td>
+                      </tr> 
+                    </table>            
+                  </div>
+                  <div class="col-lg-5" >          
+                    <table style="width: 98%;" class="caja">
+                      <tr><td>Mes</td></tr> 
+                      <tr>
+                        <td>                                          
+                          <input type="text" class="form-control"  [(ngModel)]="dataRegistroActual.MES" disabled>  
+                        </td>
+                      </tr> 
+                    </table>
+                  </div> 
+                  <div class="col-lg-4">
+                    <table class="caja" style="margin-bottom: 5px;width: 95%;">
+                      <tr><td>Año</td></tr> 
+                      <tr>
+                         <td>
+                            <input type="text" class="form-control"  [(ngModel)]="dataRegistroActual.ANHIO_CONSTRUCCION" disabled>  
+                         </td>
+                      </tr> 
+                    </table>            
+                  </div>                         
+              </div> 
+            </fieldset>  
+          </div>  
+        </div>  
+      </div>                  
+     
+    </div>                    
+    <div class="row">                        
+      <div class="col-lg-12">
+        <div class="row">                        
+          <div class="col-lg-6">                                      
+              <div class="col-lg-12" style="padding-left: 0px;"> 
+                <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+                  <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;Estructura y Conservación</legend> 
+                  <div class="row bloque">
+                    <div class="col-lg-6">
+                      <table class="caja" style="margin-left: 5px;width: 100%;margin-bottom: 5px;">
+                        <tr><td>Material</td></tr> 
+                        <tr>
+                           <td>
+                            <input type="text" class="form-control"  [(ngModel)]="dataRegistroActual.CODIGO_MATERIAL" disabled>  
+                           </td>
+                        </tr> 
+                      </table>            
+                    </div>
+                    <div class="col-lg-6">
+                      <table class="caja" style="margin-left: 5px;width: 100%;margin-bottom: 5px;">
+                        <tr><td>Estado</td></tr> 
+                        <tr>
+                           <td>
+                            <input type="text" class="form-control"  [(ngModel)]="dataRegistroActual.CODIGO_ESTADO" disabled>  
+                           </td>
+                        </tr> 
+                      </table>            
+                    </div>
+                    
+                  </div>              
+                </fieldset>                      
+              </div>                                 
+          </div>
+          <div class="col-lg-6">                   
+            <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;padding-left: 10px;padding-bottom: 10px;">                
+              <legend><i class="fa fa-building"></i>&nbsp;Estructuras e Instalaciones</legend>             
+              <div class="row bloque">    
+                <div class="col-lg-12">    
+                  <div class="row">      
+                      <div class="col-lg-6">
+                          <table class="caja" >
+                          <tr><td>Muro</td></tr> 
+                          <tr>
+                            <td>                
+                              <input type="text" class="form-control"  [(ngModel)]="dataRegistroActual.MURO" disabled>  
+                            </td>
+                          </tr> 
+                        </table>
+                      </div>
+                      <div class="col-lg-6">
+                        <table style="width: 99%;">
+                          <tr><td>Techo</td></tr> 
+                          <tr>
+                             <td>
+                              <input type="text" class="form-control"  [(ngModel)]="dataRegistroActual.TECHO" disabled>  
+                             </td>
+                          </tr> 
+                        </table> 
+                      </div>                     
+                  </div>
+                </div>
+              </div>  
+              <div class="row">    
+                <div class="col-lg-12">    
+                  <div class="row">                                                  
+                      <div class="col-lg-6">
+                        <table class="caja">
+                          <tr><td>Eléctrica/Sanitaria</td></tr> 
+                          <tr>
+                             <td>
+                              <input type="text" class="form-control" disabled>  
+                             </td>
+                          </tr> 
+                        </table> 
+                      </div>
+                      <div class="col-lg-6"></div>
+                  </div>
+                </div>
+              </div>                           
+            </fieldset>      
+          </div>
+        </div>        
+        <div class="row">                        
+          <div class="col-lg-6">
+           
+            <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;padding-left: 10px;padding-bottom: 10px;">                
+              <legend><i class="fa fa-building"></i>&nbsp;Valores y Área</legend>             
+              <div class="row">    
+                <div class="col-lg-12">    
+                  <div class="row">      
+                      <div class="col-lg-6">
+                          <table class="caja">
+                          <tr><td>Valor Unitario($)</td></tr> 
+                          <tr>
+                            <td>                
+                              <input type="text" class="form-control" disabled >  
+                            </td>
+                          </tr> 
+                        </table>
+                      </div>
+                      <div class="col-lg-6">
+                        <table  style="width: 99%;" >
+                          <tr><td>Área Const. m²</td></tr> 
+                          <tr>
+                             <td>
+                              <input type="text" class="form-control"  [(ngModel)]="dataRegistroActual.AREA_CONSTRUIDA" disabled>  
+                             </td>
+                          </tr> 
+                        </table> 
+                      </div>                     
+                  </div>
+                  <div class="row">      
+                    <div class="col-lg-6">
+                      <table class="caja">
+                        <tr><td>Valor Estimado Total($)</td></tr> 
+                        <tr>
+                           <td>
+                            <input type="text" class="form-control"  [(ngModel)]="dataRegistroActual.VALOR_ESTIMADO" disabled>  
+                           </td>
+                        </tr> 
+                      </table> 
+                    </div>
+                    <div class="col-lg-6"></div>                    
+                </div>
+                </div>
+              </div>            
+                                      
+            </fieldset>  
+          </div>        
+          <div class="col-lg-6">                   
+              <div class="row">                              
+                  <div class="col-lg-12" style="padding-left: 0px;"> 
+                    <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+                      <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;Acabados</legend> 
+                      <div class="row" style="margin-bottom:5px;">
+                        <div class="col-lg-4">
+                          <table class="caja input">
+                            <tr><td>Pisos</td></tr> 
+                            <tr>
+                              <td>                
+                                <input type="text" class="form-control"  [(ngModel)]="dataRegistroActual.PISO" disabled>  
+                              </td>
+                            </tr> 
+                          </table>
+                        </div>
+                        <div class="col-lg-6">
+                          <table class="caja input">
+                            <tr><td>Puerta/Ventana</td></tr> 
+                            <tr>
+                              <td>                
+                                <input type="text" class="form-control"  [(ngModel)]="dataRegistroActual.PUERTA_VENTANA" disabled>  
+                              </td>
+                            </tr> 
+                          </table>
+                        </div>
+                      </div>
+                      <div class="row" style="margin-bottom:5px;">
+                        <div class="col-lg-6">
+                          <table class="caja input">
+                            <tr><td>Revestimiento</td></tr> 
+                            <tr>
+                              <td>                
+                                <input type="text" class="form-control"  [(ngModel)]="dataRegistroActual.REVESTIMIENTO" disabled>  
+                              </td>
+                            </tr> 
+                          </table>
+                        </div>
+                        <div class="col-lg-6">
+                          <table class="caja input">
+                            <tr><td>Baño</td></tr> 
+                            <tr>
+                              <td>                
+                                <input type="text" class="form-control"  [(ngModel)]="dataRegistroActual.BANHO" disabled>  
+                              </td>
+                            </tr> 
+                          </table>
+                        </div>
+                      </div>                                               
+                  </fieldset>                      
+                </div>                                  
+              </div>        
+          </div>
+        </div>                       
+      </div>
+    </div>                

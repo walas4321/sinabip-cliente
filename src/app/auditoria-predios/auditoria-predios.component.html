@@ -1,0 +1,433 @@
+<div class="row">
+  <div class="col-12">
+      <div class="card">
+          <div class="card-body">
+            <div class="row">
+                <div class="col-lg-4">
+                  <h4 class="card-title">Auditoria de cambios en Predios</h4>
+                  <h6 class="card-subtitle">Listado de Predios actualizados</h6>  
+                </div>
+                <div class="col-lg-2">
+                  <input type="text" class="form-control  input caja"  
+                    placeholder="Ingrese CUS " 
+                    [(ngModel)] = "unidad.cus"
+                    onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                    maxlength="8">
+                </div>
+                <div class="col-lg-1">
+                  <button style="margin-top: 10px;"type="button" class="btn btn-primary btn-sm  input caja" (click)="CargarListadoAuditoriaPredios()"><i class="fa fa-search" ></i>&nbsp;&nbsp;Buscar</button>
+                </div>
+                <div class="col-lg-1">
+                  <button style="margin-top: 10px;" type="button" class="btn btn-danger btn-sm  input caja" (click)="Limpiar()"><i class="fa fa-eraser" ></i>&nbsp;&nbsp;Limpiar</button>
+                </div>
+            </div>
+            <div class="table-responsive">              
+              <table class="table" style="font-size: 0.8rem;">
+                   <thead>
+                       <tr class="table100-head">														
+                           <th>Item</th>
+                           <th>Nº CUS</th>                                          
+                           <th>Nombre de Predio</th>
+                           <th>Departamento</th>
+                           <th>Provincia</th>
+                           <th>Distrito</th>
+                           <th>Usuario Creacion</th>
+                           <th>Fecha Creacion</th>
+                           <th>Usuario Modificacion</th>
+                           <th>Fecha Modificacion</th>
+                       </tr>
+                   </thead>
+                   <tbody  class="table-bordered3" >    
+                    <ng-container *ngIf="listadoPredios.length!==0">
+                      <tr *ngFor="let ver of listadoPredios; let in = index;">                                    
+                        <td>{{ ver.ROW_NUMBER_ID }}</td>
+                        <td>{{ ver.NRO_RSINABIP }}</td>
+                        <td>{{ ver.DENOMINACION_INMUEBLE }}</td>
+                        <td>{{ ver.DEPARTAMENTO }}</td>
+                        <td>{{ ver.PROVINCIA }}</td>  
+                        <td>{{ ver.DISTRITO }}</td>
+                        <td>{{ ver.NOMBRE_PERSONAL_CREACION }}</td> 
+                        <td>
+                         <div class="col-lg-2">
+                           <button type="button" class="btn btn-primary btn-sm  input caja" (click)="verCreacionRegistro(content1, ver.CODIGO_INTERNO, 'I')">&nbsp;&nbsp;{{ ver.FECHA_CREACION | date:'dd/MM/yyyy'}} </button>
+                         </div>
+                       </td> 
+                        <td>{{ ver.NOMBRE_PERSONAL_ULTIMA_MODIFICACION }}</td> 
+                        <td>
+                         <div class="col-lg-2">
+                           <button 
+                             type="button" 
+                             class="btn btn-success btn-sm  input caja" 
+                             (click)="verCreacionRegistro(content1, ver.CODIGO_INTERNO, 'U')" style="width: 140px;">&nbsp;&nbsp;{{ ver.FECHA_MODIFICACION | date:'short'}} </button>
+                         </div>
+                         </td>                        
+                      </tr> 
+                    </ng-container>
+                       
+                    
+                    <ng-container *ngIf="listadoPredios.length==0">
+                      <tr>                                    
+                        <td colspan="10">No se han encontrado registros</td>
+                      </tr>
+                    </ng-container>
+                                                                                           
+                   </tbody>		                                    									
+               </table>                     
+            </div>
+            <nav class="mt-3" *ngIf="total >= itemsPerPage">
+              <ngb-pagination [collectionSize]="total" [pageSize]="itemsPerPage" [(page)]="unidad.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+            </nav>
+          </div>
+      </div>
+  </div>
+</div>
+
+<ng-template #contentVerDocumentos let-modal>
+  <div class="row">                        
+    <div class="col-lg-12">
+      <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">  
+        <div class="row" style="padding-left: 10px;">
+          <div class="col-lg-4">          
+             <p *ngIf="this.nroCUS !== 0">Nº de CUS <b>{{ this.nroCUS }}</b></p>                                 
+          </div>
+          <div class="col-lg-4" *ngIf="etapaUD!='FINALIZADA'">          
+            <label class="container">Agregar doc. Técnico
+              <input type="radio" name="opt" (click)="ventana(contentAddDocs,'T')"> 
+              <span class="checkmark"></span>
+            </label>                                 
+          </div>
+          <div class="col-lg-4" *ngIf="etapaUD!='FINALIZADA'">          
+            <label class="container">Agregar doc. Legal
+              <input type="radio" name="opt" (click)="ventana(contentAddDocs,'L')">
+              <span class="checkmark"></span>
+            </label>       
+          </div>
+        </div>            
+        <legend><i class="fa fa-building"></i>&nbsp;Verificación Documental Tec/Legal</legend> 
+        <div class="row">                              
+            <div class="col-lg-12">
+              <table id="example2" class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>														                      
+                        <th>Item</th>
+                        <th>Descripcion Documento</th>
+                        <th>Tipo</th>
+                        <th *ngIf="etapaUD!='FINALIZADA'">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container>												
+                      <tr *ngFor="let ver of listadoverificacion; let in = index;">                                     
+                           <td>{{ ver.ROW_NUMBER_ID }}</td>
+                           <td>{{ ver.DESCRIPCIONTIPO }}</td>                       
+                           <td *ngIf="ver.TIPODOC_UDOCUMENTAL=='T'">Técnico</td>
+                           <td *ngIf="ver.TIPODOC_UDOCUMENTAL=='L'">Legal</td>
+                           <td *ngIf="etapaUD!='FINALIZADA'">
+                                <button  class='btn btn-danger' (click)="eliminardocumento(ver.CODIGO_UDOCUMENTAL,ver.CODIGO_TIPO_DOCUMENTO)">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>                                                                                                                                                                
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>													
+            </table>        
+            </div>                                   
+        </div>    
+        
+      </fieldset>  
+      <footer>
+        <button *ngIf="this.nroCUS == 0 && this.flag =='0'" 
+          (click)="modaleditar(modalpredio, 'X', 0, 0,0,contentVerDocumentos)"
+          type="button" 
+          class="btn btn-primary btn-sm"
+          style="margin-left: 75%; margin-bottom: 1%;"
+          >
+          <i class="fa fa--plus" aria-hidden="true" >Generar Predio</i>
+       </button>
+       <button *ngIf="this.nroCUS == 0 && this.flag =='1'" 
+          (click)="modal_editar2(modalpredio)"
+          type="button" 
+          class="btn btn-primary btn-sm"
+          style="margin-left: 75%; margin-bottom: 1%;"
+          >
+          <i class="fa fa--plus" aria-hidden="true" >Generar Predio </i>
+       </button>
+        <button 
+          (click)="this.modal.close();" 
+          type="button" 
+          class="btn btn-danger btn-sm" 
+          style="margin-left: 10px; margin-bottom: 8px;"
+          >
+        <i class="fa fa-close" ></i>&nbsp;&nbsp;Cerrar
+        </button> 
+      </footer>
+    </div> 
+  </div>
+</ng-template>
+
+<ng-template #contentAddDocs let-modal>            
+  <div class="modal-header">
+      <h4 class="modal-title" >Documentos UD {{nombre}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body" >                                     
+    <div class="row">          
+      <div class="col-lg-12">
+        <table id="example2" class="table table-bordered table-striped table-hover">
+          <thead>
+              <tr>														                 
+                  <th>Nombre Documento</th>
+                  <th>Acción</th>
+              </tr>
+          </thead>
+          <tbody>
+              <ng-container>												
+                  <tr *ngFor="let doc of documentos; let in = index;">                                  
+                      <td>{{doc.NMB_DOCUMENTO}}</td>
+                      <td>
+                          <button  class='btn btn-primary'>
+                              <i class="fa fa--plus" aria-hidden="true" (click)="agregardoc(doc.COD_DOCUMENTO)">Agregar</i>
+                          </button>                                                                                                                                                                
+                      </td>
+                  </tr>
+              </ng-container>
+          </tbody>													
+      </table>        
+      </div> 
+    </div>     
+  </div>
+    
+</ng-template>
+
+
+<ng-template #modalpredio let-modal>            
+  <div class="modal-header">
+    <h4 *ngIf="numero_cus!=''" class="modal-title" >MODIFICACION DE REGISTRO {{ tipoRegistro }} - </h4><br>
+    <h4 *ngIf="numero_cus!=''" class="modal-title" > CUS N° {{numero_cus}}</h4>
+   
+    <h4 *ngIf="numero_cus==''" class="modal-title" >INCORPORACION DE REGISTRO {{ tipoRegistro }} - </h4>
+    <h4 *ngIf="numero_cus==''" class="modal-title" > CUS POR DEFINIR</h4>
+
+
+   
+      <button type="button" class="close" aria-label="Close" (click)="cerrarventana()">
+        <span aria-hidden="true">&times;</span>
+      </button>    
+  </div>
+  <div class="modal-body" >                                 
+    <div class="row">            
+      <div class="col">
+          <div class="box box-solid box-danger">									
+              <div class="box-body">
+                  <div class="card">
+                      <nav class="card-header" style="font-size: 10px;">
+                          <div class="nav nav-pills" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-datg-tab" data-toggle="tab" href="#nav-datg" role="tab" aria-controls="nav-datg" aria-selected="true"><strong>Datos generales</strong></a>
+                            <a (click)="cargar(1)" class="nav-item nav-link" id="nav-titu-tab" data-toggle="tab" href="#nav-titu" role="tab" aria-controls="nav-titu" aria-selected="false" ><strong>Adquisicion e Inscripcion</strong></a>
+                            <a (click)="cargar(2)"class="nav-item nav-link " id="nav-lim-tab" data-toggle="tab" href="#nav-lim" role="tab" aria-controls="nav-lim" aria-selected="false" ><strong>Limitaciones a la Propiedad</strong></a>                          
+                            <a (click)="cargar(3)"class="nav-item nav-link " id="nav-opor-tab" data-toggle="tab" href="#nav-opor" role="tab" aria-controls="nav-opor" aria-selected="false" ><strong>Actos de Administración y Disposición</strong></a>
+                            <a (click)="cargar(4)"class="nav-item nav-link " id="nav-dat-tab" data-toggle="tab" href="#nav-dat" role="tab" aria-controls="nav-dat" aria-selected="false"><strong>Datos Técnicos</strong></a>
+                            <a (click)="cargar(5)"class="nav-item nav-link " id="nav-con-tab" data-toggle="tab" href="#nav-con" role="tab" aria-controls="nav-con" aria-selected="false"><strong>Construcciones</strong></a>
+                            <a (click)="cargar(6)"class="nav-item nav-link " id="nav-pote-tab" data-toggle="tab" href="#nav-pote" role="tab" aria-controls="nav-pote" aria-selected="false" ><strong>Obras y Valorización</strong></a>                          
+                            <a (click)="cargar(7)"class="nav-item nav-link " id="nav-zon-tab" data-toggle="tab" href="#nav-zon" role="tab" aria-controls="nav-zon" aria-selected="false"><strong>Zona de Playa</strong></a>                          
+                            <a (click)="cargar(8)" class="nav-item nav-link " id="nav-leg-tab" data-toggle="tab" href="#nav-leg" role="tab" aria-controls="nav-leg" aria-selected="false"><strong>Legajo Digital</strong></a>
+                            <a class="nav-item nav-link " id="nav-fot-tab" data-toggle="tab" href="#nav-fot" role="tab" aria-controls="nav-fot" aria-selected="false"><strong>Aporte de Fotos</strong></a>
+                            <!--<a class="nav-item nav-link " id="nav-pol-tab" data-toggle="tab" href="#nav-pol" role="tab" aria-controls="nav-pol" aria-selected="false"><strong>Aporte de Poligonos</strong></a>-->
+                          </div>
+                      </nav>
+                      <br>
+                      <div class="tab-content" id="nav-tabContent">
+                          <div class="tab-pane fade show active" id="nav-datg" role="tabpanel" aria-labelledby="nav-datg-tab">
+                              <app-datos-generales     
+                              [codigo_interno]="aux.codigo_interno"
+                              [coddocumental]="aux.coddocumental"
+                              [codigodocumento]="aux.codigodocumento"
+                              [nro_documento]="aux.nro_documento"
+                              [tipo_registro]="aux.tipo_registro"
+                              [bloquear]="0"
+                              [tipoUsuario]="tipoUsuario"
+                              (callbackcodigo) ="actualizarcodigo($event)"                       
+                              (callback)="actualizardatosgenerales($event)"                                
+                              ></app-datos-generales> 
+                              <br>
+                              <button type="button" class="btn btn-primary btn-sm" 
+                              style="margin-left: 15px;margin-bottom: 10px;"
+                              (click)="guardar(predio)">
+                              <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-titu" role="tabpanel" aria-labelledby="nav-titu-tab">                            
+                            <app-adquisicion                            
+                            [coddepa]="aux.codigodepa"   
+                            [detalle]="aux.detalle"        
+                            [codigo_interno]="aux.codigo_interno"
+                            [grabado]="aux.grabado"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                             (callback)="actualizaadquision($event)"
+                            ></app-adquisicion>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardar(predio)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>                          
+                          <div class="tab-pane fade" id="nav-lim" role="tabpanel" aria-labelledby="nav-lim-tab">
+                            <app-limitaciones
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizarlimitaciones($event)"
+                            ></app-limitaciones>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarlimitaciones(limitaciones)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-pote" role="tabpanel" aria-labelledby="nav-pote-tab">
+                            <app-obras
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizarobras($event)"  ></app-obras>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarobras(obras)">
+                            <i class="fa fa-save" aria-hidden="true"></i>GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-opor" role="tabpanel" aria-labelledby="nav-opor-tab">
+                            <app-actos
+                            [coddepa]="aux.codigodepa" 
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizaractos($event)"
+                            ></app-actos>
+                              <button type="button" class="btn btn-primary btn-sm" 
+                              style="margin-left: 15px;margin-bottom: 10px;"
+                              (click)="guardaractos(actos)">
+                              <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>                         
+                          <div class="tab-pane fade" id="nav-zon" role="tabpanel" aria-labelledby="nav-zon-tab">
+                            <app-zona
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizarzona($event)"  
+                            ></app-zona>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarzona(zona)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-con" role="tabpanel" aria-labelledby="nav-con-tab">
+                            <app-construccion
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            [grabado]="aux.grabado"
+                            (callback)="actualizarconstruccion($event)" 
+                            ></app-construccion>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarconstruccion(construccion)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                        
+                          <div class="tab-pane fade" id="nav-dat" role="tabpanel" aria-labelledby="nav-dat-tab">
+                            <app-datos-tecnicos
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizardatos($event)"
+                            ></app-datos-tecnicos>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardardatostecnicos(datos)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-leg" role="tabpanel" aria-labelledby="nav-leg-tab">
+                            <app-legajo
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizarzona($event)"  
+                            ></app-legajo>
+                          </div>
+                          <div class="tab-pane fade" id="nav-fot" role="tabpanel" aria-labelledby="nav-fot-tab">
+                            <app-aporte-fotos
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"                            
+                            [bloquear]="0"
+                            ></app-aporte-fotos>
+                            <!--<button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarfotos(zona)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>-->
+                          </div>
+                          <!--<div class="tab-pane fade" id="nav-pol" role="tabpanel" aria-labelledby="nav-pol-tab">
+                            <app-aporte-poligono
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            (callback)="actualizarzona($event)"   
+                            ></app-aporte-poligono>
+                          </div>-->
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>      
+  </div>
+  </div>   
+</ng-template>
+
+<ng-template #content1 let-modal>            
+  <div class="modal-header">
+      <h4 class="modal-title" >Detalle de la Auditoria</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body" >                                 
+    
+
+    <div class="row">
+      <div class="col-lg-12">  
+       <table id="example2" class="table m-t-30 no-wrap contact-list">
+           <thead>
+               <tr>														
+                   <th>Item</th>
+                   <th>Campo</th>                                          
+                   <th>Actualizado por</th>
+                   <th *ngIf="accion=='U'">Valor anterior </th>
+                   <th>Valor cambiado</th>
+                   <th>Fecha Actualizada</th>
+               </tr>
+           </thead>
+           <tbody>
+               <ng-container *ngIf="listadoDetalleAuditoria.length!==0">		
+                  <tr *ngFor="let doc of listadoDetalleAuditoria"> 										                                 
+                        <td>{{doc.ROW_NUMBER_ID}}</td>
+                        <td>{{doc.CAMPO}}</td>
+                        <td>{{doc.NOMBRE_COMPLETO}}</td>
+                        <td *ngIf="accion=='U'">{{doc.DATOS_ANTES}}</td>
+                        <td>{{doc.DATOS_DESPUES}}</td>
+                        <td>{{doc.FECHA_ACTUALIZADO | date:'short'}}</td>
+                  </tr>
+              </ng-container>
+                <ng-container *ngIf="listadoDetalleAuditoria.length==0">		
+                  <tr> 										                                 
+                         <td colspan="6">No se han encontrado registros</td>
+                  </tr>
+               </ng-container>
+           </tbody>													
+       </table>       
+      </div>
+    </div>
+    
+
+
+    
+    
+  </div>   
+</ng-template>

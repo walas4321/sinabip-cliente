@@ -1,0 +1,303 @@
+<div class="row" [ngClass]="{'bloquear': active}">                      
+  <div class="col-lg-6" style="top:4px;">
+     
+  </div>
+</div>
+
+<div class="row">                      
+  <div class="col-lg-12" style="top:4px;">
+    <fieldset style="margin-left: 23px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+      <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Datos de Fábrica]</legend> 
+      <div class="row">
+        <div class="col-lg-12" style="padding-left: 17px;">                                  
+          <button [ngClass]="{'bloquear': active}" class='btn btn-primary' style="margin-bottom: 10px;margin-top:10px;" (click)="modal1(content1,0)">
+              <i class="fa fa-plus" aria-hidden="true">&nbsp;Agregar</i>
+          </button> 
+          <div style="overflow-x:scroll" style="height: 150px;">
+            <table id="example2" class="table table-bordered table-striped table-hover" style="font-size: 10px;">
+                <thead>
+                    <tr>														
+                      
+                        <th>Acto</th>                                          
+                        <th>Detalle</th>                                                                                         
+                        <th>Área</th>
+                        <th>Moneda</th>
+                        <th>Valor</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let fab of fabricalinderos.fabrica; let i = index">											
+                        <tr>                                                                            
+                            <td style="text-transform:uppercase">{{fab.nombreacto}}</td>
+                            <td style="text-transform:uppercase">{{fab.nomdetalle}}</td>                                      
+                            <td>{{fab.area}}</td>
+                            <td style="text-transform:uppercase">{{fab.nommoneda}}</td>
+                            <td>{{fab.valorizacion}}</td>                                    
+                            <td>
+                              <button  class='btn btn-success espacio boton abj' (click)="modificarfabrica(i,content1)">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                              </button>
+                              <button [ngClass]="{'bloquear': active}" class='btn btn-danger espacio boton marg'(click)="quitarfabrica(i,fab.item)" 
+                              style="margin-left: 5px;">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                              </button>                                                                                                                                                                
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>													
+            </table>  
+          </div>                 
+        </div>
+      </div>              
+    </fieldset>  
+    
+    <fieldset style="margin-left: 23px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                
+      <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Linderos Legales]</legend> 
+      <div class="row">
+        <div class="col-md-12"> 
+          <button  [ngClass]="{'bloquear': active}" class='btn btn-primary' style="margin-bottom: 10px;margin-top:10px;" (click)="modal(content,0)"  >
+            <i class="fa fa-plus" aria-hidden="true">&nbsp;Agregar</i>
+          </button> 
+        <div style="overflow-x:scroll;overflow-y: scroll;height:200px">
+            <table id="example2" class="table table-bordered table-striped table-hover" style="font-size: 10px;">
+                <thead>
+                    <tr >														
+                      
+                        <th>Lindero</th>                                          
+                        <th style="width: 146px;">Colindancia</th>                                                        
+                        <th>Tramos</th>
+                        <th>Lados</th>                                
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let lindero of fabricalinderos.linderos; let i = index">												
+                        <tr style="font-size:12px">                                                                           
+                            <td>{{lindero.nomlind}}</td>   
+                            <td style="text-transform:uppercase">{{lindero.colindancia}}</td>      
+                            <td>{{lindero.tramos}}</td>   
+                            <td>{{lindero.lados}}</td>                                         
+                            <td>
+                                <button  class='btn btn-success espacio boton abj' (click)="modificarlindero(i,content)">
+                                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                                <button  class='btn btn-danger espacio boton marg' (click)="quitarlindero(i,lindero.item)"
+                                [ngClass]="{'bloquear': active}" style="margin-left: 5px;">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>                                                                                                                                                                
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>													
+            </table> 
+          </div>
+        </div>
+    </div> 
+    </fieldset> 
+    <br>
+  </div>
+</div>
+
+
+<ng-template #content let-modal>            
+  <div class="modal-header">
+      <h4 class="modal-title" >Linderos Legales</h4>
+      <button type="button" #closebutton class="close" aria-label="Close" (click)="modal.close();">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body" [ngClass]="{'bloquear': active}">                                 
+    <div class="row"> 
+      <div class="col-lg-6">
+        <table style="width: 100%;" class="caja">
+          <tr><td>Lindero</td></tr> 
+          <tr>
+            <td>                  
+              <select class="form-control"  [(ngModel)]="linderolegal.lindero" (change)="ObtenerNombre()">
+                <option value="0" >----TIPO----</option>
+                <option *ngFor="let li of lindero" value="{{li.CODIGO_LINDEROS}}">{{li.DESCRIPCION_LINDEROS}}</option>
+              </select>
+            </td>
+          </tr> 
+        </table>
+      </div>  
+      <div class="col-lg-6">
+        <table class="caja" style="width: 100%;" >
+          <tr><td>Colindancias</td></tr> 
+          <tr>
+            <td>
+              <input  [(ngModel)]="linderolegal.colindancia" type="text" style="text-transform:uppercase;"
+              class="form-control fecha"  placeholder="Ingrese Colindancia" >
+            </td>
+          </tr> 
+        </table>
+      </div>  
+    </div>
+    <div class="row"> 
+      <div class="col-lg-4">
+        <table style="width: 100%;" class="caja">
+          <tr><td>Tramos</td></tr> 
+          <tr>
+            <td>                  
+              <input [(ngModel)]="linderolegal.tramos" type="text" class="form-control fecha"  placeholder="Ingrese Número" 
+              onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="6"
+              (change)="validarentero(linderolegal.tramos,1)"
+              >
+            </td>
+          </tr> 
+        </table>
+      </div>  
+      <div class="col-lg-4">
+        <table class="caja" style="width: 100%;">
+          <tr><td>Lados</td></tr> 
+          <tr>
+            <td>
+              <input [(ngModel)]="linderolegal.lados" type="text" class="form-control fecha"  placeholder="Ingrese Número : XX.XX" 
+              appTwoDigitDecimaNumber onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46"
+              maxlength="9" (change)="validardecimal(linderolegal.lados,3)"
+              >
+            </td>
+          </tr> 
+        </table>
+      </div>  
+      <div class="col-lg-4">
+        <table class="caja" style="width: 100%;">
+          <tr><td>Nº Municipal</td></tr> 
+          <tr>
+            <td>
+              <input  [(ngModel)]="linderolegal.municipal"type="text" class="form-control fecha"  placeholder="Ingrese Número" 
+              onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+              (change)="validarentero(linderolegal.municipal,2)"
+              >
+            </td>
+          </tr> 
+        </table>
+      </div>
+    </div>
+    <div class="row"> 
+      <div class="col-lg-7"></div>
+      <div class="col-lg-3">
+        <button  class='btn btn-primary caja' style="margin-bottom: 10px;margin-top:10px;" *ngIf="tipo==0">
+            <i class="fa fa-plus" aria-hidden="true" (click)="agregarlindero()">&nbsp;Agregar Lindero</i>
+        </button>
+        <button  class='btn btn-primary caja' style="margin-bottom: 10px;margin-top:10px;" *ngIf="tipo==1">
+          <i class="fa fa-plus" aria-hidden="true" (click)="editarlindero()">&nbsp;Editar Lindero</i>
+        </button> 
+      </div>
+      <div class="col-lg-2">
+        <button  class='btn btn-danger caja' style="margin-bottom: 10px;margin-top:10px;">
+          <i class="fa fa-trash-o" aria-hidden="true" (click)="limpiarlindero()">&nbsp;Limpiar</i>
+        </button>
+      </div>  
+    </div> 
+  </div>
+</ng-template>
+
+
+<ng-template #content1 let-modal>            
+  <div class="modal-header">
+      <h4 class="modal-title" >Datos de Fábrica</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body" [ngClass]="{'bloquear': active}">                                 
+    <div class="row"> 
+      <div class="col-lg-4">
+        <table style="width: 100%;" class="caja">
+          <tr><td>Tipo de Acto</td></tr> 
+          <tr>
+            <td>                  
+              <select class="form-control" (change)="detcAto(fabrica.tipoacto)"  [(ngModel)]="fabrica.tipoacto" >
+                <option value="0" >----TIPO----</option>
+                <option *ngFor="let act of acto" value="{{act.CODIGO_DETALLE}}">{{act.DSC_DETALLE}}</option>
+              </select>
+            </td>
+          </tr> 
+        </table>
+      </div>  
+      <div class="col-lg-4">
+        <table class="caja" style="width: 100%;" >
+          <tr><td>Detalle de Acto</td></tr> 
+          <tr>
+            <td>                  
+              <select class="form-control" [(ngModel)]="fabrica.detacto" (change)="ObtenerNombreDetalle()">
+                <option value="0" >----TIPO----</option>
+                <option *ngFor="let de of detalleacto" value="{{de.CODIGO_DETALLE}}">{{de.DSC_DETALLE}}</option>
+              </select>
+            </td>
+          </tr> 
+        </table>
+      </div>
+      <div class="col-lg-4">
+        <table class="caja" style="width: 100%;" > 
+          <tr><td>Fecha</td></tr> 
+          <tr>
+            <td>                  
+              <input type="date" class="form-control fecha"  [(ngModel)]="fabrica.fecha"
+              min="1900-01-02" max="2030-12-31" (change)="validarfecha(fabrica.fecha)">
+            </td>
+          </tr> 
+        </table>
+      </div>  
+    </div>
+    <div class="row"> 
+      <div class="col-lg-4">
+        <table style="width: 100%;" class="caja">
+          <tr><td>Área en m²</td></tr> 
+          <tr>
+            <td>                  
+              <input type="text" class="form-control fecha"  placeholder="Ingrese Número" [(ngModel)]="fabrica.area" appTwoDigitDecimaNumber
+              onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46" maxlength="10"
+              (change)="validardecimal(fabrica.area,4)">
+            </td>
+          </tr> 
+        </table>
+      </div>  
+      <div class="col-lg-4">
+        <table class="caja" style="width: 100%;">
+          <tr><td>Moneda</td></tr> 
+          <tr>
+            <td>
+              <select class="form-control" [(ngModel)]="fabrica.moneda" (change)="ObtenerMoneda(fabrica.moneda)" >
+                <option value="0" >----TIPO----</option>
+                <option *ngFor="let mo of moneda" value="{{mo.CODIGO_DETALLE}}">{{mo.DSC_DETALLE}}</option>
+                <option value="I" disabled>INTIS</option>
+              </select>
+            </td>
+          </tr> 
+        </table>
+      </div>  
+      <div class="col-lg-4">
+        <table class="caja" style="width: 100%;">
+          <tr><td>Valorización S/.</td></tr> 
+          <tr>
+            <td>
+              <input type="text" class="form-control fecha"  placeholder="Ingrese Número" [(ngModel)]="fabrica.valorizacion" appTwoDigitDecimaNumber
+              onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46" maxlength="13"
+              (change)="validardecimal(fabrica.valorizacion,5)"
+              >
+            </td>
+          </tr> 
+        </table>
+      </div>
+    </div>
+    <div class="row"> 
+      <div class="col-lg-7"></div>
+      <div class="col-lg-3">
+        <button  class='btn btn-primary caja' style="margin-bottom: 10px;margin-top:10px;" *ngIf="tipo1==0">
+            <i class="fa fa-plus" aria-hidden="true" (click)="agregarfabrica()">&nbsp;Agregar Fabrica</i>
+        </button>
+        <button  class='btn btn-primary caja' style="margin-bottom: 10px;margin-top:10px;" *ngIf="tipo1==1">
+          <i class="fa fa-plus" aria-hidden="true" (click)="editarfabrica()">&nbsp;Editar Fabrica</i>
+        </button>
+      </div>
+      <div class="col-lg-2">
+        <button  class='btn btn-danger caja' style="margin-bottom: 10px;margin-top:10px;">
+          <i class="fa fa-trash-o" aria-hidden="true"  (click)="limpiarfabrica()" >&nbsp;Limpiar</i>
+        </button>
+      </div>  
+    </div> 
+  </div>
+</ng-template>

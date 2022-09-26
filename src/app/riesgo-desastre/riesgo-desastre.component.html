@@ -1,0 +1,66 @@
+<div [ngClass]="{'bloquear': active}">
+  <div class="row">                        
+  <div class="col-lg-12">
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+      <legend><i class="fa fa-building"></i>&nbsp;Riesgo de Desastres</legend> 
+      <div class="row fila" >                                      
+        <div class="col-lg-2" style="margin-top:5px">
+            <p>Nivel de Riesgo</p>           
+        </div>
+        <div class="col-lg-10" >           
+          <select class="form-control" [(ngModel)]="riesgo.codnivel" (change)="validarRiesgo(riesgo)" >
+            <option value="0" >----TIPO----</option>
+            <option *ngFor="let la of listadoRiesgo" value="{{la.CODIGO_NIVEL_RIESGO}}">{{la.DESCRIPCION_NIVEL_RIESGO}}</option>
+          </select>                        
+        </div>                                         
+      </div>
+      <div class="row fila">
+        <div class="col-lg-2" style="margin-top:5px">
+          <p>Fuente del nivel de Riesgo</p>           
+        </div>
+        <div class="col-lg-10" >           
+          <textarea class="form-control"  [(ngModel)]="riesgo.fuenteNivel" style="text-transform:uppercase"
+            (change)="validarRiesgo(riesgo)" placeholder="Ingrese Observaciones" rows="4" maxlength="500">
+          </textarea>
+        </div>  
+      </div>
+
+      <div class="row fila" >                                      
+        <div class="col-lg-2" style="margin-top:5px">
+            <p>Fecha de evaluación</p>           
+        </div>
+        <div class="col-lg-4" >
+          <input type="date" class="form-control" 
+            [(ngModel)]="riesgo.fechaEvaluacion"  
+            [disabled]="flag_bloq_1"
+            (change)="validarRiesgo(riesgo)" 
+            min="1901-01-01" max="2099-12-31"
+          >                        
+        </div>
+        <div class="col-lg-2" style="margin-top:5px">
+          <p>Fecha de ingreso</p>           
+        </div>
+        <div class="col-lg-4" >           
+          <input type="date" class="form-control" 
+            [(ngModel)]="riesgo.fechaIngreso"  
+            [disabled]="flag_bloq_1"
+            (change)="validarRiesgo(riesgo)" 
+            min="1901-01-01" max="2099-12-31"
+          >                        
+        </div>                                          
+      </div>
+      <div class="row fila">
+        <div class="col-lg-2" style="margin-top:5px">
+          <p>Observaciones de Riesgo</p>           
+        </div>
+        <div class="col-lg-10" >           
+          <textarea class="form-control"  [(ngModel)]="riesgo.observaciones" style="text-transform:uppercase"
+            (change)="validarRiesgo(riesgo)" placeholder="Ingrese Observaciones" rows="4" maxlength="500">
+          </textarea>
+        </div>  
+      </div>
+    </fieldset>  
+  </div>
+  </div>
+
+</div>

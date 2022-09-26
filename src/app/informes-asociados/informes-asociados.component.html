@@ -1,0 +1,433 @@
+  <div class="row">                      
+    <div class="col-lg-12" style="top:4px;">
+    
+      <div class="row">
+        <div class="col-lg-3 pl-5"> 
+          <button type="button" class="btn btn-secondary" (click)="moveItemListado('P')"><i class="fa fa-fast-backward" aria-hidden="true"></i></button>&nbsp;
+          <button type="button" class="btn btn-secondary" (click)="moveItemListado('A')"><i class="fa fa-backward" aria-hidden="true"></i></button>&nbsp;
+          <button type="button" class="btn btn-secondary" (click)="moveItemListado('S')"><i class="fa fa-forward" aria-hidden="true"></i></button>&nbsp;
+          <button type="button" class="btn btn-secondary" (click)="moveItemListado('U')"><i class="fa fa-fast-forward" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="row">                        
+        <div class="col-lg-3">                     
+          <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+            <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Nº Informes]</legend>                               
+            <div class="row">                              
+              <div class="col-lg-2">
+                <label for="">Item: </label>
+              </div>
+              <div class="col-lg-4">
+                <input type="text" 
+                  [(ngModel)]="itemActual"
+                  class="form-control"   
+                  style="text-transform:uppercase;" 
+                  readonly
+                >
+              </div>
+            </div>
+            <div class="row">                              
+              <div class="col-lg-2">
+                <label for="">De: </label>
+              </div>
+              <div class="col-lg-4">
+                <input type="text" 
+                  [(ngModel)]="cantidadRegistros"
+                  class="form-control"   
+                  style="text-transform:uppercase;" 
+                  readonly
+                >
+              </div>
+            </div>
+          </fieldset>
+        </div>
+  
+        <div class="col-lg-4">                     
+          <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+            <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Documentos]</legend>                               
+            <div class="row">                              
+              <div class="col-lg-3">
+                <label for="">Solicitud Ingreso </label>
+              </div>
+              <div class="col-lg-9">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.SOLIC_INGRESO"
+                  class="form-control"   
+                  style="text-transform:uppercase;"
+                  readonly
+                >
+              </div>
+            </div>
+            <div class="row">                              
+              <div class="col-lg-3">
+                <label for="">Expediente </label>
+              </div>
+              <div class="col-lg-9">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.EXPEDIENTE"
+                  class="form-control"   
+                  style="text-transform:uppercase;" 
+                  readonly
+                >
+              </div>
+            </div>
+          </fieldset>
+        </div>
+  
+        <div class="col-lg-5">                     
+          <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+            <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Informe]</legend>                               
+            <div class="row">                              
+              <div class="col-lg-3">
+                <label for="">Tipo de Informe </label>
+              </div>
+              <div class="col-lg-9">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.TIPO"
+                  class="form-control"   
+                  style="text-transform:uppercase;" 
+                  readonly
+                >
+              </div>
+            </div>
+            <div class="row">                              
+              <div class="col-lg-3">
+                <label for="">Nº de Informe </label>
+              </div>
+              <div class="col-lg-9">
+                <div class="row">
+                  <div class="col-lg-10">
+                    <input type="text" 
+                      [(ngModel)]="dataRegistroActual.DSC_INFORME_TL"
+                      class="form-control"   
+                      style="text-transform:uppercase;" 
+                      readonly
+                    >
+                  </div>
+                  <div class="col-lg-2" style="padding-left: 0px;">
+                    <button type="button" class="btn btn-success" (click)="openDetalleInforme(modalDetalleInforme)"><i class="fa fa-list-alt" aria-hidden="true"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+  
+  
+      <div class="row">                        
+        <div class="col-lg-12">                     
+          <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+            <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Área y Asignación]</legend>                               
+            <div class="row pb-2">                              
+              <div class="col-lg-2">
+                <label for="">Área</label>
+              </div>
+              <div class="col-lg-4">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.JEFATURA"
+                  class="form-control"   
+                  style="text-transform:uppercase;" 
+                  readonly
+                  >
+              </div>
+              <div class="col-lg-1" style="font-size: 14px;">
+                <label for="">Recepcionado</label>
+              </div>
+              <div class="col-lg-2">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.FEC_RECEPCION"
+                  class="form-control"   
+                  style="text-transform:uppercase;"
+                  readonly
+                  >
+              </div>
+              <div class="col-lg-1">
+                <label for="">Asignado</label>
+              </div>
+              <div class="col-lg-2">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.FEC_ASIGNACION"
+                  class="form-control"   
+                  style="text-transform:uppercase;" 
+                  readonly
+                  >
+              </div>  
+            </div>
+  
+            <div class="row">                              
+              <div class="col-lg-2">
+                <label for="">Resp. Legal</label>
+              </div>
+              <div class="col-lg-4">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.RESP_LEGAL"
+                  class="form-control"   
+                  style="text-transform:uppercase;" 
+                  readonly
+                  >
+              </div>
+              <div class="col-lg-1">
+                <label for="">Resp. Técnico</label>
+              </div>
+              <div class="col-lg-5">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.RESP_TECNICO"
+                  class="form-control"   
+                  style="text-transform:uppercase;"
+                  readonly
+                  >
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      
+      <div class="row">                        
+        <div class="col-lg-12">                     
+          <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+            <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Solicitante]</legend>                               
+            <div class="row pb-2">                              
+              <div class="col-lg-2">
+                <label for="">Área Solicitada m2</label>
+              </div>
+              <div class="col-lg-4">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.AREA_SOLICITADA"
+                  class="form-control"   
+                  style="text-transform:uppercase;" 
+                  readonly
+                >
+              </div>
+              <div class="col-lg-1">
+                <label for="">Trámite</label>
+              </div>
+              <div class="col-lg-5">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.TRAMITE"
+                  class="form-control"   
+                  style="text-transform:uppercase;" 
+                  readonly
+                >
+              </div>
+            </div>
+            <div class="row pb-2">                              
+              <div class="col-lg-2">
+                <label for="">Razón Social</label>
+              </div>
+              <div class="col-lg-4">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.RAZON_SOCIAL"
+                  class="form-control"   
+                  style="text-transform:uppercase;" 
+                  readonly
+                >
+              </div>
+              <div class="col-lg-1">
+                <label for="">Solicitante</label>
+              </div>
+              <div class="col-lg-5">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.SOLICITANTE"
+                  class="form-control"   
+                  style="text-transform:uppercase;" 
+                  readonly
+                >
+              </div>
+            </div>                       
+          </fieldset>
+        </div>
+      </div>
+      
+      <div class="row">                        
+        <div class="col-lg-12">                     
+          <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+            <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Situación del Informe]</legend>                               
+            <div class="row pb-2">                              
+              <div class="col-lg-2">
+                <label for="">Estado</label>
+              </div>
+              <div class="col-lg-4">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.ESTADO_INFORME"
+                  class="form-control"   
+                  style="text-transform:uppercase;" 
+                  readonly
+                >
+              </div>
+              <div class="col-lg-3">
+                <label for="">Adjunta Proyecto Resolución</label>
+              </div>
+              <div class="col-lg-3">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.PROY_RESOLUCION"
+                  class="form-control"   
+                  style="text-transform:uppercase;"
+                  readonly
+                  >
+              </div>
+            </div>
+            <div class="row">                              
+              <div class="col-lg-2">
+                <label for="">Observación</label>
+              </div>
+              <div class="col-lg-10">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.OBS_INFORME"
+                  class="form-control"   
+                  style="text-transform:uppercase;" 
+                  readonly
+                >
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+  
+      <div class="row">                        
+        <div class="col-lg-12">                     
+          <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+            <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Resolución vinculada]</legend>                               
+            <div class="row">                              
+              <div class="col-lg-2">
+                <label for="">Nº Resolución</label>
+              </div>
+              <div class="col-lg-4">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.DSC_RESOLUCION"
+                  class="form-control"   
+                  style="text-transform:uppercase;" 
+                  readonly
+                  >
+              </div>
+              <div class="col-lg-1">
+                <label for="">Fecha Emisión</label>
+              </div>
+              <div class="col-lg-2">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.FEC_EMISION"
+                  class="form-control"   
+                  style="text-transform:uppercase;"
+                  readonly
+                  >
+              </div>
+              <div class="col-lg-1">
+                <label for="">Estado Inscripción</label>
+              </div>
+              <div class="col-lg-2">
+                <input type="text" 
+                  [(ngModel)]="dataRegistroActual.EST_INSCRIPCION"
+                  class="form-control"   
+                  style="text-transform:uppercase;" 
+                  readonly
+                  >
+              </div>  
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      <br>
+    </div>
+  </div>
+
+<ng-template #modalDetalleInforme let-modal>   
+  <div style="background-color: #8a2a2b;">      
+    <div class="row" style="height: 60px;">
+      <div class="col-lg-4">
+        <img _ngcontent-aou-c1="" style="width: 35%;margin-top: 5px;padding-left: 10px" class="img" src="../assets/images/principal.png">
+      </div>
+      <div class="col-lg-4">
+        <h4 class="modal-title " style="color:white;padding-top: 5px;" align="center">SINABIP</h4>
+      </div>
+      <div class="col-lg-4">
+        <img _ngcontent-aou-c1="" class="img" style="width: 35%;margin-top: 5px;float: right;padding-right: 10px" src="../assets/images/logo-sbn-blanco.png" >            
+      </div>
+    </div>                            
+  </div>            
+  <div class="modal-header">
+    <h4 *ngIf="numerocus!=''" class="modal-title" >Detalle de Informe Técnico Legal  </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+      <span aria-hidden="true">&times;</span>
+</button>   
+  </div>
+  <div class="modal-body" >                                 
+    <div class="row">          
+      <div class="col">
+          <div class="box box-solid box-danger">									
+              <div class="box-body">
+                  <div class="card">
+                    <div class="row">
+                      <div class="col-3">
+                        <nav class="nav flex-column card-header" style="font-size: 10px; width: 250px;">                          
+                          <a class="nav-link" id="nav-datosExpediente-tab" data-toggle="tab" href="#nav-datosExpediente" role="tab" aria-controls="nav-datosExpediente" aria-selected="false">Datos del Expediente</a>
+                          <a class="nav-link" id="nav-datosPredio-tab" data-toggle="tab" href="#nav-datosPredio" role="tab" aria-controls="nav-datosPredio" aria-selected="false">Datos del Predio</a>
+                          <a class="nav-link" id="nav-datosInspeccionTecnica-tab" data-toggle="tab" href="#nav-datosInspeccionTecnica" role="tab" aria-controls="nav-datosInspeccionTecnica" aria-selected="false">Inspección Técnica</a>
+                          <a class="nav-link" id="nav-InformacionTecnica-tab" data-toggle="tab" href="#nav-InformacionTecnica" role="tab" aria-controls="nav-InformacionTecnica" aria-selected="false">Información Técnica</a>
+                          <a class="nav-link" id="nav-CaracteristicasTecnicas-tab" data-toggle="tab" href="#nav-CaracteristicasTecnicas" role="tab" aria-controls="nav-CaracteristicasTecnicas" aria-selected="false">Características Técnicas</a>
+                          <a class="nav-link" id="nav-Construcciones-tab" data-toggle="tab" href="#nav-Construcciones" role="tab" aria-controls="nav-Construcciones" aria-selected="false">Construcciones</a>
+                          <a class="nav-link" id="nav-Valorizacion-tab" data-toggle="tab" href="#nav-Valorizacion" role="tab" aria-controls="nav-Valorizacion" aria-selected="false">Construcciones y Valorización</a>                         
+                        </nav>
+                      </div>
+                      <div class="col-9">
+                        <div class="tab-content" id="nav-tabContent">
+                              <div class="tab-pane fade show active" id="nav-datosExpediente" role="tabpanel" aria-labelledby="nav-datosExpediente-tab">                            
+                                <app-i-datos-expediente   
+                                [codigo_interno]=" this.parametros.codigo_interno"
+                                [codigo_preventivo]="this.parametros.codigo_preventivo"
+                                [sol_ing]="this.parametros.sol_ing"
+                              
+                                ></app-i-datos-expediente>
+                              </div>
+                              <div class="tab-pane fade" id="nav-datosPredio" role="tabpanel" aria-labelledby="nav-datosPredio-tab">
+                                  <app-i-datos-predio
+                                  [codigo_interno]=" this.parametros.codigo_interno"
+                                  [codigo_preventivo]="this.parametros.codigo_preventivo"
+                                  [sol_ing]="this.parametros.sol_ing"                                                                 
+                                  ></app-i-datos-predio> 
+                              </div>                          
+                              <div class="tab-pane fade" id="nav-datosInspeccionTecnica" role="tabpanel" aria-labelledby="nav-datosInspeccionTecnica-tab">
+                                <app-i-datos-inspeccion   
+                                [codigo_interno]=" this.parametros.codigo_interno"
+                                [codigo_preventivo]="this.parametros.codigo_preventivo"
+                                [sol_ing]="this.parametros.sol_ing"                                           
+                                ></app-i-datos-inspeccion> 
+                              </div>
+                              <div class="tab-pane fade" id="nav-InformacionTecnica" role="tabpanel" aria-labelledby="nav-InformacionTecnica-tab">
+                                <app-i-datos-informacion      
+                                [codigo_interno]=" this.parametros.codigo_interno"
+                                [codigo_preventivo]="this.parametros.codigo_preventivo"
+                                [sol_ing]="this.parametros.sol_ing"
+                                ></app-i-datos-informacion> 
+                              </div>
+                              <div class="tab-pane fade" id="nav-CaracteristicasTecnicas" role="tabpanel" aria-labelledby="nav-CaracteristicasTecnicas-tab">
+                                <app-i-datos-caracteristicas        
+                                [codigo_interno]=" this.parametros.codigo_interno"
+                                [codigo_preventivo]="this.parametros.codigo_preventivo"
+                                [sol_ing]="this.parametros.sol_ing"                           
+                                ></app-i-datos-caracteristicas> 
+                              </div>
+                              <div class="tab-pane fade" id="nav-Construcciones" role="tabpanel" aria-labelledby="nav-Construcciones-tab">
+                                <app-i-datos-construcciones    
+                                [codigo_interno]=" this.parametros.codigo_interno"
+                                [codigo_preventivo]="this.parametros.codigo_preventivo"
+                                [sol_ing]="this.parametros.sol_ing"                                                         
+                                ></app-i-datos-construcciones> 
+                              </div>
+                              <div class="tab-pane fade" id="nav-Valorizacion" role="tabpanel" aria-labelledby="nav-Valorizacion-tab">
+                                <app-i-datos-valorizacion     
+                                [codigo_interno]=" this.parametros.codigo_interno"
+                                [codigo_preventivo]="this.parametros.codigo_preventivo"
+                                [sol_ing]="this.parametros.sol_ing"                                           
+                                ></app-i-datos-valorizacion> 
+                              </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+              </div>
+          </div>
+      </div>      
+  </div>
+  </div>   
+</ng-template>

@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  
+
+
+  <!-- Bootstrap 3.3.7 -->
+
+  <!-- Google Font -->
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+
+<body>
+
+<div class="wrapper">
+
+
+<!-- Content Wrapper. Contains page content -->
+<div>
+
+  <section class="content">
+
+    <!-- SECCION FINTRO DE BUSQUEDA -->
+    <div class="box box-danger">
+      <div class="box-header with-border">
+        <h3 class="box-title">Filtro de Busqueda</h3>        
+      </div>
+      <div class="box box-danger"></div>
+
+      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="sbn-tab" data-toggle="tab" href="#sbn" role="tab" aria-controls="sbn" aria-selected="true">SBN</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="externas-tab" data-toggle="tab" href="#externas" role="tab" aria-controls="externas" aria-selected="false">Entidades</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="notificados-tab" data-toggle="tab" href="#notificados" role="tab" aria-controls="notificados" aria-selected="false">Notificados</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="aprobados-tab" data-toggle="tab" href="#aprobados" role="tab" aria-controls="aprobados" aria-selected="false">Aprobados</a>
+        </li>
+      </ul>
+     
+      <div class="tab-content" id="myTabContent">
+        <!-- PESTAÑA REGISTRADO POR PERSONAL DE SBN (INTERNOS) -->
+        <div class="tab-pane fade show active" id="sbn" role="tabpanel" aria-labelledby="sbn-tab">
+          <div class="box-body">
+            <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px; margin-top: -20px;">                
+              <legend></legend>
+                <div class="row">
+                  <div class="col-md-5">
+                      <div class="form-group">
+                        <label for="rucs">RUC</label>
+                        <input type="text" id="rucs" name="rucs" class="form-control" placeholder="Ingrese Nro de RUC"
+                            required minlength="11" maxlength="11" appForbiddenName="bob" 
+                            [(ngModel)]="filtro.rucs" #rucs="ngModel"
+                            >
+                      </div>
+                  </div>   
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="exampcusleInputEmail1">Nro CUS</label>
+                      <input type="text" class="form-control" id="cus" placeholder="Ingrese Nro CUS" [(ngModel)]="filtro.cus">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <button class="btn btn-primary margenButton" (click)="Busqueda_Cus_registrados_internos()">Buscar</button>
+                    <button class="btn btn-danger"(click)="BorrarFiltro()">Borrar</button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                      <div class="form-group">
+                        <label>Departamento</label>
+                        <select class="form-control select2" style="width: 100%;" [(ngModel)]="filtro.coddepa" 
+                            (change)="obtenerubigeo(filtro.coddepa,0,0,2)">
+                          <option selected="selected" value="0">:: Seleccione opcion ::</option>
+                          <option *ngFor="let depa of departamentos.listado" value="{{depa.Ubi_CodDepartamento}}" >{{depa.Ubi_Descripcion}}</option>
+                        </select>
+                      </div>
+                  </div>   
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Provincia</label>
+                      <select class="form-control select2" style="width: 100%;" [(ngModel)]="filtro.codprov"
+                          (change)="obtenerubigeo(filtro.coddepa,filtro.codprov,0,3)">
+                        <option selected="selected" value="0">:: Seleccione opcion ::</option>
+                        <option *ngFor="let prov of provincias.listado" value="{{prov.Ubi_CodProvincia}}">{{prov.Ubi_Descripcion}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Distrito</label>
+                      <select class="form-control select2" style="width: 100%;" [(ngModel)]="filtro.coddist">
+                        <option selected="selected" value="0">:: Seleccione opcion ::</option>
+                        <option *ngFor="let dis of distritos.listado" value="{{dis.Ubi_CodDistrito}}">{{dis.Ubi_Descripcion}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                      <div class="form-group">
+                        <label>Tipo de Seleccion</label>
+                        <select class="form-control select2" style="width: 100%;" [(ngModel)]="filtro.tipoSeleccion">
+                          <option selected="selected" value="1">Seleccion Aleatoria (10%)</option>
+                          <option value="2">Seleccion Total</option>
+                        </select>
+                      </div>
+                  </div>   
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Fecha de Inicio</label>
+                        <input class="form-control" type="date" value="" id="example-date-input"
+                          [(ngModel)]="filtro.fechaInicio">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Fecha Final</label>
+                        <input class="form-control" type="date" value="" id="example-date-input"
+                          [(ngModel)]="filtro.fechaFinal">
+                    </div>
+                  </div>
+                  <div class="box-footer">
+                    <!-- <a href="https://select2.github.io/">Descargar la Guia del usuario</a> -->
+                  </div>
+                </div>
+              </fieldset>  
+          </div>
+
+          
+          <div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">Resultado de la Busqueda</h3>
+            </div>
+            <div class="box box-success"></div>
+          </div>
+          <div class="table-responsive" style="height: 900px;">
+            <table class="table table-hover">
+              <tr>
+                <th><i class="fa fa-exclamation-circle" aria-hidden="true"></i></th>
+                <th>Item</th>
+                <th>CUS</th>
+                <th>Nro. Documento</th>
+                <th>Nro U.D.</th>
+                <!-- <th>Creacion</th>
+                <th>Usuario Creac.</th> -->
+                <th>Fecha Finalización</th>
+                <th>Entidad</th>
+                <th>Departamento</th>
+                <th>Provincia</th>
+                <th>Distrito</th>
+                <th>Prof Tecnico</th>
+                <th>Prof. Legal</th>
+                <th>Tipo Registro</th>
+                <!--<th>Verificar</th>
+                <th>Revisar</th>
+                <th>Aprobar</th>-->
+                <th>Acción</th>
+              </tr>
+              <tr *ngFor="let registro of dataResultadoTotal.listadoCusRegistradosOK">
+                <td> 
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true" *ngIf="registro.ID_OBSERVACIONES_NOTIFICADAS!=='0'"></i>
+                </td>
+                <td>{{ registro.ROW_NUMBER_ID }}</td>
+                <td>{{ registro.CUS }}</td>
+                <td>{{ registro.NUMERO_DOCUMENTO }}</td>
+                <td>{{ registro.DSC_UDOCUMENTAL }}</td>
+                <!-- <td><span class="label" style=" background-color: #d9534f !important;">{{ registro.FECHA_CREACION | date: 'dd/MM/yyyy' }}</span></td>
+                <td>{{ registro.NOMBRE_USUARIO_CREACION }}</td> -->
+                <td><span class="label" style=" background-color: #d9534f !important;">{{ registro.FECHA_CREACION | date: 'dd/MM/yyyy' }}</span></td>
+                <td>{{ registro.ENTIDAD }}</td>
+                <td>{{ registro.DEPARTAMENTO }}</td>
+                <td>{{ registro.PROVINCIA }}</td>
+                <td>{{ registro.DISTRITO }}</td>    
+                <td>{{ registro.PROFE_TECNICO }}</td>  
+                <td>{{ registro.PROFE_LEGAL }}</td> 
+                <td>{{ registro.DETALLE_TIPO_ACCION }}</td> 
+                
+                <td>
+                  <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Selecciona</button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">                                              
+                      <button ngbDropdownItem (click)="Verificar_cusCheck(contentVerificacionCheck, registro.CODIGO_INTERNO, registro.ID_NOTIFICACION_APROB, '1')"> 
+                        <i class="fa fa-newspaper-o" aria-hidden="true">&nbsp;Verificar</i>
+                      </button>
+                      <button ngbDropdownItem (click)="modaleditar(modalpredio,registro.CODIGO_INTERNO, registro.CUS)"> 
+                        <i class="fa fa-check-square-o" aria-hidden="true">&nbsp;Revisar</i>
+                      </button>  
+                      <button ngbDropdownItem (click)="modalAprobacion(content, registro.CODIGO_INTERNO, registro.CUS, '1', registro.ID_NOTIFICACION_APROB)"> 
+                        <i class="fa fa-check-circle" aria-hidden="true">&nbsp;Aprobar</i>
+                      </button>  
+                      <button ngbDropdownItem (click)="Verificar_historico(contentHistorico, registro.ID_NOTIFICACION_APROB)" 
+                        *ngIf="registro.ID_OBSERVACIONES_NOTIFICADAS!=='0'"> 
+                        <i class="fa fa-certificate" aria-hidden="true">&nbsp;Observaciones</i>
+                      </button>                  
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </table>
+            <div class="box box-success">
+            </div>
+          </div>
+          <nav class="mt-3" *ngIf="total >= itemsPerPage"> 
+            <ngb-pagination [collectionSize]="total" [pageSize]="itemsPerPage" [(page)]="filtro.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+          </nav>
+        </div>
+        
+        <!-- PESTAÑA REGISTRADO POR EXTERNOS -->
+        <div class="tab-pane fade" id="externas" role="tabpanel" aria-labelledby="externas-tab">
+          <div class="box-body">
+            <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px; margin-top: -20px;">                
+              <legend></legend>
+              <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="rucs">RUC</label>
+                      <input type="text" id="rucs" name="rucs" class="form-control" placeholder="Ingrese Nro de RUC"
+                          required appForbiddenName="bob" pattern= "[a-z] {1,15}"
+                          [(ngModel)]="filtro_externos.rucs" #rucs="ngModel" >
+      
+                          <div *ngIf="rucs.invalid && (rucs.dirty || rucs.touched)"
+                              class="alert alert-danger">
+      
+                            <div *ngIf="rucs.errors.required">
+                              RUC es requerido.
+                            </div>
+                            
+                            <div *ngIf="rucs.errors.forbiddenName">
+                              Name cannot be Bob.
+                            </div>
+                            <div *ngIf="rucs.errors.pattern">
+                              Caracteres incorrectos.
+                            </div>
+                          </div>
+                    </div>
+                </div>   
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="exampcusleInputEmail1">Nro CUS</label>
+                    <input type="text" class="form-control" id="cus" placeholder="Ingrese Nro CUS" [(ngModel)]="filtro_externos.cus">
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <button class="btn btn-primary margenButton" (click)="Busqueda_Cus_registrados_externos()">Buscar</button>
+                  <button class="btn btn-danger"(click)="BorrarFiltro_externos()">Borrar</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Departamento</label>
+                      <select class="form-control select2" style="width: 100%;" [(ngModel)]="filtro_externos.coddepa" 
+                          (change)="obtenerubigeo_externos(filtro_externos.coddepa,0,0,2)">
+                        <option selected="selected" value="0">:: Seleccione opcion ::</option>
+                        <option *ngFor="let depa of departamentos_ext.listado" value="{{depa.Ubi_CodDepartamento}}" >{{depa.Ubi_Descripcion}}</option>
+                      </select>
+                    </div>
+                </div>   
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Provincia</label>
+                    <select class="form-control select2" style="width: 100%;" [(ngModel)]="filtro_externos.codprov"
+                        (change)="obtenerubigeo_externos(filtro_externos.coddepa,filtro_externos.codprov,0,3)">
+                      <option selected="selected" value="0">:: Seleccione opcion ::</option>
+                      <option *ngFor="let prov of provincias_ext.listado" value="{{prov.Ubi_CodProvincia}}">{{prov.Ubi_Descripcion}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Distrito</label>
+                    <select class="form-control select2" style="width: 100%;" [(ngModel)]="filtro_externos.coddist">
+                      <option selected="selected" value="0">:: Seleccione opcion ::</option>
+                      <option *ngFor="let dis of distritos_ext.listado" value="{{dis.Ubi_CodDistrito}}">{{dis.Ubi_Descripcion}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">Resultado de la Busqueda</h3>
+            </div>
+            <div class="box box-success"></div>
+          </div>
+          <div class="table-responsive" style="height: 900px;">
+            <table class="table table-hover">
+              <tr>
+                <th><i class="fa fa-exclamation-circle" aria-hidden="true"></i></th>
+                <th>Item</th>
+                <th>CUS</th>
+                <th>Creacion</th>
+                <th>Usuario Creac.</th>
+                <th>Propietario</th>
+                <th>Departamento</th>
+                <th>Provincia</th>
+                <th>Distrito</th>
+                <th>Acción</th>
+                <!-- <th>Revisar</th>
+                <th>Verificar</th>
+                <th>Aprobar</th>               -->
+              </tr>
+              <tr *ngFor="let registro of dataResultadoExternos.listadoCusRegistradosExternos">
+                <td>
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true" *ngIf="registro.ID_OBSERVACIONES_NOTIFICADAS!=='0'"></i>
+                </td>
+                <td>{{ registro.ROW_NUMBER_ID }}</td>
+                <td>{{ registro.CUS }}</td>
+                <td><span class="label label-danger">{{ registro.FECHA_CREACION | date: 'dd/MM/yyyy' }}</span></td>
+                <td>{{ registro.NOMBRE_USUARIO_CREACION }}</td>
+                <td>{{ registro.ENTIDAD }}</td>
+                <td>{{ registro.DEPARTAMENTO }}</td>
+                <td>{{ registro.PROVINCIA }}</td>
+                <td>{{ registro.DISTRITO }}</td>  
+                 
+                <td>
+                  <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Selecciona</button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">                                              
+                      <button ngbDropdownItem (click)="Verificar_cusCheck(contentVerificacionCheck, registro.CODIGO_INTERNO, registro.ID_NOTIFICACION_APROB, '2')"> 
+                        <i class="fa fa-newspaper-o" aria-hidden="true">&nbsp;Verificar</i>
+                      </button> 
+                      <button ngbDropdownItem (click)="modaleditar(modalpredio,registro.CODIGO_INTERNO, registro.CUS)"> 
+                        <i class="fa fa-check-square-o" aria-hidden="true">&nbsp;Revisar</i>
+                      </button>  
+                      <button ngbDropdownItem (click)="modalAprobacion(content, registro.CODIGO_INTERNO, registro.CUS, '2', registro.ID_NOTIFICACION_APROB)"> 
+                        <i class="fa fa-check-circle" aria-hidden="true">&nbsp;Aprobar</i>
+                      </button>  
+                      <button ngbDropdownItem (click)="Verificar_historico(contentHistorico, registro.ID_NOTIFICACION_APROB)" 
+                        *ngIf="registro.ID_OBSERVACIONES_NOTIFICADAS!=='0'"> 
+                        <i class="fa fa-certificate" aria-hidden="true">&nbsp;Observaciones</i>
+                      </button>                  
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </table>
+            <div class="box box-success">
+            </div>
+          </div>
+          
+          <nav class="mt-3" *ngIf="total >= itemsPerPage"> 
+            <ngb-pagination [collectionSize]="total" [pageSize]="itemsPerPage" [(page)]="filtro_externos.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage_externos($event)"></ngb-pagination>
+          </nav>
+
+        </div>
+
+        <!-- PESTAÑA CUS NOTIFICADOS -->
+        <div class="tab-pane fade" id="notificados" role="tabpanel" aria-labelledby="notificados-tab">
+          <div class="box-body">
+            <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px; margin-top: -20px;">                
+              <legend></legend>
+              <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="rucs">RUC</label>
+                      <input type="text" id="rucs" name="rucs" class="form-control" placeholder="Ingrese Nro de RUC"
+                          required appForbiddenName="bob" pattern= "[a-z] {1,15}"
+                          [(ngModel)]="filtro_notificados.rucs" #rucs="ngModel" >
+                    </div>
+                </div>   
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="exampcusleInputEmail1">Nro CUS</label>
+                    <input type="text" class="form-control" id="cus" placeholder="Ingrese Nro CUS" [(ngModel)]="filtro_notificados.cus">
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <button class="btn btn-primary margenButton" (click)="Busqueda_Cus_registrados_notificados()">Buscar</button>
+                  <button class="btn btn-danger"(click)="BorrarFiltro_notificados()">Borrar</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Departamento</label>
+                      <select class="form-control select2" style="width: 100%;" [(ngModel)]="filtro_notificados.coddepa" 
+                          (change)="obtenerubigeo_notificados(filtro_notificados.coddepa,0,0,2)">
+                        <option selected="selected" value="0">:: Seleccione opcion ::</option>
+                        <option *ngFor="let depa of departamentos_not.listado" value="{{depa.Ubi_CodDepartamento}}" >{{depa.Ubi_Descripcion}}</option>
+                      </select>
+                    </div>
+                </div>   
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Provincia</label>
+                    <select class="form-control select2" style="width: 100%;" [(ngModel)]="filtro_notificados.codprov"
+                        (change)="obtenerubigeo_notificados(filtro_notificados.coddepa,filtro_notificados.codprov,0,3)">
+                      <option selected="selected" value="0">:: Seleccione opcion ::</option>
+                      <option *ngFor="let prov of provincias_not.listado" value="{{prov.Ubi_CodProvincia}}">{{prov.Ubi_Descripcion}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Distrito</label>
+                    <select class="form-control select2" style="width: 100%;" [(ngModel)]="filtro_notificados.coddist">
+                      <option selected="selected" value="0">:: Seleccione opcion ::</option>
+                      <option *ngFor="let dis of distritos_not.listado" value="{{dis.Ubi_CodDistrito}}">{{dis.Ubi_Descripcion}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">Registro notificados</h3>
+            </div>
+            <div class="box box-success"></div>
+          </div>
+          <table class="table table-hover">
+            <tr>
+              <th>Item</th>
+              <th>CUS</th>
+              <th>Creacion</th>
+              <th>Usuario creac.</th>
+              <th>Notificacion</th>
+              <th>Entidad</th>
+              <th>Departamento</th>
+              <th>Provincia</th>
+              <th>Distrito</th>           
+              <th>Observaciones</th>
+            </tr>
+            <tr *ngFor="let registro of dataResultadoNotificados.listadoCusRegistradosNotificados">
+              <td>{{ registro.ROW_NUMBER_ID }}</td>
+              <td>{{ registro.CUS }}</td>
+              <td><span class="label label-danger">{{ registro.FECHA_CREACION | date: 'dd/MM/yyyy' }}</span></td>
+              <td>{{ registro.USUARIO_CREACION_CUS }}</td>
+              <td><span class="label label-danger">{{ registro.FECHA_NOTIFICACION | date: 'dd/MM/yyyy' }}</span></td>
+              <td>{{ registro.ENTIDAD }}</td> 
+              <td>{{ registro.DEPARTAMENTO }}</td>
+              <td>{{ registro.PROVINCIA }}</td>
+              <td>{{ registro.DISTRITO }}</td>  
+              <td><button type="submit" class="btn btn-warning" (click)="Verificar_historico(contentHistorico, registro.ID_NOTIFICACION_APROB)">Observaciones</button></td>               
+            </tr>
+          </table>
+          <div class="box box-success">
+          </div>
+          <nav class="mt-3" *ngIf="total >= itemsPerPage"> 
+            <ngb-pagination [collectionSize]="total" [pageSize]="itemsPerPage" [(page)]="filtro_notificados.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage_notificados($event)"></ngb-pagination>
+          </nav>
+        </div>
+
+        <!-- PESTAÑA CUS APROBADOS -->
+        <div class="tab-pane fade" id="aprobados" role="tabpanel" aria-labelledby="aprobados-tab">
+          <div class="box-body">
+            <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px; margin-top: -20px;">                
+              <legend></legend>
+              <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="rucs">RUC</label>
+                      <input type="text" id="rucs" name="rucs" class="form-control" placeholder="Ingrese Nro de RUC"
+                          required appForbiddenName="bob" pattern= "[a-z] {1,15}"
+                          [(ngModel)]="filtro_aprobados.rucs" #rucs="ngModel" >
+                    </div>
+                </div>   
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="exampcusleInputEmail1">Nro CUS</label>
+                    <input type="text" class="form-control" id="cus" placeholder="Ingrese Nro CUS" [(ngModel)]="filtro_aprobados.cus">
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <button class="btn btn-primary margenButton" (click)="Busqueda_Cus_registrados_aprobados()">Buscar</button>
+                  <button class="btn btn-danger"(click)="BorrarFiltro_aprobados()">Borrar</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Departamento</label>
+                      <select class="form-control select2" style="width: 100%;" [(ngModel)]="filtro_aprobados.coddepa" 
+                          (change)="obtenerubigeo_aprobados(filtro_aprobados.coddepa,0,0,2)">
+                        <option selected="selected" value="0">:: Seleccione opcion ::</option>
+                        <option *ngFor="let depa of departamentos_apro.listado" value="{{depa.Ubi_CodDepartamento}}" >{{depa.Ubi_Descripcion}}</option>
+                      </select>
+                    </div>
+                </div>   
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Provincia</label>
+                    <select class="form-control select2" style="width: 100%;" [(ngModel)]="filtro_aprobados.codprov"
+                        (change)="obtenerubigeo_aprobados(filtro_aprobados.coddepa,filtro_aprobados.codprov,0,3)">
+                      <option selected="selected" value="0">:: Seleccione opcion ::</option>
+                      <option *ngFor="let prov of provincias_apro.listado" value="{{prov.Ubi_CodProvincia}}">{{prov.Ubi_Descripcion}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Distrito</label>
+                    <select class="form-control select2" style="width: 100%;" [(ngModel)]="filtro_aprobados.coddist">
+                      <option selected="selected" value="0">:: Seleccione opcion ::</option>
+                      <option *ngFor="let dis of distritos_apro.listado" value="{{dis.Ubi_CodDistrito}}">{{dis.Ubi_Descripcion}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">Resultado de la Busqueda</h3>
+            </div>
+            <div class="box box-success"></div>
+          </div>
+          <table class="table table-hover">
+            <tr>
+              <th>Item</th>
+              <th>CUS</th>
+              <th>Creacion</th>
+              <th>Usuario creac.</th>
+              <th>Aprobacion</th>
+              <th>Entidad</th>
+              <th>Departamento</th>
+              <th>Provincia</th>
+              <th>Distrito</th>              
+            </tr>
+            <tr *ngFor="let registro of dataResultadoAprobados.listadoCusRegistradosAprobados">
+              <td>{{ registro.ROW_NUMBER_ID }}</td>
+              <td>{{ registro.CUS }}</td> 
+              <td><span class="label label-danger">{{ registro.FECHA_CREACION | date: 'dd/MM/yyyy' }}</span></td>
+              <td>{{ registro.USUARIO_CREACION_CUS }}</td>
+              <td><span class="label label-danger">{{ registro.FECHA_APROBACION | date: 'dd/MM/yyyy' }}</span></td>
+              <td>{{ registro.ENTIDAD }}</td>
+              <td>{{ registro.DEPARTAMENTO }}</td>
+              <td>{{ registro.PROVINCIA }}</td>
+              <td>{{ registro.DISTRITO }}</td>                
+            </tr>
+          </table>
+          <div class="box box-success">
+          </div>
+          <nav class="mt-3" *ngIf="total >= itemsPerPage"> 
+            <ngb-pagination [collectionSize]="total" [pageSize]="itemsPerPage" [(page)]="filtro_aprobados.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage_aprobados($event)"></ngb-pagination>
+          </nav>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+</div>
+</div>
+
+
+<ng-template #content let-modal>            
+  <div class="box box-success">
+    <div class="box-header with-border">
+      <h3 class="box-title">Aprobacion de Registro de Predios</h3>
+      <div class="box-tools pull-right">
+        <button type="button" class="btn btn-box-tool" data-widget="remove" (click)="modal.close(); filtroAprobacion.tipoRegistro = ''"><i class="fa fa-remove"></i></button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal-body" >                                 
+    <div class="row">
+      <div class="col-md-10">
+        <label>Nro de CUS: {{ NrocusAprobar }}</label>
+          <div class="form-group">
+            <label>Especifique el Tipo de Registro</label>
+            <select class="form-control select2" 
+              style="width: 100%;" 
+              [(ngModel)]="filtroAprobacion.tipoRegistro" 
+              (change)="cambiarTipoRegistro()"
+            >
+              <option value="CP" >Registro Provisional</option>
+              <option value="CD" >Registro Definitivo</option>
+            </select>
+
+            <label *ngIf="filtroAprobacion.tipoRegistro == 'CD' && pestana == '2'">Tipo de CUS</label>
+            <select class="form-control select2" 
+              style="width: 100%;" 
+              [(ngModel)]="filtroAprobacion.tipoCus" 
+              *ngIf="filtroAprobacion.tipoRegistro == 'CD' && pestana == '2'"
+            >
+              <option value="" >:: SELECCIONE OPCION ::</option>
+              <option value="E" >ESTATAL</option>
+              <option value="M" >MUNICIPAL</option>
+              <option value="O" >EMPRESARIAL</option>
+            </select>
+          </div>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary margenButtonTop" (click)="Aprobar_cus()">Aprobar</button>
+      </div> 
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentVerificacion let-modal>            
+  <div class="modal-header fondotitulopdf">
+		<h4>Verificacion de CUS</h4>        
+    <button type="button" class="btn btn-box-tool" data-widget="remove" (click)="modal.close(); filtroAprobacion.tipoRegistro = ''"><i class="fa fa-remove"></i></button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="form-group">
+				<iframe [src]="urlPDF | safe" width="100%" height="850px"></iframe>
+			</div>
+		</form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" style="width: 150px; height: 35px; font-size: 15px;" class="btn btn-primary btn-sm" (click)="Notificar(content1)">Notificar</button>
+  </div>
+</ng-template>
+
+<ng-template #contentVerificacionCheck let-modal>
+  <!-- box-header ui-sortable-handle -->
+          
+  <div class="box box-primary" style="position: relative; left: 0px; top: 0px;">
+    <div class="modal-header fondotitulopdf">
+      <i class="fa fa-th-list" style="padding-top: 5px;"></i>
+      <h5 class="box-title" style="padding-right: 500px;">Listado de Observaciones</h5>        
+      <button type="button" class="btn btn-box-tool" data-widget="remove" (click)="Arrg_codigo = []; modalVerificar.close(); filtroAprobacion.tipoRegistro = ''"><i class="fa fa-remove"></i></button>
+    </div>
+    <div class="box-body">
+      <div class="card-header">
+        <p style="font-weight: bold;">Datos del Predio</p>   
+      </div>
+      <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+      <ul class="todo-list ui-sortable">
+        <li class="" *ngFor="let cabecera of dataObservaciones.resultadoCabecera" 
+        >
+          <!-- drag handle -->
+          <span class="handle ui-sortable-handle">
+                <i class="fa fa-ellipsis-v"></i>
+                <i class="fa fa-ellipsis-v"></i>
+              </span>
+          <!-- checkbox -->
+          <input type="checkbox" value="false" 
+            [(ngModel)]="cabecera.SELECCION"
+            ngDefaultControl  
+            (change)="chequeoObservaciones(cabecera.SELECCION, cabecera.CODIGO)">
+          <!-- todo text -->
+          <span class="text">{{cabecera.NOMBRE_OBSERVACION}}</span>
+          <!-- Emphasis label -->
+          <small class="label label-danger" *ngIf="cabecera.SELECCION"><i class="fa fa-clock-o"></i> Seleccionado para notificar</small>
+          <!-- General tools such as edit or delete-->
+         
+        </li>
+      </ul>
+      <br>
+      <div class="card-header">
+        <p style="font-weight: bold;">Aporte de documentos</p>   
+      </div>
+      <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+      <ul class="todo-list ui-sortable">
+        <li class="" *ngFor="let detalle of dataObservaciones.resultadoDetalles" 
+         >
+          <!-- drag handle -->
+          <span class="handle ui-sortable-handle">
+                <i class="fa fa-ellipsis-v"></i>
+                <i class="fa fa-ellipsis-v"></i>
+              </span>
+          <!-- checkbox -->
+          <input type="checkbox" value=""
+            [(ngModel)]="detalle.SELECCION"
+            ngDefaultControl  
+            (change)="chequeoObservaciones(detalle.SELECCION, detalle.CODIGO)">
+          <!-- todo text -->
+          <span class="text">{{detalle.NOMBRE_OBSERVACION}}</span>
+          <!-- Emphasis label -->
+          <small class="label label-danger" *ngIf="detalle.SELECCION"><i class="fa fa-clock-o"></i> Seleccionado para notificar</small>
+          <!-- General tools such as edit or delete-->
+         
+        </li>  
+      </ul>
+    </div>
+  </div>
+
+
+  
+	
+  <div class="modal-footer">
+    <button type="button" style="width: 150px; height: 35px; font-size: 15px;" class="btn btn-primary btn-sm" (click)="Notificar(content1)">Notificar</button>
+  </div>
+</ng-template>
+
+
+<ng-template #contentHistorico let-modal>            
+  <div class="modal-header fondotitulopdf">
+		<h4>Historico</h4>        
+    <button type="button" class="btn btn-box-tool" data-widget="remove" (click)="modal.close();"><i class="fa fa-remove"></i></button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="form-group">
+				<iframe [src]="urlPDF_H | safe" width="100%" height="850px"></iframe>
+			</div>
+		</form>
+  </div>  
+</ng-template>
+
+
+<ng-template #content1 let-modal>
+  <div class="modal-header fondotitulopdf">
+		<!--<h4>Observaciones</h4>
+    <button type="button" style="width: 150px; height: 35px; font-size: 15px;" class="btn btn-primary btn-sm" (click)="modal.close();">Cerrar</button>    -->
+          <h4 class="modal-title" align="center" >Observaciones adicionales</h4>                      
+          <button type="button" class="btn btn-box-tool" data-widget="remove" (click)="modal.close(); filtroAprobacion.tipoRegistro = ''"><i class="fa fa-remove"></i></button>
+	</div>
+	<div class="modal-body">		
+      
+      <div class="form-group">         
+         <textarea class="form-control"  style="resize: none" [(ngModel)]="filtroAprobacion.observaciones" 
+          placeholder="Ingrese Observación" maxlength="500"></textarea>
+      </div>
+      <button type="button" style="width: 150px; height: 35px; font-size: 15px;" class="btn btn-primary btn-sm" (click)="GuardarNotificacion();">Enviar notificación</button>    		
+      
+	</div>
+</ng-template>
+
+
+<ng-template #modalpredio let-modal>            
+  <div style="background-color: #8a2a2b;">      
+    <div class="row" style="height: 60px;">
+      <div class="col-lg-4">
+        <img _ngcontent-aou-c1="" style="width: 35%;margin-top: 5px;padding-left: 10px" class="img" src="../assets/images/principal.png">
+      </div>
+      <div class="col-lg-4">
+        <h4 class="modal-title " style="color:white;padding-top: 5px;" align="center">SINABIP</h4>
+      </div>
+      <div class="col-lg-4">
+        <img _ngcontent-aou-c1="" class="img" style="width: 35%;margin-top: 5px;float: right;padding-right: 10px" src="../assets/images/logo-sbn-blanco.png" >            
+      </div>
+    </div>                            
+  </div>   
+  <div class="modal-header">
+    <h4 *ngIf="numero_cus!=''" class="modal-title" >REVISIÓN DE REGISTRO {{ tipoRegistro }} - </h4><br>
+    <h4 *ngIf="numero_cus!=''" class="modal-title" >  CUS N° {{numero_cus}}</h4>   
+    <h4 *ngIf="numero_cus==''" class="modal-title" >INCORPORACION DE REGISTRO {{ tipoRegistro }} - </h4>
+    <h4 *ngIf="numero_cus==''" class="modal-title" > CUS POR DEFINIR</h4>      
+      <button type="button" class="close" aria-label="Close" (click)="cerrarventana()">
+        <span aria-hidden="true">&times;</span>
+      </button>    
+  </div>
+  <div class="modal-body" >                                 
+    <div class="row">          
+      <div class="col">
+          <div>									
+              <div class="box-body">
+                  <div class="card">
+                      <nav class="card-header" style="font-size: 10px;">
+                          <div class="nav nav-pills" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-datg-tab" data-toggle="tab" href="#nav-datg" role="tab" aria-controls="nav-datg" aria-selected="true"><strong>Datos generales</strong></a>
+                            <a (click)="cargar(1)" class="nav-item nav-link" id="nav-titu-tab" data-toggle="tab" href="#nav-titu" role="tab" aria-controls="nav-titu" aria-selected="false" ><strong>Adquisicion e Inscripcion</strong></a>
+                            <a (click)="cargar(9)"class="nav-item nav-link " id="nav-fablin-tab" data-toggle="tab" href="#nav-fablin" role="tab" aria-controls="nav-fablin" aria-selected="false" ><strong>Fábrica y Linderos</strong></a>
+                            <a (click)="cargar(2)"class="nav-item nav-link " id="nav-lim-tab" data-toggle="tab" href="#nav-lim" role="tab" aria-controls="nav-lim" aria-selected="false" ><strong>Limitaciones a la Propiedad</strong></a>                          
+                            <a (click)="cargar(3)"class="nav-item nav-link " id="nav-opor-tab" data-toggle="tab" href="#nav-opor" role="tab" aria-controls="nav-opor" aria-selected="false" ><strong>Actos de Administración y Disposición</strong></a>
+                            <a (click)="cargar(4)"class="nav-item nav-link " id="nav-dat-tab" data-toggle="tab" href="#nav-dat" role="tab" aria-controls="nav-dat" aria-selected="false"><strong>Datos Técnicos</strong></a>
+                            <a (click)="cargar(5)"class="nav-item nav-link " id="nav-con-tab" data-toggle="tab" href="#nav-con" role="tab" aria-controls="nav-con" aria-selected="false"><strong>Construcciones</strong></a>
+                            <a (click)="cargar(6)"class="nav-item nav-link " id="nav-pote-tab" data-toggle="tab" href="#nav-pote" role="tab" aria-controls="nav-pote" aria-selected="false" ><strong>Obras y Valorización</strong></a>                          
+                            <a (click)="cargar(7)"class="nav-item nav-link " id="nav-zon-tab" data-toggle="tab" href="#nav-zon" role="tab" aria-controls="nav-zon" aria-selected="false"><strong>Zona de Playa</strong></a>                          
+                            <a (click)="cargar(8)" class="nav-item nav-link " id="nav-leg-tab" data-toggle="tab" href="#nav-leg" role="tab" aria-controls="nav-leg" aria-selected="false"><strong>Legajo Digital</strong></a>
+                            <a class="nav-item nav-link " id="nav-fot-tab" data-toggle="tab" href="#nav-fot" role="tab" aria-controls="nav-fot" aria-selected="false"><strong>Aporte de Fotos</strong></a>
+                          </div>
+                      </nav>
+                      <br>
+                      <div class="tab-content" id="nav-tabContent">
+                          <div class="tab-pane fade show active" id="nav-datg" role="tabpanel" aria-labelledby="nav-datg-tab">
+                              <app-datos-generales     
+                              [codigo_interno]="aux.codigo_interno"
+                              [coddocumental]="aux.coddocumental"
+                              [tipo_registro]="aux.tipo_registro"
+                              [bloquear]="0"
+                              (callbackcodigo) ="actualizarcodigo($event)"                      
+                              (callback)="actualizardatosgenerales($event)"                                
+                              ></app-datos-generales> 
+                              <button type="button" class="btn btn-primary btn-sm" 
+                              style="margin-left: 15px;margin-bottom: 10px;"
+                              (click)="guardar(predio)">
+                              <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-titu" role="tabpanel" aria-labelledby="nav-titu-tab">                            
+                            <app-adquisicion                            
+                            [coddepa]="aux.codigodepa"                            
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                             (callback)="actualizaadquision($event)"
+                            ></app-adquisicion>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardar(predio)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>  
+                          <div class="tab-pane fade" id="nav-fablin" role="tabpanel" aria-labelledby="nav-fablin-tab">
+                            <app-fabrica-linderos
+                              [codigo_interno]="aux.codigo_interno"
+                              [cargar]="aux.cargar"
+                              [bloquear]="0"
+                              (callback)="actualizarfabricalinderos($event)"
+                            ></app-fabrica-linderos>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarfabricalinderos(fabricacionlimitaciones)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>                          
+                          <div class="tab-pane fade" id="nav-lim" role="tabpanel" aria-labelledby="nav-lim-tab">
+                            <app-limitaciones
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizarlimitaciones($event)"
+                            ></app-limitaciones>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarlimitaciones(limitaciones)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-pote" role="tabpanel" aria-labelledby="nav-pote-tab">
+                            <app-obras
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizarobras($event)"  ></app-obras>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarobras(obras)">
+                            <i class="fa fa-save" aria-hidden="true"></i>GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-opor" role="tabpanel" aria-labelledby="nav-opor-tab">
+                            <app-actos
+                            [coddepa]="aux.codigodepa" 
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizaractos($event)"
+                            ></app-actos>
+                              <button type="button" class="btn btn-primary btn-sm" 
+                              style="margin-left: 15px;margin-bottom: 10px;"
+                              (click)="guardaractos(actos)">
+                              <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>                         
+                          <div class="tab-pane fade" id="nav-zon" role="tabpanel" aria-labelledby="nav-zon-tab">
+                            <app-zona
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizarzona($event)"  
+                            ></app-zona>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarzona(zona)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-con" role="tabpanel" aria-labelledby="nav-con-tab">
+                            <app-construccion
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            [grabado]="aux.grabado"
+                            (callback)="actualizarconstruccion($event)" 
+                            ></app-construccion>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarconstruccion(construccion)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                        
+                          <div class="tab-pane fade" id="nav-dat" role="tabpanel" aria-labelledby="nav-dat-tab">
+                            <app-datos-tecnicos
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizardatos($event)"
+                            ></app-datos-tecnicos>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardardatostecnicos(datos)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-leg" role="tabpanel" aria-labelledby="nav-leg-tab">
+                            <app-legajo
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizarzona($event)"  
+                            ></app-legajo>
+                          </div>
+                          <div class="tab-pane fade" id="nav-fot" role="tabpanel" aria-labelledby="nav-fot-tab">
+                            <app-aporte-fotos
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"                            
+                            ></app-aporte-fotos>
+                            <!--<button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarfotos(zona)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>-->
+                          </div>
+                          
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>      
+  </div>
+  </div>   
+</ng-template>
+
+
+
+  <!-- jQuery 3 -->
+  <script src="./assets/bower_components/jquery/dist/jquery.min.js"></script>
+  <!-- Bootstrap 3.3.7 -->
+  <script src="./assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- Select2 -->
+  <script src="./assets/bower_components/select2/dist/js/select2.full.min.js"></script>
+  <!-- InputMask -->
+  <script src="./assets/plugins/input-mask/jquery.inputmask.js"></script>
+  <script src="./assets/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+  <script src="./assets/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+  <!-- date-range-picker -->
+  <script src="./assets/bower_components/moment/min/moment.min.js"></script>
+  <script src="./assets/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+  <!-- bootstrap datepicker -->
+  <script src="./assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+  <!-- bootstrap color picker -->
+  <script src="./assets/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+  <!-- bootstrap time picker -->
+  <script src="./assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+  <!-- SlimScroll -->
+  <script src="./assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+  <!-- iCheck 1.0.1 -->
+  <script src="./assets/plugins/iCheck/icheck.min.js"></script>
+  <!-- FastClick -->
+  <script src="./assets/bower_components/fastclick/lib/fastclick.js"></script>
+  <!-- AdminLTE App -->
+  <script src="./assets/dist/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="./assets/dist/js/demo.js"></script>
+  <!-- Page script -->
+  <script>
+    $(function () {
+      //Initialize Select2 Elements
+      $('.select2').select2()
+  
+      //Datemask dd/mm/yyyy
+      $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+      //Datemask2 mm/dd/yyyy
+      $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+      //Money Euro
+      $('[data-mask]').inputmask()
+  
+      //Date range picker
+      $('#reservation').daterangepicker()
+      //Date range picker with time picker
+      $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' })
+      //Date range as a button
+      $('#daterange-btn').daterangepicker(
+        {
+          ranges   : {
+            'Today'       : [moment(), moment()],
+            'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+            'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+          },
+          startDate: moment().subtract(29, 'days'),
+          endDate  : moment()
+        },
+        function (start, end) {
+          $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+        }
+      )
+  
+      //Date picker
+      $('#datepicker').datepicker({
+        autoclose: true
+      })
+  
+      //iCheck for checkbox and radio inputs
+      $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+        checkboxClass: 'icheckbox_minimal-blue',
+        radioClass   : 'iradio_minimal-blue'
+      })
+      //Red color scheme for iCheck
+      $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+        checkboxClass: 'icheckbox_minimal-red',
+        radioClass   : 'iradio_minimal-red'
+      })
+      //Flat red color scheme for iCheck
+      $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass   : 'iradio_flat-green'
+      })
+  
+      //Colorpicker
+      $('.my-colorpicker1').colorpicker()
+      //color picker with addon
+      $('.my-colorpicker2').colorpicker()
+  
+      //Timepicker
+      $('.timepicker').timepicker({
+        showInputs: false
+      })
+    })
+  </script>
+  </body>
+  </html>

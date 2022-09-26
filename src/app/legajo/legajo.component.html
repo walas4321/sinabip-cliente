@@ -1,0 +1,239 @@
+<div class="row">                        
+  <div class="col-lg-8">
+    <fieldset class="borde" style="margin-left: 10px;margin-right: 10px;margin-bottom: 31px; width: 750px; height: 125px;" >                
+      <legend><i class="fa fa-building"></i>&nbsp;Vincular Documentos</legend> 
+      <div class="row" style="margin-bottom: 5px;">                              
+          <div class="col-lg-4" style="margin-left: 10px;">
+            <table class="caja" style="width: 96%;margin-left:10px;" [ngClass]="{'bloquear': active}">
+              <tr><td>Tipo de Documento</td></tr> 
+              <tr>
+                <td>
+                  <select id="cars" class="form-control form-control-sm" 
+                      name="codigo_documento"
+                      id="codigo_documento"
+                      [(ngModel)]="filtro.codigo_documento" 
+                      >
+                    <option value="0">--SELECCIONE TIPO DOCUMENTO--</option>
+                    <option *ngFor="let es of arraytipoDocumento" value="{{es.CODIGOTIPO}}">{{es.DESCRIPCIONTIPO}}</option>
+                  </select>
+                </td>
+              </tr> 
+            </table>           
+          </div>  
+
+          <div class="box-body centrado margin2" style="margin-top: 15px;">
+            <!-- <div>&nbsp;</div> -->
+            <table *ngIf="filtro.codigo_documento!=='0000'"> 
+              <tr>
+                <td>
+                  <angular-file-uploader #fileUpload1  [config]="afuConfig" (change)="cargar_ruta_aportes()" [resetUpload]="resetVar"
+                  (ApiResponse)="openvistaPreviaDocumento($event,contentaux)"> 
+                 </angular-file-uploader>
+                </td>
+               
+              </tr>
+            </table>
+          </div>
+                      
+          <div class="col-lg-3" style="margin-left: 10px;">
+            <table class="caja" style="width: 96%;margin-left:10px;">
+              <tr><td>-</td></tr> 
+            </table>           
+          </div>                                         
+      </div>          
+    </fieldset>  
+
+
+    <div class="row">                        
+      <div class="col-lg-12">
+        <fieldset class="bord" style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px; width: 750px;">                
+          <legend><i class="fa fa-building"></i>&nbsp;Documentos</legend> 
+          <div class="row" style="margin-left: 10px;margin-right: 10px;">
+            <div class="col-md-12" style="height: 500px;">                           
+             <div style=" overflow-x: scroll; height: 450px;">
+                <table id="example2" class="table table-bordered table-striped table-hover" style="font-size: 12px;">
+                    <thead>
+                        <tr>													
+                            <th>Item</th>                                    
+                            <th>Descripcion de Documento</th>                                                        
+                            <th>Nombre de Archivo</th> 
+                            <th>Visualizar</th>                              
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead> 
+                    <tbody>
+                        <ng-container>												
+                            <tr *ngFor="let documento of dataAporteDocumentos['listadoAportes']" >
+                              <td>{{ documento.ROW_NUMBER_ID }} </td>
+                              <td>{{ documento.DESCRIPCIONTIPO }} </td>
+                              <td>{{ documento.NMB_ARCHIVO }} </td> 
+                              <td>
+                                  <button  class='btn btn-success espacio' (click)="VisualizarDocumentoAporte(documento.CODIGO_INMUEBLE, documento.ITEM_DOCUMENTO, documento.NMB_ARCHIVO, documento.CUS, content2)">
+                                      <i class="fa fa-search-plus" aria-hidden="true"></i>
+                                  </button>                                                                                                                                                                
+                              </td>                              
+                              <td>
+                                  <button  class='btn btn-danger espacio' [ngClass]="{'bloquear': active}"
+                                  (click)="EliminarDocumentoAporte(documento.CODIGO_INMUEBLE, documento.ITEM_DOCUMENTO)">
+                                      <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                  </button>                                                                                                                                                                
+                              </td>
+                            </tr>
+                        </ng-container>
+                        
+                        
+                    </tbody>		
+                   				
+                </table>
+                <nav class="mt-3" *ngIf="total >= itemsPerPage">
+                  <ngb-pagination [collectionSize]="total" [pageSize]="itemsPerPage" [(page)]="filtro.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+                </nav>	 
+             </div>
+            </div>
+        </div>          
+        </fieldset>  
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+      <legend><i class="fa fa-building"></i>&nbsp;Situacion Catastral (Poligono)</legend> 
+      <div style="margin-left: 10px; margin-right: 10px; margin-bottom: 10px;">
+        <div class="row" style="margin-bottom: 1px;">  
+          <div class="col-lg-12">
+            Origen de datos
+          </div>
+        </div>
+        
+        <div class="row" style="margin-bottom: 1px;" >  
+          <div class="col-lg-12">
+            <input type="text" name="nivel" id="nivel" class="form-control form-control-sm" disabled 
+              [(ngModel)]="dataSituacion.origendatos">
+          </div>                                  
+        </div> 
+        <div class="row" style="margin-bottom: 1px;">  
+          <div class="col-lg-12">
+            Nivel de Precision
+          </div>
+        </div>
+        <div class="row" style="margin-bottom: 1px; ">  
+          <div class="col-lg-12">
+            <input type="text" name="nivel" id="nivel" class="form-control form-control-sm" disabled 
+              [(ngModel)]="dataSituacion.nivelPrecision">
+          </div>                                  
+        </div> 
+        <div class="row" style="margin-bottom: 1px;">  
+          <div class="col-lg-12">
+            Sistema de Coordenadas
+          </div>
+        </div>
+        <div class="row" style="margin-bottom: 1px;">  
+          <div class="col-lg-12">
+            <input type="text" name="nivel" id="nivel" class="form-control form-control-sm" disabled
+              [(ngModel)]="dataSituacion.sistemaCoordenadas">
+          </div>                                  
+        </div>
+        <div class="row" style="margin-bottom: 1px;">  
+          <div class="col-lg-12">
+            Fecha de Aporte
+          </div>
+        </div>
+        <div class="row" style="margin-bottom: 1px; ">  
+          <div class="col-lg-12">
+            <input type="text" name="nivel" id="nivel" class="form-control form-control-sm" disabled
+              [(ngModel)]="dataSituacion.fechaAporte">
+          </div>                                  
+        </div>   
+        <div class="row" style="margin-bottom: 1px;">  
+          <div class="col-lg-12">
+            Responsable de Aporte
+          </div>
+        </div>
+        <div class="row" style="margin-bottom: 1px; ">  
+          <div class="col-lg-12">
+            <input type="text" name="nivel" id="nivel" class="form-control form-control-sm" disabled
+              [(ngModel)]="dataSituacion.responsableAporte">
+          </div>                                  
+        </div>      
+      </div>  
+    </fieldset>  
+
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px; height: 350px;">                
+      <legend><i class="fa fa-building"></i>&nbsp;Observaciones legales</legend> 
+      <div style="margin-left: 10px; margin-right: 10px; margin-bottom: 10px;" >  
+        <div class="row" style="margin-bottom: 1px;">  
+          <div class="col-lg-12">
+            <textarea name="nivel" id="nivel" class="form-control form-control-sm" rows="12" style="margin-bottom: 5px;" maxlength="1000"
+              [(ngModel)]="dataSituacion.observaciones" [disabled]=disable>
+            </textarea>
+            
+            <button  class='btn btn-danger'
+            (click)="GuardarObservacionLegal()" [disabled]=disable>
+              Guardar Observaciones legales
+                <i class="fa fa-save" aria-hidden="true"></i>
+            </button>    
+          </div>                                  
+        </div>                           
+      </div> 
+    </fieldset>
+</div>
+
+
+  
+
+<ng-template #contentaux let-modal>             
+  
+  <div class="modal-header colorred1">
+		<h4>¿Esta seguro de subir el archivo?</h4>
+		<button type="button" style="width: 150px; height: 35px; font-size: 11px;" class="btn btn-primary btn-sm" (click)="AddObservaciones(contentObservaciones)">Aceptar</button>
+		<button type="button" style="width: 150px; height: 35px; font-size: 11px;" class="btn btn-primary btn-sm" (click)="EliminarArchivoAdjunto();modal.close()">Cancelar</button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="form-group">
+				<iframe [src]="urlPDF | safe" width="100%" height="850px"></iframe>  
+			</div>
+		</form>
+	</div>
+</ng-template>
+
+<ng-template #content2 let-modal>             
+  <div class="modal-header colorred1">
+		<h4>CUS Nro: {{ CUS }}</h4>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="form-group">
+				<iframe [src]="urlPDF | safe" width="100%" height="850px"></iframe>  
+			</div>
+    </form>
+    <div class="footer">
+      <button type="button" style="width: 150px; height: 35px; font-size: 11px;" class="btn btn-danger btn-sm" (click)="modal.close();">Cerrar</button>
+    </div>
+	</div>
+</ng-template>
+
+<ng-template #contentObservaciones let-modal>            
+  <div class="modal-header fondotitulopdf">
+    <h4 class="modal-title" align="center" >Observaciones</h4>                      
+    <button type="button" class="btn btn-box-tool" data-widget="remove" (click)="modal.close(); filtroAprobacion.tipoRegistro = ''"><i class="fa fa-remove"></i></button>
+	</div>
+	<div class="modal-body">		
+      
+      <div class="form-group">         
+         <textarea class="form-control"  
+            style="resize: none" 
+            [(ngModel)]="filtro.observaciones" 
+            placeholder="Ingrese Observación" 
+            maxlength="5000">
+        </textarea>
+      </div>
+      <button type="button" style="width: 150px; height: 35px; font-size: 15px;" class="btn btn-primary btn-sm" (click)="AceptarArchivoAdjunto()">Aceptar</button>    		 
+	</div>
+</ng-template>
+
+
+
+
+

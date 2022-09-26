@@ -1,0 +1,337 @@
+<div class="row">                        
+  <div class="col-lg-12">
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+      <legend [ngClass]="{'bloquear': active}"><i class="fa fa-building"></i>&nbsp;Obras Complementarias</legend> 
+
+      <div class="row fila">
+        <div class="col-md-12">   
+         <button [ngClass]="{'bloquear': active}" class='btn btn-primary' style="margin-bottom: 10px;margin-top:10px;" (click)="modal(content,0)">
+            <i class="fa fa-plus" aria-hidden="true">&nbsp;Agregar</i>
+         </button>       
+         <div style=" overflow-x: scroll;">
+            <table id="example2" class="table table-bordered table-striped table-hover" style="font-size: 10px;">
+                <thead>
+                    <tr>														                       
+                        <th>Item</th>
+                        <th>Denominación</th>
+                        <th>Antiguedad</th>
+                        <th>Valor Estimado</th>
+                        <th>Acción</th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let ob of obras.obrascomplementarias; let i = index">	
+                        <tr>                                      
+                          <td>{{ob.codigoobra}}</td>
+                          <td>{{ob.denominacion}}</td>
+                          <td>{{ob.antiguedad}}</td>
+                          <td>{{ob.valor_estimado}}</td>                            
+                            <td>
+                              <button  class='btn btn-success espacio' (click)="modificarobra(i,content)">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                              </button>
+                              <button style="margin-left: 5px;" [ngClass]="{'bloquear': active}" class='btn btn-danger espacio'(click)="quitarobra(i,ob.codigoobra,ob.valor_estimado)" >
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                              </button>                                                                                                                                                                
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>													
+            </table> 
+        </div>
+        </div>
+      </div>
+    </fieldset>  
+  </div>
+</div>
+<div class="row" [ngClass]="{'bloquear': active}">                        
+  <div class="col-lg-12">
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+      <legend><i class="fa fa-building"></i>&nbsp;Observaciones Técnicas</legend> 
+      <div class="row fila" style="margin-bottom: 10px;">
+        <div class="col-md-12">         
+          <textarea class="form-control"  style="resize: none;text-transform:uppercase" [(ngModel)]="obras.OBSERVACIONES" 
+          (change)="validarobra(obras)" placeholder="Ingrese Observación"></textarea>
+        </div>
+      </div>
+    </fieldset>  
+  </div>
+</div>
+<div class="row" [ngClass]="{'bloquear': active}">                        
+  <div class="col-lg-12">
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+      <legend><i class="fa fa-building"></i>&nbsp;Tipo de Valorización</legend> 
+      <div class="row fila" style="margin-bottom: 10px;">
+        <div class="col-md-3">         
+          <table class="caja" style="width: 96%;margin-left:10px;">
+            <tr><td>De Tipo</td></tr> 
+            <tr>
+              <td>
+                <select class="form-control"  [(ngModel)]="obras.TIPO_VALORIZACION"  (change)="validarobra(obras)">
+                  <option value="0" >----TIPO----</option>
+                  <option *ngFor="let va of valorizacion" value="{{va.CODIGO_DETALLE}}">{{va.DSC_DETALLE}}</option>
+               </select>
+              </td>
+            </tr> 
+          </table>
+        </div>
+        <div class="col-md-3">         
+          <table class="caja" style="width: 96%;margin-left:10px;">
+            <tr><td>Tipo Moneda</td></tr> 
+            <tr>
+              <td>
+                <select class="form-control" [(ngModel)]="obras.TIPO_MONEDA"  
+                  (change)="validarobra(obras);cambiar(obras.TIPO_MONEDA);habilitar(obras.TIPO_MONEDA)" [disabled]="true">
+                <option value="0" >----TIPO----</option>
+                <option *ngFor="let mo of moneda" value="{{mo.CODIGO_DETALLE}}">{{mo.DSC_DETALLE}}</option>
+              </select>
+              </td>
+            </tr> 
+          </table>
+        </div>
+        <div class="col-md-3">         
+          <table class="caja" style="width: 96%;margin-left:10px;">
+            <tr><td>Tipo de Cambio</td></tr> 
+            <tr>
+              <td>
+                <input type="text" class="form-control"  placeholder="-"
+                [(ngModel)]="obras.TIPO_CAMBIO"  (change)="validarobra(obras);validardecimal(obras.TIPO_CAMBIO,4);" (keyup)="onTipoTerreno($event)"
+                appFourDigitDecimaNumber onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46">
+              </td> 
+            </tr> 
+          </table>
+        </div>
+        <div class="col-md-3">         
+          <table class="caja" style="width: 96%;margin-left:10px;">
+            <tr><td>Fecha Tasación</td></tr> 
+            <tr>
+              <td>
+                <input type="date" class="form-control" [(ngModel)]="obras.FECHA_TASACION"  
+                (change)="validarobra(obras)" min="1997-01-01" max="2030-12-31">
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+    </fieldset>  
+  </div>
+</div>
+<div class="row" [ngClass]="{'bloquear': active}">                        
+  <div class="col-lg-12">
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+      <legend><i class="fa fa-building"></i>&nbsp;Valorización del predio</legend> 
+      <div class="row fila" style="margin-bottom: 10px;">
+        <div class="col-md-3" style="margin-top: 5px;">         
+          <label>Valor de Construcciones
+               <span *ngIf="obras.TIPO_MONEDA=='D'">$</span>
+               <span *ngIf="obras.TIPO_MONEDA=='S'">S/.</span>
+          </label>
+        </div>
+        <div class="col-md-3">         
+          <input type="text" class="form-control"   placeholder="-"  disabled 
+          [ngModel]="obras.VALOR_CONSTRUCCIONES | number : '1.2-2'" (ngModelChange)="obras.VALOR_CONSTRUCCIONES = $event"
+          (change)="validarobra(obras);validardecimal(obras.VALOR_CONSTRUCCIONES,5)"   (keyup)="onConstrucciones($event)"
+          appTwoDigitDecimaNumber onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46">
+        </div> 
+        <div class="col-md-3"  style="margin-top: 5px;">         
+          <label>Valor Total del Predio $</label>
+        </div>
+        <div class="col-md-3">         
+          <input type="text" class="form-control"  placeholder="-" 
+            [ngModel]="obras.VALOR_INMUEBLE | number : '1.2-2'" 
+            (ngModelChange)="obras.VALOR_INMUEBLE = $event"
+            (change)="validarobra(obras)" appTwoDigitDecimaNumber readonly
+          >
+        </div>            
+      </div>  
+      <div class="row fila" style="margin-bottom: 10px;">
+        <div class="col-md-3"  style="margin-top: 5px;">         
+          <label>Valor de las Obras 
+              <span *ngIf="obras.TIPO_MONEDA=='D'">$</span>
+              <span *ngIf="obras.TIPO_MONEDA=='S'">S/.</span>
+          </label>
+        </div>
+        <div class="col-md-3">         
+          <input type="text" class="form-control"  placeholder="-" disabled 
+          [ngModel]="obras.VALOR_OBRAS | number : '1.2-2'" (ngModelChange)="obras.VALOR_OBRAS = $event"
+          (change)="validarobra(obras);validardecimal(obras.VALOR_OBRAS,6)" (keyup)="onObras($event)"
+          appTwoDigitDecimaNumber onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46">
+        </div> 
+        <div class="col-md-3"  style="margin-top: 5px;">         
+          <label>Valor Total del Predio S/.</label>
+        </div>
+        <div class="col-md-3">         
+          <input type="text" class="form-control"  placeholder="-" 
+            [ngModel]="obras.VALOR_SOLES"
+            (ngModelChange)="obras.VALOR_SOLES = $event"
+            (change)="validarobra(obras); validardecimal(obras.VALOR_SOLES,8);" appTwoDigitDecimaNumber 
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46"
+            maxlength="10"
+            (focus)="foco(2)" (focusout)="processMyValue(2)"
+            >
+
+        </div>            
+      </div> 
+      <div class="row fila" style="margin-bottom: 10px;">
+        <div class="col-md-3"  style="margin-top: 5px;">         
+          <label>Valor del Terreno 
+              <span *ngIf="obras.TIPO_MONEDA=='D'">$</span>
+              <span *ngIf="obras.TIPO_MONEDA=='S'">S/.</span>
+          </label>
+        </div>
+        <div class="col-md-3">                   
+          <input type="text" class="form-control" placeholder="-"     
+            [ngModel]="obras.VALOR_TERRENO" 
+            (ngModelChange)="obras.VALOR_TERRENO = $event"
+            (change)="validarobra(obras);validardecimal(obras.VALOR_TERRENO,7); onTerreno($event);" appTwoDigitDecimaNumber      
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46"
+            maxlength="10"
+            (focus)="foco(1)" (focusout)="processMyValue(1)"
+          >
+        </div> 
+        <div class="col-md-6"></div>                   
+      </div>                          
+    </fieldset>  
+  </div>
+</div>
+
+<ng-template #content let-modal>            
+  <div class="modal-header">
+      <h4 class="modal-title" >Obras Complementarias</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body" [ngClass]="{'bloquear': active}">                                 
+    <div class="row">                        
+      <div class="col-lg-12">
+        <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+          <legend><i class="fa fa-building"></i>&nbsp;Obras y Antiguedad</legend> 
+          <div class="row fila" style="margin-bottom: 10px;">
+            <div class="col-md-9">         
+              <table class="caja" style="width: 96%;margin-left:10px;">
+                <tr><td>Denominación de </td></tr> 
+                <tr>
+                  <td>
+                    <input type="text" class="form-control" [(ngModel)]="obrascomplementarias.denominacion" (change)="validarobra(obras)" 
+                     placeholder="Ingrese Denominación" style="text-transform:uppercase">
+                  </td>
+                </tr> 
+              </table>
+            </div>
+            <div class="col-md-3">         
+              <table class="caja" style="width: 96%;margin-left:10px;">
+                <tr><td>Años/Meses</td></tr> 
+                <tr>
+                  <td>
+                    <input type="text" class="form-control" [(ngModel)]="obrascomplementarias.antiguedad"
+                    (change)="validarobra(obras);validardecimal(obrascomplementarias.antiguedad,1)" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                  </td>
+                </tr> 
+              </table>
+            </div>                       
+          </div>
+        </fieldset>  
+      </div>
+    </div>        
+    <div class="row">                        
+      <div class="col-lg-12">
+        <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+          <legend><i class="fa fa-building"></i>&nbsp;Estructura y Conservación</legend> 
+          <div class="row fila" style="margin-bottom: 10px;">
+            <div class="col-md-6">         
+              <table class="caja" style="width: 96%;margin-left:10px;">
+                <tr><td>Material</td></tr> 
+                <tr>
+                  <td>                    
+                    <select class="form-control"  [(ngModel)]="obrascomplementarias.codmaterial"  style="width: 100%;margin-bottom: 5px"
+                    (change)="validarobra(obras)">
+                      <option value="0" >----TIPO----</option>
+                      <option *ngFor="let ma of materiales" value="{{ma.CODIGO_MATERIAL}}">{{ma.DESCRIPCION_MATERIAL}}</option>
+                   </select>
+                  </td>
+                </tr> 
+              </table>
+            </div>
+            <div class="col-md-6">         
+              <table class="caja" style="width: 96%;margin-left:10px;">
+                <tr><td>Estado</td></tr> 
+                <tr>
+                  <td>                   
+                    <select class="form-control"  [(ngModel)]="obrascomplementarias.codestado"  style="width: 100%;margin-bottom: 5px"
+                    (change)="validarobra(obras)">
+                      <option value="0" >----TIPO----</option>
+                      <option *ngFor="let es of estado" value="{{es.CODIGO_ESTADO}}">{{es.DESCRIPCION_ESTADO}}</option>
+                   </select>
+                  </td>
+                </tr> 
+              </table>
+            </div>                       
+          </div>
+        </fieldset>  
+      </div>
+    </div>
+    <div class="row">                        
+      <div class="col-lg-12">
+        <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+          <legend><i class="fa fa-building"></i>&nbsp;Estructura y Conservación</legend> 
+          <div class="row fila" style="margin-bottom: 10px;">
+            <div class="col-md-4">         
+              <table class="caja" style="width: 96%;margin-left:10px;">
+                <tr><td>Valor Unitario($)</td></tr> 
+                <tr>
+                  <td>
+                    <input type="text" class="form-control" [(ngModel)]="obrascomplementarias.valor_unitario"
+                    (change)="validarobra(obras);validardecimal(obrascomplementarias.valor_unitario,2)" (keyup)="onUnitario($event)"
+                    appTwoDigitDecimaNumber onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46">
+                  </td>
+                </tr> 
+              </table>
+            </div>
+            <div class="col-md-4">         
+              <table class="caja" style="width: 96%;margin-left:10px;">
+                <tr><td>Cantidad</td></tr> 
+                <tr>
+                  <td>
+                    <input type="text" class="form-control" [(ngModel)]="obrascomplementarias.cantidad"
+                    (change)="validarobra(obras);validardecimal(obrascomplementarias.cantidad,3)" (keyup)="onCantidad($event)"
+                    onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                  </td>
+                </tr> 
+              </table>
+            </div> 
+            <div class="col-md-4">         
+              <table class="caja" style="width: 96%;margin-left:10px;">
+                <tr><td>Valor Estimado($)</td></tr> 
+                <tr>
+                  <td>
+                    <input type="text" class="form-control" [(ngModel)]="obrascomplementarias.valor_estimado"
+                    (change)="validarobra(obras)"
+                    appTwoDigitDecimaNumber onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46"
+                    readonly>
+                  </td>
+                </tr> 
+              </table>
+            </div>                      
+          </div>
+        </fieldset>  
+      </div>
+    </div> 
+    <div class="row"> 
+      <div class="col-lg-7"></div>
+      <div class="col-lg-3">
+        <button  class='btn btn-primary caja' style="margin-bottom: 10px;margin-top:10px;" *ngIf="tipo==0">
+            <i class="fa fa-plus" aria-hidden="true" (click)="agregarobra()">&nbsp;Agregar Obra</i>
+        </button>
+        <button  class='btn btn-primary caja' style="margin-bottom: 10px;margin-top:10px;" *ngIf="tipo==1">
+          <i class="fa fa-plus" aria-hidden="true" (click)="editarobra()">&nbsp;Editar Obra</i>
+        </button>
+      </div>
+      <div class="col-lg-2">
+        <button  class='btn btn-danger caja' style="margin-bottom: 10px;margin-top:10px;">
+          <i class="fa fa-trash-o" aria-hidden="true">&nbsp;Limpiar</i>
+        </button>
+      </div>  
+    </div> 
+  </div>
+</ng-template>

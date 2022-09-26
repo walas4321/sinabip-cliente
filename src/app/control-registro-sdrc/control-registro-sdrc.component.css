@@ -1,0 +1,29 @@
+@import '../../assets/dist/css/AdminLTE.min.css';
+
+
+.fade.show{
+    opacity: 1;
+}
+
+.margenButton{
+    margin-right: 5px;
+}
+
+.margenButtonTop{
+    margin-top: 25px;
+}
+
+.label{ 
+    color: #fff !important;
+    display: inline;
+      padding: .2em .6em .3em;
+      font-size: 75%;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: baseline;
+      border-radius: .25em;
+  }
+  

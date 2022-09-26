@@ -1,0 +1,63 @@
+fieldset {  
+    border-radius: 4px;
+    border:rgba(0, 0, 0, 0.13) 2px solid;
+  }
+  
+  legend {    
+    font-size: 17px;
+    font-weight: bold;
+    padding: 3px 5px 3px 7px;
+    width: auto;
+  }
+
+  
+  .input {
+    margin-top: 15px;
+    margin-left: 5px;
+    width: 100%;
+  }
+
+  .bloquear{
+    pointer-events: none;
+    opacity: 0.8;
+  }
+  
+  .boton{
+    height: 34px;width: 36px;padding-top: 4px;
+  }
+  
+  @media (max-width: 900px) {
+    .caja {
+        width: 90%!important;
+        margin-left: 21px!important;
+    }  
+    .caja_texto {
+      width: 100%!important;
+    }
+    .datos_ad {
+      width: 446px!important;
+    }
+    .celda {
+      margin-left: 0px!important;
+      width: 100%!important;
+    }
+    .aporte {      
+      width: 80%!important;
+    }
+    .marg {      
+      margin-left: 0px!important;
+    }
+    .abj {      
+      margin-bottom: 5px;
+    }
+    .titular {      
+      width: 448px!important;
+      margin-left: 24px!important;
+      margin-top: 10px!important;
+      margin-bottom: 10px!important;
+    }
+
+
+
+    
+}

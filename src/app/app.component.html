@@ -1,0 +1,71 @@
+<div class="container-fluid sticky-top">
+  <!--<div class="row mb-1">
+    <div class="col-12 bg-white p-3 text-center mb-1">    
+    </div>    
+  </div>-->
+
+  <div class="header">
+    <nav class="navbar headerbar" style="background-color: #8a2a2b;">
+      <div class="headerbar-left">
+        <a class="logo" href="javascript:void(0)"><img _ngcontent-aou-c1="" class="img" src="../assets/images/principal.png"></a>
+      </div>
+      <div id="navbar" class="navbar-custom" style="width: 70%; position: absolute;">
+          <div class="row">
+            <div class="col-12 text-center texto2">
+                SINABIP WEB<br>
+            </div> 
+          </div>
+      </div><!--/.nav-collapse -->
+      <div class="headerbar-right">
+        <a class="logo" href="javascript:void(0)"><img _ngcontent-aou-c1="" class="img" src="../assets/images/logo-sbn-blanco.png"></a>
+      </div>
+    </nav>
+  </div>
+  <br><br><br><br>
+
+  <div class="row">    
+    <div class="col-12 col-md-2" >        
+      <div class="card mb-3 text-white text-center bg-primary" *ngIf="user != null">
+        <div class="card-body">
+            <p class="mb-0">Usuario : <b>{{nickname}}</b></p>
+            <small><b>{{nombre}}</b></small>
+            <p class="mb-0">Entidad : <small><b>{{entidad}}</b></small></p>
+            <p class="mb-0">RUC : <b>{{rucempresa}}</b></p>                       
+        </div>      
+      </div>     
+
+      <div class="card mb-2" *ngFor="let menu of respuesta">
+        <p class="text-muted text-center mb-0"><small> {{ menu.menu }}</small></p>
+        <div class="card-body menu-list">
+          <ul class="list-group" style="list-style:none!important;">
+            <ng-container *ngFor="let sub of menu.submenu">             
+              <li *ngIf="sub.Men_Ruta!='aporte-poligono' "  [routerLink]="sub.Men_Ruta" routerLinkActive="active" ><span>{{ sub.Men_Nombre }}</span></li>            
+              <li *ngIf="sub.Men_Ruta=='aporte-poligono'"  routerLinkActive="active" >
+                <span>
+                  <a style="text-decoration: none;color:black" href="https://catastro.sbn.gob.pe/sdrcgeo/web/app.php/application/sbn_aporte" target="_blank">{{ sub.Men_Nombre }}</a> 
+                </span>
+              </li>
+            </ng-container>             
+          </ul>
+
+        </div>
+      </div>      
+      <div class="card mb-2">
+        <div class="card-body menu-list">
+          <p class="text-muted text-center mb-0"><small>OPCIONES</small></p>          
+          <a  (click)="logout()" class="text-center btn btn-block btn-warning">Salir</a>
+        </div>
+      </div>
+    </div> 
+    <div class="cil-12 col-md-10" > 
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner
+bdColor = "rgba(51, 51, 51, 0.8)"
+size = "default"
+color = "#fff"
+type = "square-jelly-box"
+></ngx-spinner>

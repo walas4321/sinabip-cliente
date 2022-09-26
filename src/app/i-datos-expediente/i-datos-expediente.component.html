@@ -1,0 +1,272 @@
+<div class="row">                      
+  <div class="col-lg-12" style="top:4px;">
+  
+    <div class="row">                        
+      <div class="col-lg-12">                     
+        <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 0px;padding-bottom: 10px;">                    
+          <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Datos Generales]</legend>                               
+          <div class="row">                              
+            <div class="col-lg-2">
+              <label for="">Solicitud de Ingreso</label>
+            </div>
+            <div class="col-lg-2" style="padding-right: 10px;">
+               <input type="text" 
+              [(ngModel)]="sol_ing"
+                class="form-control"   
+                style="text-transform:uppercase;" 
+                disabled
+              >
+            </div>
+            <div class="col-lg-1">
+              <label for="">Nro. Exp.</label>
+            </div>
+            <div class="col-lg-3">
+              <input type="text" 
+              [(ngModel)]="datospredio.expediente"
+                class="form-control"   
+                style="text-transform:uppercase;" 
+                disabled
+              >
+            </div>
+            <div class="col-lg-1">
+              <label for="">Registro SINABIP</label>
+            </div>
+            <div class="col-lg-3" style="padding-left: 20px;">
+              <input type="text"                
+                class="form-control"   
+                style="text-transform:uppercase;" 
+                disabled
+              >
+            </div>
+          </div>               
+        </fieldset>
+      </div>
+    </div>
+
+
+    <div class="row">                        
+      <div class="col-lg-12">                     
+        <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 0px;padding-bottom: 10px;">                    
+          <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Área y Brigada]</legend>                               
+          <div class="row" style="margin-bottom: 0px;">                              
+            <div class="col-lg-2">
+              <label for="">Área</label>
+            </div>
+            <div class="col-lg-5">
+              <input type="text" 
+                [(ngModel)]="datospredio.area"
+                class="form-control"   
+                style="text-transform:uppercase;" 
+                disabled
+                >
+            </div>
+            <div class="col-lg-2">
+              <label for="">Fecha Asignación</label>
+            </div>
+            <div class="col-lg-2" style="padding-left: 0px;padding-right: 0px;">
+              <input type="text" 
+              [(ngModel)]="datospredio.fecha"
+                class="form-control"   
+                style="text-transform:uppercase;"
+                disabled
+                >
+            </div>
+          </div>
+
+          <div class="row">                              
+            <div class="col-lg-2">
+              <label for="">Legal</label>
+            </div>
+            <div class="col-lg-4">
+              <input type="text" 
+              [(ngModel)]="datospredio.legal"
+                class="form-control"   
+                style="text-transform:uppercase;" 
+                readonly
+                >
+            </div>
+            <div class="col-lg-1">
+              <label for="">Técnico</label>
+            </div>
+            <div class="col-lg-5">
+              <input type="text" 
+                [(ngModel)]="datospredio.tecnico"
+                class="form-control"   
+                style="text-transform:uppercase;"
+                readonly
+                >
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    
+    <div class="row">                        
+      <div class="col-lg-12">                     
+        <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 0px;padding-bottom: 10px;">                    
+          <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Datos Generales]</legend>                               
+          <div class="row" style="margin-bottom: 10px;">                              
+            <div class="col-lg-6"> 
+              <table style="width: 100%;">             
+                <tr><td><p align="center" style="margin-bottom: 0px;"><label style="margin-bottom: 0px;">Área Solicitada m2</label></p></td></tr> 
+                <tr>
+                  <td>                
+                    <input type="text" 
+                     [(ngModel)]="datospredio.area_sol"
+                     class="form-control"   
+                     style="text-transform:uppercase;" 
+                     readonly
+                    >
+                  </td>
+                </tr> 
+              </table>
+            </div>
+            <div class="col-lg-6">
+              <table style="width: 100%;">              
+                <tr><td><p align="center" style="margin-bottom: 0px;"><label style="margin-bottom: 0px;">Procedimiento</label></p></td></tr> 
+                <tr>
+                  <td>                
+                    <input type="text" 
+                    [(ngModel)]="datospredio.procedimiento"
+                     class="form-control"   
+                     style="text-transform:uppercase;" 
+                     readonly
+                    >
+                  </td>
+                </tr> 
+              </table>
+            </div>
+          </div>          
+          <div class="row" style="margin-bottom: 10px;">  
+            <div class="col-lg-6"> 
+              <table style="width: 100%;">             
+                <tr><td><p align="center" style="margin-bottom: 0px;"><label style="margin-bottom: 0px;">Trámite Solicitud</label></p></td></tr> 
+                <tr>
+                  <td>                
+                    <input type="text" 
+                     [(ngModel)]="datospredio.tramite"
+                     class="form-control"   
+                     style="text-transform:uppercase;" 
+                     readonly
+                    >
+                  </td>
+                </tr> 
+              </table>
+            </div>                            
+            <div class="col-lg-6"> 
+              <table style="width: 100%;">             
+                <tr><td><p align="center" style="margin-bottom: 0px;"><label style="margin-bottom: 0px;">Razón Social</label></p></td></tr> 
+                <tr>
+                  <td>                
+                    <input type="text" 
+                     [(ngModel)]="datospredio.razon_social"
+                     class="form-control"   
+                     style="text-transform:uppercase;" 
+                     readonly
+                    >
+                  </td>
+                </tr> 
+              </table>
+            </div>
+          
+          </div>         
+          <div class="row">                              
+            <div class="col-lg-2">
+              <label for="">Administrado</label>
+            </div>
+            <div class="col-lg-10">
+              <input type="text" 
+              [(ngModel)]="datospredio.administrado"
+                class="form-control"   
+                style="text-transform:uppercase;" 
+                disabled
+              >
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    
+    <div class="row">                        
+      <div class="col-lg-12">                     
+        <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-top: 0px;padding-bottom: 10px;">                    
+          <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Representación Legal del Administrado](Solo llenado por SDDI)</legend>                               
+          <div class="row">                              
+            <div class="col-lg-2">
+              <label for="">Nombre y Apellido</label>
+            </div>
+            <div class="col-lg-6">
+              <input type="text" 
+               
+                class="form-control"   
+                style="text-transform:uppercase;" 
+                disabled
+              >
+            </div>
+            <div class="col-lg-1" style="padding-left: 0px;">
+              <label for="">DNI</label>
+            </div>
+            <div class="col-lg-3">
+              <input type="text" 
+               
+                class="form-control"   
+                style="text-transform:uppercase;"
+                disabled
+                >
+            </div>
+          </div>   
+          <div class="row" style="margin-bottom: 10px;">                              
+            <div class="col-lg-2">
+              <label for="">Razón Social</label>
+            </div>
+            <div class="col-lg-6">
+              <input type="text" 
+               
+                class="form-control"   
+                style="text-transform:uppercase;" 
+                disabled
+              >
+            </div>
+            <div class="col-lg-1" style="padding-left: 0px;">
+              <label for="" style="font-size: 13px;">Constitución</label>
+            </div>
+            <div class="col-lg-3">
+              <input type="text" 
+               
+                class="form-control"   
+                style="text-transform:uppercase;"
+                disabled
+                >
+            </div>
+          </div>               
+          <div class="row">                              
+            <div class="col-lg-2">
+              <label for="">Representación</label>
+            </div>
+            <div class="col-lg-6">
+              <input type="text" 
+               
+                class="form-control"   
+                style="text-transform:uppercase;" 
+                disabled
+              >
+            </div>
+            <div class="col-lg-1" style="padding-left: 0px;">
+              <label for="">Ficha</label>
+            </div>
+            <div class="col-lg-3">
+              <input type="text" 
+               
+                class="form-control"   
+                style="text-transform:uppercase;"
+                disabled
+                >
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <br>
+  </div>
+</div>

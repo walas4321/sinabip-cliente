@@ -1,0 +1,328 @@
+<div class="row" style="margin-top: 10px;margin-bottom: 10px">
+  <div class="col-lg-12 pl-5"> 
+    <button type="button" class="btn btn-secondary" (click)="moveItemListado('P')"><i class="fa fa-fast-backward" aria-hidden="true"></i></button>&nbsp;
+    <button type="button" class="btn btn-secondary" (click)="moveItemListado('A')"><i class="fa fa-backward" aria-hidden="true"></i></button>&nbsp;
+    <button type="button" class="btn btn-secondary" (click)="moveItemListado('S')"><i class="fa fa-forward" aria-hidden="true"></i></button>&nbsp;
+    <button type="button" class="btn btn-secondary" (click)="moveItemListado('U')"><i class="fa fa-fast-forward" aria-hidden="true"></i></button>
+  </div>
+</div>
+
+<fieldset style="padding-top: 0px;margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-bottom: 10px;">                    
+  <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Obras Complementarias]</legend>                               
+  <div  class="row" style="margin-left: 0px;">  
+    <div class="col-lg-3" style="padding-left: 0px;">
+      <fieldset style="padding-top: 0px;margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-bottom: 10px;">                    
+      <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Registro]</legend>                               
+      <div class="row">                              
+        <div class="col-lg-6">
+          <table style="width: 100%;">         
+            <tr><td><p align="center" style="margin-bottom: 0px;"><b>Item</b></p></td></tr> 
+            <tr>
+              <td>
+                <input type="text"      
+                [(ngModel)]="itemActual"     
+                class="form-control"   
+                style="text-transform:uppercase;" 
+                readonly>
+              </td>
+            </tr>          
+          </table>   
+        </div>      
+        <div class="col-lg-6">
+          <table style="width: 100%;">         
+            <tr><td><p align="center" style="margin-bottom: 0px;"><b>De:</b></p></td></tr> 
+            <tr>
+              <td>
+                <input type="text"           
+                class="form-control" 
+                [(ngModel)]="cantidadRegistros"  
+                style="text-transform:uppercase;" 
+                readonly>
+              </td>
+            </tr>          
+          </table>   
+        </div>      
+      </div>      
+      </fieldset>
+    </div>
+    <div class="col-lg-6" style="padding-left: 0px;">
+      <fieldset style="padding-top: 0px;margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;margin-bottom: 0px;">                    
+      <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Obras]</legend>                               
+      <div class="row">          
+        <div class="col-lg-12">
+          <table style="width: 100%;">         
+            <tr><td><p align="center" style="margin-bottom: 0px;"><b>Denominación de la Obra</b></p></td></tr> 
+            <tr>
+              <td>
+                <input type="text"           
+                class="form-control"   
+                [(ngModel)]="obras.denominacion" 
+                style="text-transform:uppercase;margin-bottom: 5px;" 
+                readonly>
+              </td>
+            </tr>          
+          </table>   
+        </div>            
+      </div>          
+      </fieldset>
+    </div>
+    <div class="col-lg-3" style="padding-left: 0px;">
+      <fieldset style="padding-top: 0px;margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-bottom: 10px;">                    
+      <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Antiguedad]</legend>                               
+      <div class="row">                              
+        <div class="col-lg-12">        
+          <table style="width: 100%;">         
+            <tr><td><p align="center" style="margin-bottom: 0px;"><b>Años/Meses:</b></p></td></tr> 
+            <tr>
+              <td>
+                <input type="text"           
+                class="form-control"   
+                [(ngModel)]="obras.antiguedad" 
+                style="text-transform:uppercase;" 
+                readonly>
+              </td>
+            </tr>          
+          </table>
+        </div>          
+      </div>      
+      </fieldset>
+    </div>
+  </div>  
+  
+  <div  class="row" style="margin-left: 0px;">  
+    <div class="col-lg-3" style="padding-left: 0px;">
+      <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right:15px;padding-bottom: 10px;">                    
+      <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Valor U.]</legend>                               
+      <div class="row">
+        <div class="col-lg-12">
+        <table style="width: 100%;">         
+          <tr><td><p align="center" style="margin-bottom: 0px;"><b>VUOC</b></p></td></tr> 
+          <tr>
+            <td>
+              <input type="text"           
+              class="form-control"   
+              [(ngModel)]="obras.val_unitario" 
+              style="text-transform:uppercase;" 
+              readonly>
+            </td>
+          </tr>          
+        </table> 
+        </div> 
+      </div>      
+      </fieldset>
+    </div>
+    <div class="col-lg-2" style="padding-left: 0px;padding-right: 0px;">
+      <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-bottom: 10px">                    
+      <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[U]</legend>                               
+      <div class="row">  
+        <div class="col-lg-12">
+          <table style="width: 100%;">         
+            <tr><td><p align="center" style="margin-bottom: 0px;"><b>Cantidad</b></p></td></tr> 
+            <tr>
+              <td>
+                <input type="text"           
+                class="form-control"   
+                [(ngModel)]="obras.cantidad" 
+                style="text-transform:uppercase;" 
+                readonly>
+              </td>
+            </tr>          
+          </table>    
+        </div>
+      </div>
+            
+      </fieldset>
+    </div>
+    <div class="col-lg-4" style="padding-left: 0px;">
+      <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-bottom: 10px;">                    
+      <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Estruct. y Conserv.]</legend>                               
+      <div class="row">                              
+        <div class="col-lg-6">
+          <table style="width: 100%;">         
+            <tr><td><p align="center" style="margin-bottom: 0px;"><b>Material</b></p></td></tr> 
+            <tr>
+              <td>
+                <input type="text"           
+                class="form-control"   
+                [(ngModel)]="obras.material" 
+                style="text-transform:uppercase;" 
+                readonly>
+              </td>
+            </tr>          
+          </table>
+        </div>            
+        <div class="col-lg-6">
+          <table style="width: 100%;">         
+            <tr><td><p align="center" style="margin-bottom: 0px;"><b>Estado</b></p></td></tr> 
+            <tr>
+              <td>
+                <input type="text"           
+                class="form-control"  
+                [(ngModel)]="obras.estado"  
+                style="text-transform:uppercase;" 
+                readonly>
+              </td>
+            </tr>          
+          </table>
+        </div>
+           
+      </div>      
+      </fieldset>
+    </div>
+    <div class="col-lg-3" style="padding-left: 0px;">
+      <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-bottom: 10px;">                    
+      <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[V. Estimado]</legend>                               
+      <div class="row">  
+        <div class="col-lg-12">
+          <table style="width: 100%;">         
+            <tr><td><p align="center" style="margin-bottom: 0px;"><b>Total</b></p></td></tr> 
+            <tr>
+              <td>
+                <input type="text"           
+                class="form-control"   
+                [(ngModel)]="obras.estimado"  
+                style="text-transform:uppercase;" 
+                readonly>
+              </td>
+            </tr>          
+          </table>    
+        </div>
+      </div>
+            
+      </fieldset>
+    </div>  
+  </div>         
+</fieldset>
+
+
+
+
+<div class="row">                        
+  <div class="col-lg-12">                     
+    <fieldset style="margin-left: 10px;margin-right: 10px;padding-left: 10px;padding-right: 15px;padding-bottom: 10px;">                    
+      <legend style="font-size: 15px;"><i class="fa fa-building"></i>&nbsp;[Observaciones Técnicas]</legend>                               
+      <div class="row">                                         
+        <div class="col-lg-12">
+          <textarea  type="text"  rows="2"           
+            class="form-control"   
+            style="text-transform:uppercase;resize: none"   
+            [(ngModel)]="datospredio.observaciones"  
+            readonly              
+          >
+          </textarea>
+        </div>           
+      </div>         
+    </fieldset>
+  </div>
+</div> 
+
+<div class="row" >
+  <div class="col-lg-12">
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;padding-right: 10px;">                
+      <legend><i class="fa fa-building"></i>&nbsp;Tipo de Valorización</legend> 
+      <div class="row fila" style="margin-bottom: 10px;">
+        <div class="col-md-3">         
+          <table class="caja" style="width: 96%;margin-left:10px;">
+            <tr><td>De Tipo</td></tr> 
+            <tr>
+              <td>
+                  <input  class="form-control"  readonly>                       
+              </td>
+            </tr> 
+          </table>
+        </div>
+        <div class="col-md-3">         
+          <table class="caja" style="width: 96%;margin-left:10px;">
+            <tr><td>Tipo Moneda</td></tr> 
+            <tr>
+              <td>              
+                <input type="text" *ngIf="datospredio.moneda=='D'"                
+                class="form-control"   
+                style="text-transform:uppercase;" 
+                readonly
+                value = "DOLARES">
+                <input type="text" *ngIf="datospredio.moneda=='S'"                
+                class="form-control"   
+                style="text-transform:uppercase;" 
+                readonly
+                value = "SOLES">
+              </td>
+            </tr> 
+          </table>
+        </div>
+        <div class="col-md-3">         
+          <table class="caja" style="width: 96%;margin-left:10px;">
+            <tr><td>Tipo de Cambio</td></tr> 
+            <tr>
+              <td>
+                <input type="text"      
+                [(ngModel)]="datospredio.cambio"  
+                class="form-control"   
+                style="text-transform:uppercase;" readonly>
+              </td> 
+            </tr> 
+          </table>
+        </div>
+        <div class="col-md-3">         
+          <table class="caja" style="width: 96%;margin-left:10px;">
+            <tr><td>Fecha Tasación</td></tr> 
+            <tr>
+              <td>
+                <input type="text" class="form-control" readonly>
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+    </fieldset>  
+  </div>
+</div>
+<div class="row">                        
+  <div class="col-lg-12">
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;padding-left: 10px;padding-bottom: 10px;padding-right: 10px;">                
+      <legend><i class="fa fa-building"></i>&nbsp;Valorización del predio</legend> 
+      <div class="row fila" style="margin-bottom: 10px;">
+        <div class="col-md-3" style="margin-top: 5px;">         
+          <label>Valor de Construcciones              
+          </label>
+        </div>
+        <div class="col-md-3">         
+          <input type="text" class="form-control"    readonly  [(ngModel)]="datospredio.val_construcciones"  >
+        </div> 
+        <div class="col-md-3"  style="margin-top: 5px;">         
+          <label>Valor Total del Predio $</label>
+        </div>
+        <div class="col-md-3">         
+          <input type="text" class="form-control"   readonly [(ngModel)]="datospredio.val_predio_dolar">
+        </div>            
+      </div>  
+      <div class="row fila" style="margin-bottom: 10px;">
+        <div class="col-md-3"  style="margin-top: 5px;">         
+          <label>Valor de las Obras             
+          </label>
+        </div>
+        <div class="col-md-3">         
+          <input type="text" class="form-control"  placeholder="-" readonly  [(ngModel)]="datospredio.val_obras">
+        </div> 
+        <div class="col-md-3"  style="margin-top: 5px;">         
+          <label>Valor Total del Predio S/.</label>
+        </div>
+        <div class="col-md-3">         
+          <input type="text" class="form-control"  placeholder="-" [(ngModel)]="datospredio.val_predio_soles" readonly>
+        </div>            
+      </div> 
+      <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-3"  style="margin-top: 5px;">         
+          <label>Valor del Terreno              
+          </label>
+        </div>
+        <div class="col-md-3">                   
+          <input type="text" class="form-control" placeholder="-"   
+          [(ngModel)]="datospredio.val_terreno"  readonly
+          >
+        </div> 
+        <div class="col-md-6"></div>                   
+      </div>                          
+    </fieldset>  
+  </div>
+</div>

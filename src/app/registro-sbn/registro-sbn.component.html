@@ -1,0 +1,807 @@
+<head>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<div> 
+<div class="row">                        
+<div class="col-lg-5">
+    <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+      <legend><i class="fa fa-building"></i>&nbsp;Vinculación y Generación Unidad Documental</legend> 
+      <div class="row">                              
+          <div class="col-lg-6"> 
+            <table style="margin-top: 5px;margin-left: 5px;width: 100%;">
+              <tr><td>Tipo de Documento</td></tr> 
+              <tr>
+                 <td>
+                  <select [(ngModel)]="unidad.tipodocumento" class="form-control" (change)="resetdoc()">
+                    <option value="">--Tipo--</option>
+                    <option value="S">Solicitud de Ingreso</option>                       
+                    <option value="M">Memorandum</option>   
+                                     
+                  </select>
+                 </td>
+              </tr> 
+            </table>            
+          </div>                                   
+      </div> 
+      <div class="row" style="margin-top: 5px;">
+        <div class="col-lg-6">          
+          <table  style="margin-left: 5px;width: 100%">
+            <tr><td>Nº Documento</td></tr> 
+            <tr>
+              <td><input type="text" class="form-control"  [(ngModel)]="unidad.numerodocumento" disabled              
+                ></td>
+            </tr>             
+          </table>
+        </div> 
+        <div class="col-lg-4">
+          <table  style="margin-left: 5px;width: 100%">
+            <tr><td>&nbsp;</td></tr> 
+            <tr>
+              <td><button type="button"  (click)="ListadoDocumentos(content)" class="btn btn-primary btn-sm"  style="width: 100%;"><i class="fa fa-clone" ></i>&nbsp;&nbsp;Vincular SID </button></td>
+            </tr>             
+          </table>          
+        </div>       
+      </div>
+      <div class="row" style="margin-top: 5px;" >                              
+        <div class="col-lg-6">
+          <table  style="margin-left: 5px;width: 100%;">
+            <tr><td>Nº UD Necesario</td></tr> 
+            <tr><td>
+                <input type="text" class="form-control"  
+                [(ngModel)]="unidad.documental" placeholder="-" style="margin-bottom: 10px;"
+                (change)="validar()"
+                onkeypress="return event.charCode >= 48 && event.charCode <= 57" 
+                maxlength="2"
+                ></td>
+            </tr> 
+          </table>          
+        </div>       
+      </div>     
+    </fieldset>  
+  </div>
+  <div class="col-lg-2">    
+    <div class="row" style="margin-top: 20px;">
+      <button (click)="GenerarUD()" type="button" class="btn btn-primary btn-sm" style="width: 100%;"><i class="fa fa-folder-open-o" ></i>&nbsp;&nbsp;Genera U.D</button>
+    </div>    
+    <div class="row" style="margin-top: 20px;">
+      <button (click)="LimpiarUD()" type="button" class="btn btn-danger btn-sm" style="width: 100%;"><i class="fa fa-close" ></i>&nbsp;&nbsp;Limpiar</button>
+    </div>   
+    <div class="row" style="margin-top: 20px;">
+      <button (click)="openBusquedaUD(buscarUD)" type="button" class="btn btn-success btn-sm" style="width: 100%;"><i class="fa fa-search-minus" ></i>&nbsp;&nbsp;Buscar U.D.</button>
+    </div>    
+  </div>
+  <div class="col-lg-5">                   
+      <div class="row">                              
+          <div class="col-lg-12" style="padding-left: 0px;"> 
+            <fieldset style="margin-left: 10px;margin-right: 10px; margin-bottom: 40px; padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+              <legend style="font-size: 15px;"><i class="fa fa-user"></i>&nbsp;Profesionales Encargados</legend> 
+              <div class="row">
+                 <div class="col-lg-12">
+                  <p align="center" style="margin-bottom: 0px;">Prof. Técnico</p>
+                     <!--<select class="form-control" [(ngModel)]="unidad.codtecnico" >
+                        <option value="" >----SELECCIONE----</option>
+                        <option *ngFor="let te of tecnico" value="{{te.CODIGO_PERSONAL}}">{{te.NMB_PERSONAL}}</option>
+                    </select>-->
+                    <ng-select class="custom"  #idsist="ngModel" name= 'codtecnico' [(ngModel)]="unidad.codtecnico" 
+                      placeholder="---Selecciona---"
+                      [items] = "tecnico"		 
+                      bindLabel="NMB_PERSONAL"
+                      bindValue="CODIGO_PERSONAL"
+                      style="width:auto">							
+                    </ng-select>
+                 </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                 <p align="center" style="margin-bottom: 0px;">Prof. Legal</p>
+                   <!--<select class="form-control" [(ngModel)]="unidad.codlegal">
+                      <option value="" >----SELECCIONE----</option>
+                      <option *ngFor="let le of legal" value="{{le.CODIGO_PERSONAL}}">{{le.NMB_PERSONAL}}</option>
+                   </select>-->
+                   <ng-select class="custom"  #idsist="ngModel" name= 'codlegal' [(ngModel)]="unidad.codlegal" 
+                   placeholder="---Selecciona---"
+                   [items] = "legal"		 
+                   bindLabel="NMB_PERSONAL"
+                   bindValue="CODIGO_PERSONAL"
+                   style="width:auto">							
+                 </ng-select>
+                </div>
+             </div>                                 
+            </fieldset>                      
+          </div>                                  
+      </div>   
+      <div class="row">
+        <div class="col-lg-3">
+
+        </div>
+        <div class="col-lg-3">
+          
+        </div>
+        <div class="col-lg-6">
+          <button (click)="openImprimirCaratula(modalImprimirCaratula)" type="button" class="btn btn-primary btn-sm" style="width: 100%;"><i class="fa fa-folder-open-o" ></i>&nbsp;&nbsp;Imprimir Caratula</button>
+        </div>
+      </div>  
+  </div>
+</div>
+
+<br>
+
+<!--BUSCAR UD -->
+
+<div class="row">
+  <div class="col-lg-12">  
+   <table id="example2" class="table m-t-30 no-wrap contact-list">
+       <thead>
+           <tr>														
+               <th>Item</th>
+               <th>Nº UD</th>                                          
+               <th>Tipo Documento</th>
+               <th>Nº Documento</th>
+               <th>Técnico</th>
+               <th>Legal</th>
+               <th>Nº CUS</th>
+               <th>Acción</th>
+               <th>Etapa</th>
+           </tr>
+       </thead>
+       <tbody>
+           <ng-container>												
+            <tr *ngFor="let doc of listadodocumental; let in = index;" id="{{doc.ITEM}}">                                    
+                   <td>{{doc.ITEM}}</td>
+                   <td>{{doc.DSC_UDOCUMENTAL}}</td>
+                   <td>{{doc.TIPO_DOCUMENTO}}</td>
+                   <td>{{doc.NRO_DOCUMENTO}}</td>
+                   <td>{{doc.TECNICO}}</td>
+                   <td>{{doc.LEGAL}}</td>
+                   <td>{{doc.CUS}}</td>                   
+                   <td>                                                                                                                                                                                  
+                       <div ngbDropdown class="d-inline-block">
+                        <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Selecciona</button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">  
+                          <button ngbDropdownItem (click)="CargarVerificacion(contentVerDocumentos, doc.CODIGO_UDOCUMENTAL,doc.NRO_UD, doc.ETAPA_UDOCUMENTAL)"> 
+                            <i class="fa fa-folder-open-o" aria-hidden="true">&nbsp;Ver Documentos</i>
+                          </button>                        
+                          <div *ngIf="doc.CUS=='SIN CUS'">
+                            <button ngbDropdownItem (click)="registro(nuevo,doc.CODIGO_UDOCUMENTAL,doc.ITEM);CargarVerificacion(doc.CODIGO_UDOCUMENTAL,doc.NRO_UD)"> 
+                              <i class="fa fa-plus" aria-hidden="true">&nbsp;Incorporar</i>
+                           </button>
+                          </div>
+                          <div *ngIf="doc.CUS=='SIN CUS'">
+                            <button ngbDropdownItem  (click)="actualizara(actualizar,doc.CODIGO_UDOCUMENTAL)">
+                              <i class="fa fa-pencil" aria-hidden="true">&nbsp;Actualizar</i>
+                            </button>
+                          </div>
+                          <div *ngIf="doc.CUS!=='SIN CUS' && doc.ETAPA_UDOCUMENTAL !=='FINALIZADA'"> 
+                            <button ngbDropdownItem  (click)="modaleditar(modalpredio,'X',doc.CUS, doc.CODIGO_UDOCUMENTAL,doc.ITEM)">
+                              <i class="fa fa-pencil" aria-hidden="true">&nbsp;Actualizar</i>
+                            </button>
+                          </div>
+
+                          <div *ngIf="doc.CUS!=='SIN CUS' && doc.ETAPA_UDOCUMENTAL !=='FINALIZADA'">
+                            <button ngbDropdownItem  (click)="TerminarProceso(doc.CODIGO_UDOCUMENTAL, doc.NRO_UD, doc.CODIGO_INTERNO)">
+                              <i class="fa fa-window-close" aria-hidden="true">&nbsp;Terminar Proceso</i>
+                            </button>
+                          </div>
+
+                          <div *ngIf="doc.ETAPA_UDOCUMENTAL !== 'FINALIZADA'">
+                            <button ngbDropdownItem  (click)="openactualizarProfesionales(openUpdateProfesionales,doc.CODIGO_UDOCUMENTAL)">
+                              <i class="fa fa-users" aria-hidden="true">&nbsp;Actualizar Profesionales</i>
+                            </button>
+                          </div>
+
+                          <!--<div *ngIf="doc.CUS!='SIN CUS'">
+                            <button ngbDropdownItem  (click)="Desvincular(doc.CODIGO_UDOCUMENTAL)">
+                              <i class="fa fa-trash-o" aria-hidden="true">&nbsp;Desvincular</i>
+                            </button>
+                          </div>-->
+
+                          <div *ngIf="doc.CUS=='SIN CUS'">
+                            <button ngbDropdownItem  (click)="EliminarUnidad(doc.CODIGO_UDOCUMENTAL,doc.NRO_UD)">
+                              <i class="fa fa-trash-o" aria-hidden="true">&nbsp;Eliminar</i>
+                            </button>
+                          </div>
+                          
+                          
+                        </div>
+                      </div>
+                    </td>
+                    <td><span *ngIf="doc.ETAPA_UDOCUMENTAL == 'FINALIZADA'"
+                        class="label" style=" background-color: #d9534f !important;">{{ doc.ETAPA_UDOCUMENTAL }}
+                        </span>
+                        <span *ngIf="doc.ETAPA_UDOCUMENTAL !== 'FINALIZADA'"
+                        class="label" style=" background-color: #00a65a !important;">{{ doc.ETAPA_UDOCUMENTAL }}
+                        </span>
+                    </td>   
+            </tr>
+            <tr *ngIf="listadodocumental.length == 0">
+              <td colspan="9">
+                <label for="">No se encontraron resultados</label>
+              </td>
+            </tr>
+           </ng-container>
+       </tbody>													
+   </table>       
+  </div>
+</div>
+<br>
+</div> 
+
+
+
+<ng-template #contentVerDocumentos let-modal>
+
+  <div class="row">                        
+    <div class="col-lg-12">
+      <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">  
+        <div class="row" style="padding-left: 10px;">
+          <div class="col-lg-4">          
+             <p>Nº de UD <b>{{numeroud}}</b></p>                                 
+          </div>
+          <div class="col-lg-4" *ngIf="etapaUD!='FINALIZADA'">          
+            <label class="container">Agregar doc. Técnico
+              <input type="radio" name="opt" (click)="ventana(content1,'T')"> 
+              <span class="checkmark"></span>
+            </label>                                 
+          </div>
+          <div class="col-lg-4" *ngIf="etapaUD!='FINALIZADA'">          
+            <label class="container">Agregar doc. Legal
+              <input type="radio" name="opt" (click)="ventana(content1,'L')">
+              <span class="checkmark"></span>
+            </label>       
+          </div>
+        </div>            
+        <legend><i class="fa fa-building"></i>&nbsp;Verificación Documental Tec/Legal</legend> 
+        <div class="row">                              
+            <div class="col-lg-12">
+              <table id="example2" class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>														                      
+                        <th>Item</th>
+                        <th>Descripcion Documento</th>
+                        <th>Tipo</th>
+                        <th *ngIf="etapaUD!='FINALIZADA'">Acción</th>               
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container>												
+                      <tr *ngFor="let ver of listadoverificacion; let in = index;">                                     
+                           <td>{{in+1}}</td>
+                           <td>{{ver.NOMBRE_TIPO_DOCUMENTO}}</td>                       
+                           <td *ngIf="ver.CLASIFICACION_DOC=='T'">Técnico</td>
+                           <td *ngIf="ver.CLASIFICACION_DOC=='L'">Legal</td>
+                           <td *ngIf="etapaUD!='FINALIZADA'">
+                                <button  
+                                  class='btn btn-danger' 
+                                  (click)="eliminardocumento(ver.CODIGO_UDOCUMENTAL,ver.CODIGO_TIPO_DOCUMENTO)">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>                                                                                                                                                                
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>													
+            </table>        
+            </div>                                   
+        </div>              
+      </fieldset> 
+      <footer>
+        <button 
+          (click)="this.modal.close();" 
+          type="button" 
+          class="btn btn-danger btn-sm" 
+          style="margin-left: 89%; margin-bottom: 1%;"
+          >
+        <i class="fa fa-close" ></i>&nbsp;&nbsp;Cerrar
+        </button> 
+      </footer>   
+      
+    </div> 
+  </div>
+
+</ng-template>
+
+<ng-template #content let-modal>            
+  <div class="modal-header">
+      <h4 class="modal-title" >Listado de Documentos SID </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body" >                                 
+    <div class="row">
+      <div class="col-lg-4">
+        <input type="text" class="form-control" [(ngModel)]="auxnumerodocumento" placeholder="Ingrese Nº">        
+      </div>
+      <div class="col-lg-2">
+        <button  class='btn btn-primary' (click)="CargarDocumentos()">
+          <i class="fa fa-search" aria-hidden="true">&nbsp;Buscar</i>
+        </button>        
+      </div>
+      <div class="col-lg-2">
+        <button  class='btn btn-danger' (click)="limpiar()">
+          <i class="fa fa-trash-o" aria-hidden="true">&nbsp;Limpiar</i>
+        </button>        
+      </div>
+    </div>
+    <br>
+    <div class="row">          
+      <div class="col-lg-12">
+        <table id="example2" class="table table-bordered table-striped table-hover">
+          <thead>
+              <tr>														
+                  <th>Codigo Documento</th>
+                  <th>Numero Documento</th>                                                            
+                  <th>Acción</th>
+              </tr>
+          </thead>
+          <tbody>
+              <ng-container>												
+                  <tr *ngFor="let doc of respuesta; let in = index;">                                  
+                      <td>{{doc.COD_DOCUMENTO}}</td>
+                      <td>{{doc.NRO_DOCUMENTO}}</td>                     
+                      <td>
+                          <button  class='btn btn-success espacio'>
+                              <i class="fa fa-mouse-pointer" aria-hidden="true" (click)="pasar(doc.COD_DOCUMENTO,doc.NRO_DOCUMENTO)">&nbsp;Seleccionar</i>
+                          </button>                                                                                                                                                                
+                      </td>
+                  </tr>
+              </ng-container>
+          </tbody>													
+      </table>        
+      </div> 
+    </div>     
+  </div>
+    
+</ng-template>
+
+
+<ng-template #content1 let-modal>            
+  <div class="modal-header">
+      <h4 class="modal-title" >Documentos UD {{nombre}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body" >                                     
+    <div class="row">          
+      <div class="col-lg-12">
+        <table id="example2" class="table table-bordered table-striped table-hover">
+          <thead>
+              <tr>														                 
+                  <th>Nombre Documento</th>                                                            
+                  <th>Acción</th>
+              </tr>
+          </thead>
+          <tbody>
+              <ng-container>												
+                  <tr *ngFor="let doc of documentos; let in = index;">                                  
+                      <td>{{doc.NMB_DOCUMENTO}}</td>
+                      <td>
+                          <button  class='btn btn-primary'>
+                              <i class="fa fa--plus" aria-hidden="true" (click)="agregardoc(doc.COD_DOCUMENTO)">Agregar</i>
+                          </button>                                                                                                                                                                
+                      </td>
+                  </tr>
+              </ng-container>
+          </tbody>													
+      </table>        
+      </div> 
+    </div>     
+  </div>
+    
+</ng-template>
+
+<ng-template #modalpredio let-modal>            
+  <div style="background-color: #8a2a2b;">      
+    <div class="row" style="height: 60px;">
+      <div class="col-lg-4">
+        <img _ngcontent-aou-c1="" style="width: 35%;margin-top: 5px;padding-left: 10px" class="img" src="../assets/images/principal.png">
+      </div>
+      <div class="col-lg-4">
+        <h4 class="modal-title " style="color:white;padding-top: 5px;" align="center">SINABIP</h4>
+      </div>
+      <div class="col-lg-4">
+        <img _ngcontent-aou-c1="" class="img" style="width: 35%;margin-top: 5px;float: right;padding-right: 10px" src="../assets/images/logo-sbn-blanco.png" >            
+      </div>
+    </div>                            
+  </div>
+  <div class="modal-header">    
+    <h4 *ngIf="numerocus!=''" class="modal-title" >MODIFICACION DE REGISTRO {{ tipoRegistro }} - </h4><br>
+    <h4 *ngIf="numerocus!=''" class="modal-title" > CUS N° {{numerocus}}</h4>   
+    <h4 *ngIf="numerocus==''" class="modal-title" >INCORPORACION DE REGISTRO {{ tipoRegistro }} - </h4>
+    <h4 *ngIf="numerocus==''" class="modal-title" > [CUS POR DEFINIR]</h4>    
+    <button type="button" class="close" aria-label="Close" (click)="cerrarventana()">
+      <span aria-hidden="true">&times;</span>
+    </button>    
+  </div>
+  <div class="modal-body" >                                 
+    <div class="row">          
+      <div class="col">
+          <div class="box box-solid box-danger">									
+              <div class="box-body">
+                  <div class="card">
+                      <nav class="card-header" style="font-size: 10px;">
+                          <div class="nav nav-pills" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-datg-tab" data-toggle="tab" href="#nav-datg" role="tab" aria-controls="nav-datg" aria-selected="true"><strong>Datos generales</strong></a>
+                            <a (click)="cargar(1)" class="nav-item nav-link" id="nav-titu-tab" data-toggle="tab" href="#nav-titu" role="tab" aria-controls="nav-titu" aria-selected="false" ><strong>Adquisicion e Inscripcion</strong></a>
+                            <a (click)="cargar(9)"class="nav-item nav-link " id="nav-fablin-tab" data-toggle="tab" href="#nav-fablin" role="tab" aria-controls="nav-fablin" aria-selected="false" ><strong>Fábrica y Linderos</strong></a>
+                            <a (click)="cargar(2)"class="nav-item nav-link" id="nav-lim-tab" data-toggle="tab" href="#nav-lim" role="tab" aria-controls="nav-lim" aria-selected="false" ><strong>Limitaciones a la Propiedad</strong></a>                          
+                            <a (click)="cargar(3)"class="nav-item nav-link" id="nav-opor-tab" data-toggle="tab" href="#nav-opor" role="tab" aria-controls="nav-opor" aria-selected="false" ><strong>Actos de Administración y Disposición</strong></a>
+                            <a (click)="cargar(4)"class="nav-item nav-link" id="nav-dat-tab" data-toggle="tab" href="#nav-dat" role="tab" aria-controls="nav-dat" aria-selected="false"><strong>Datos Técnicos</strong></a>
+                            <a (click)="cargar(5)"class="nav-item nav-link" id="nav-con-tab" data-toggle="tab" href="#nav-con" role="tab" aria-controls="nav-con" aria-selected="false"><strong>Construcciones</strong></a>
+                            <a (click)="cargar(6)"class="nav-item nav-link" id="nav-pote-tab" data-toggle="tab" href="#nav-pote" role="tab" aria-controls="nav-pote" aria-selected="false" ><strong>Obras y Valorización</strong></a>                          
+                            <a (click)="cargar(7)"class="nav-item nav-link" id="nav-zon-tab" data-toggle="tab" href="#nav-zon" role="tab" aria-controls="nav-zon" aria-selected="false"><strong>Zona de Playa</strong></a>                          
+                            <a (click)="cargar(10)"class="nav-item nav-link " id="nav-riesgo-tab" data-toggle="tab" href="#nav-riesgo" role="tab" aria-controls="nav-riesgo" aria-selected="false"><strong>Riesgo de Desastres</strong></a>                          
+                            <a (click)="cargar(8)" class="nav-item nav-link" id="nav-leg-tab" data-toggle="tab" href="#nav-leg" role="tab" aria-controls="nav-leg" aria-selected="false"><strong>Legajo Digital</strong></a>
+                            <a class="nav-item nav-link " id="nav-fot-tab" data-toggle="tab" href="#nav-fot" role="tab" aria-controls="nav-fot" aria-selected="false"><strong>Aporte de Fotos</strong></a>
+                            <!--<a class="nav-item nav-link " id="nav-pol-tab" data-toggle="tab" href="#nav-pol" role="tab" aria-controls="nav-pol" aria-selected="false"><strong>Aporte de Poligonos</strong></a>-->
+                          </div>
+                      </nav>
+                      <br>
+                      <div class="tab-content" id="nav-tabContent">
+                          <div class="tab-pane fade show active" id="nav-datg" role="tabpanel" aria-labelledby="nav-datg-tab">
+                              <app-datos-generales     
+                              [codigo_interno]="aux.codigo_interno"
+                              [coddocumental]="aux.coddocumental"
+                              [tipo_registro]="aux.tipo_registro"
+                              [tipo_registro2]="aux.tipo_registro2"
+                              [bloquear]="0"  
+                              [flagaux]="flagaux"
+                              [tipoUsuario]="tipoUsuario"
+                              (callbackcodigo) ="actualizarcodigo($event)"                      
+                              (callback)="actualizardatosgenerales($event)"                                
+                              ></app-datos-generales> 
+                              <br>
+                              <button type="button" class="btn btn-primary btn-sm" 
+                              style="margin-left: 15px;margin-bottom: 10px;"
+                              (click)="guardar(predio)">
+                              <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-titu" role="tabpanel" aria-labelledby="nav-titu-tab">                            
+                            <app-adquisicion                            
+                            [coddepa]="aux.codigodepa"   
+                            [detalle]="aux.detalle"                          
+                            [codigo_interno]="aux.codigo_interno"
+                            [grabado]="aux.grabado"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                             (callback)="actualizaadquision($event)"
+                            ></app-adquisicion>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardar(predio)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>    
+                          <div class="tab-pane fade" id="nav-fablin" role="tabpanel" aria-labelledby="nav-fablin-tab">
+                            <app-fabrica-linderos
+                              [codigo_interno]="aux.codigo_interno"
+                              [cargar]="aux.cargar"
+                              [bloquear]="0"
+                              (callback)="actualizarfabricalinderos($event)"
+                            ></app-fabrica-linderos>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarfabricalinderos(fabricacionlimitaciones)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>                         
+                          <div class="tab-pane fade" id="nav-lim" role="tabpanel" aria-labelledby="nav-lim-tab">
+                            <app-limitaciones
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizarlimitaciones($event)"
+                            ></app-limitaciones>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarlimitaciones(limitaciones)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-pote" role="tabpanel" aria-labelledby="nav-pote-tab">
+                            <app-obras
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizarobras($event)"  ></app-obras>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarobras(obras)">
+                            <i class="fa fa-save" aria-hidden="true"></i>GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-opor" role="tabpanel" aria-labelledby="nav-opor-tab">
+                            <app-actos
+                            [coddepa]="aux.codigodepa" 
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizaractos($event)"
+                            ></app-actos>
+                              <button type="button" class="btn btn-primary btn-sm" 
+                              style="margin-left: 15px;margin-bottom: 10px;"
+                              (click)="guardaractos(actos)">
+                              <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>                         
+                          <div class="tab-pane fade" id="nav-zon" role="tabpanel" aria-labelledby="nav-zon-tab">
+                            <app-zona
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizarzona($event)"  
+                            ></app-zona>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarzona(zona)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-riesgo" role="tabpanel" aria-labelledby="nav-riesgo-tab">
+                            <app-riesgo-desastre 
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="bloqueaCondicion"
+                            (callback)="actualizarRiesgo($event)"  
+                            ></app-riesgo-desastre>
+                            <button type="button" class="btn btn-primary btn-sm"
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarRiesgo(riesgo)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-con" role="tabpanel" aria-labelledby="nav-con-tab">
+                            <app-construccion
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            [grabado]="aux.grabado"
+                            (callback)="actualizarconstruccion($event)" 
+                            ></app-construccion>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarconstruccion(construccion)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                        
+                          <div class="tab-pane fade" id="nav-dat" role="tabpanel" aria-labelledby="nav-dat-tab">
+                            <app-datos-tecnicos
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizardatos($event)"
+                            ></app-datos-tecnicos>
+                            <button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardardatostecnicos(datos)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>
+                          </div>
+                          <div class="tab-pane fade" id="nav-leg" role="tabpanel" aria-labelledby="nav-leg-tab">
+                            <app-legajo
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            [bloquear]="0"
+                            (callback)="actualizarzona($event)"  
+                            ></app-legajo>
+                          </div>
+                          <div class="tab-pane fade" id="nav-fot" role="tabpanel" aria-labelledby="nav-fot-tab">
+                            <app-aporte-fotos
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"                            
+                            [bloquear]="0"
+                            ></app-aporte-fotos>
+                            <!--<button type="button" class="btn btn-primary btn-sm" 
+                            style="margin-left: 15px;margin-bottom: 10px;"
+                            (click)="guardarfotos(zona)">
+                            <i class="fa fa-save" aria-hidden="true"></i> GUARDAR</button>-->
+                          </div>
+                          <!--<div class="tab-pane fade" id="nav-pol" role="tabpanel" aria-labelledby="nav-pol-tab">
+                            <app-aporte-poligono
+                            [codigo_interno]="aux.codigo_interno"
+                            [cargar]="aux.cargar"
+                            (callback)="actualizarzona($event)"   
+                            ></app-aporte-poligono>
+                          </div>-->
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>      
+  </div>
+  </div>   
+</ng-template>
+
+<ng-template #nuevo let-modal>            
+  <div class="modal-header">
+      <h6 class="modal-title" style="color:#FF0000;">Acción: Registro Inicial</h6>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body" >                                     
+    <div class="row">          
+      <div class="col-lg-12" align="center">
+        <label>Detalle de Registro</label>
+      </div>     
+      <div class="col-lg-12">
+        <select class="form-control" [(ngModel)]="aux.tipo_registro" (click)="cambiarTipoRegisto2()"> 
+          <option value="0">--Seleccione--</option>
+          <option value="CD">CREAR REGISTRO DEFINITIVO</option>                       
+          <option value="CP">CREAR REGISTRO PROVISIONAL</option>                    
+        </select>
+      </div>
+      <br>
+      <div class="col-lg-12" *ngIf="aux.tipo_registro == 'CD'">
+        <select class="form-control" [(ngModel)]="aux.tipo_registro2"> 
+          <option value="0">--Seleccione--</option>
+          <option value="E">ESTATAL</option>                       
+          <option value="M">MUNICIPAL</option>
+          <option value="O">EMPRESARIAL</option>                    
+        </select>
+      </div>      
+      <div class="col-lg-12">
+        <button type="button" class="btn btn-primary btn-sm" (click)="modalregistro(modalpredio,aux.tipo_registro)"
+         style="width: 100%;margin-top: 10px;">
+         <i class="fa fa-plus" ></i>&nbsp;&nbsp;Nuevo </button>
+      </div>        
+    </div> 
+  </div>     
+</ng-template>
+
+
+
+<ng-template #buscarUD let-modal>            
+  <div class="modal-header">
+      <h4 class="modal-title">Búsqueda de Unidad Documental (U.D.)</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close(); this.unidad.buscarUD = ''">
+        <span aria-hidden="true">&times;</span> 
+      </button>  
+  </div>
+  <div class="modal-body" >                                     
+    <div class="row">          
+      <div class="col-lg-12" align="center"> 
+        <label>Ingrese el Nro de U.D.</label>
+      </div>     
+      <div class="col-lg-12">
+        <input type="text" class="form-control"
+          id="buscarud" 
+          [(ngModel)]="unidad.buscarUD" >
+      </div>      
+      <div class="col-lg-12">
+        <button type="button" class="btn btn-primary btn-sm" (click)="BuscarUD(unidad.buscarUD)"
+         style="width: 100%;margin-top: 10px;">
+         <i class="fa fa-plus" ></i>&nbsp;&nbsp;Buscar</button>
+      </div>        
+    </div> 
+  </div>     
+</ng-template>
+
+<ng-template #actualizar let-modal>            
+  <div class="modal-header">
+      <h6 class="modal-title" style="color:#FF0000;">Acción: Actualización de Datos</h6>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body" >    
+     
+    <div class="row">
+      <div class="col-lg-12" align="center">
+        <label>Ingrese el Nro de CUS</label>
+        <input type="text" 
+          class="form-control" 
+          [(ngModel)]="unidad.nroCUS"
+          onkeypress="return event.charCode >= 48 && event.charCode <= 57" 
+          placeholder="Ingresar CUS"
+          maxlength="8">
+      </div>      
+      <div class="col-lg-12">
+        <button type="button" class="btn btn-primary btn-sm" (click)="busquedaCUSparaActualizar(modalpredio, 'AD')"
+         style="width: 100%;margin-top: 10px;">
+         <i class="fa fa-plus" ></i>&nbsp;&nbsp;Actualizar CUS</button>
+      </div>   
+    </div> 
+    
+  </div>     
+    
+</ng-template>
+
+<ng-template #modalImprimirCaratula let-modal>            
+  <div class="modal-header">
+      <label class="modal-title">Ingresar Número de CUS</label>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close(); ConsultaCaratula.numero=''">
+        <span aria-hidden="true">&times;</span> 
+      </button>  
+  </div>
+  <div class="modal-body" >                                     
+    <div class="row">          
+      <div class="col-lg-12" align="center"> 
+        
+      </div>   
+    </div> 
+      
+    <div class="row">                        
+      <div class="col-lg-12">
+        <div class="modal-body" >                                     
+          <div class="row">
+            <div class="col-lg-12" align="center">
+              <label>Nro de CUS</label>
+              <input type="text" 
+                class="form-control" 
+                [(ngModel)]="ConsultaCaratula.numero"
+                onkeypress="return event.charCode >= 48 && event.charCode <= 57" 
+                placeholder="Ingresar CUS"
+                maxlength="8">
+            </div>    
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <button type="button" class="btn btn-primary btn-sm" (click)="imprimirCaratula(contentVistaPreviaCaratula)"
+              style="width: 100%;margin-top: 10px;">
+              <i class="fa fa-search-plus" ></i>&nbsp;&nbsp;Buscar</button>
+            </div>
+            <div class="col-lg-6">
+              <button type="button" class="btn btn-danger btn-sm" (click)="modal.close();"
+                style="width: 100%;margin-top: 10px;">
+                <i class="fa fa-window-close" ></i>&nbsp;&nbsp;Cerrar
+              </button>
+            </div>
+          </div>       
+        </div> 
+      </div>
+    </div>
+
+  </div>     
+</ng-template>
+
+<ng-template #contentVistaPreviaCaratula let-modal>            
+  <div class="modal-header fondotitulopdf">
+		
+		<button type="button" style="width: 150px; height: 35px; font-size: 15px;" class="btn btn-primary btn-sm" (click)="modal.close();">Cerrar</button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="form-group">
+				<iframe [src]="urlPDF | safe" width="100%" height="850px"></iframe>
+			</div>
+		</form>
+	</div>
+</ng-template>
+
+<ng-template #openUpdateProfesionales let-modal>            
+  <div class="modal-header">
+      <h6 class="modal-title" style="color:#0000ff;">Actualizar Profesionales</h6>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+              <span aria-hidden="true">&times;</span>
+      </button>  
+  </div>
+  <div class="modal-body" >                                     
+    <div class="row">          
+      <div class="col-lg-12">
+        <label>Profesional Tecnico</label>
+        <ng-select class="custom"  #idsist="ngModel" name= 'codtecnico2' [(ngModel)]="updateRespUD.codtecnico" 
+          placeholder="---Selecciona---"
+          [items] = "tecnico"		 
+          bindLabel="NMB_PERSONAL"
+          bindValue="CODIGO_PERSONAL"
+          style="width:auto">							
+        </ng-select>
+      </div>  
+      
+      <div class="col-lg-12">
+        <label>Profesional Legal</label>
+        <ng-select class="custom"  #idsist="ngModel" name= 'codlegal2' [(ngModel)]="updateRespUD.codLegal" 
+          placeholder="---Selecciona---"
+          [items] = "legal"		 
+          bindLabel="NMB_PERSONAL"
+          bindValue="CODIGO_PERSONAL"
+          style="width:auto">							
+        </ng-select>
+      </div>  
+    </div> 
+    
+    <div class="row">   
+      <div class="col-lg-12">
+        <button type="button" class="btn btn-primary btn-sm" (click)="actualizarProfesionales()"
+         style="width: 100%;margin-top: 10px;">
+         <i class="fa fa-plus" ></i>&nbsp;&nbsp;Actualizar</button>
+      </div>   
+    </div> 
+    
+  </div>     
+    
+</ng-template>

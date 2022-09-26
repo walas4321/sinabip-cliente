@@ -1,0 +1,871 @@
+
+  <div class="row" >          
+    <div class="col">
+        <div class="box box-solid box-danger">									
+            <div class="box-body">
+                <div class="card">
+                    <nav class="card-header" style="font-size: 10px;">
+                        <div class="nav nav-pills" id="nav-tab" role="tablist">
+                          <a class="nav-item nav-link active" id="nav-entidades-tab" data-toggle="tab" href="#nav-entidades" role="tab" aria-controls="nav-entidades" aria-selected="true"><strong>Estandarización de Entidades</strong></a>
+                          <a class="nav-item nav-link" id="nav-ruc-tab" data-toggle="tab" href="#nav-ruc" role="tab" aria-controls="nav-ruc" aria-selected="false" ><strong>Estandarización de CUS</strong></a>                          
+                          <a class="nav-item nav-link" id="nav-acto-tab" data-toggle="tab" href="#nav-acto" role="tab" aria-controls="nav-acto" aria-selected="false" ><strong>Estandarización de Codigo Acto</strong></a>                          
+                          <a class="nav-item nav-link" id="nav-niveles-tab" data-toggle="tab" href="#nav-niveles" role="tab" aria-controls="nav-niveles" aria-selected="false" ><strong>Vinculación de Niveles</strong></a>                          
+                          <a class="nav-item nav-link" id="nav-ubicacion-tab" data-toggle="tab" href="#nav-ubicacion" role="tab" aria-controls="nav-ubicacion" aria-selected="false" ><strong>Vinculación de Predios</strong></a>                          
+                        </div>
+                    </nav>
+                    <br>
+                    <div class="tab-content" id="nav-tabContent">
+                        <!--ENTIDADES-->
+                        <div class="tab-pane fade show active" id="nav-entidades" role="tabpanel" aria-labelledby="nav-entidades-tab">
+                          <div class="row">            
+                            <div class="col-lg-4">
+                              <fieldset style="margin-left: 10px;margin-right: 10px;margin-bottom: 10px;">                
+                                <legend><i class="fa fa-building"></i>&nbsp;Tipo Administrado</legend> 
+                                <div class="row">                              
+                                    <div class="col-lg-10" style="margin-left: 25px;margin-bottom: 10px;">
+                                      <table style="margin-top: 5px;margin-left: 5px;width: 100%;">
+                                        <tr><td>Tipo Administrado</td></tr> 
+                                        <tr>
+                                           <td>
+                                            <select class="form-control" [(ngModel)]="aux.select">
+                                              <option value="">--Tipo--</option>
+                                              <option value="S">Entidades SNBE</option>                      
+                                              <option value="E">Entidad Pública</option>
+                                              <option value="J">Persona Júridica</option>
+                                              <option value="N">Persona Natural</option>  
+                                              <option value="T">TODOS</option>          
+                                            </select>
+                                           </td>
+                                        </tr> 
+                                      </table>            
+                                    </div>                                   
+                                </div>         
+                              </fieldset>  
+                            </div> 
+                            <div class="col-lg-8">                   
+                                <div class="row">        
+                                    <!--BLOQUE TIPO ADMIN 1 Y 2 -->                      
+                                    <div class="col-lg-12" style="padding-left: 0px;" *ngIf="aux.select=='' || aux.select=='S' || aux.select=='E' || aux.select=='T'" > 
+                                      <fieldset style="margin-left: 10px;margin-right: 10px; margin-bottom: 40px; padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+                                        <legend style="font-size: 15px;"><i class="fa fa-user"></i>&nbsp;Busqueda de Entidades</legend> 
+                                        <div class="row">
+                                           <div class="col-lg-5">
+                                              <p align="center" style="margin-bottom: 0px;">Nombre de la Entidad</p>
+                                              <input type="text" 
+                                                class="form-control" 
+                                                placeholder="Ingrese Entidad" 
+                                                [(ngModel)]="aux.ent_nombre">
+                                           </div>
+                                           <div class="col-lg-4">
+                                              <p align="center" style="margin-bottom: 0px;">Nº de RUC</p>
+                                              <input type="text" 
+                                                class="form-control" 
+                                                placeholder="Ingrese RUC" 
+                                                [(ngModel)]="aux.ent_ruc"
+                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46"
+                                                maxlength="11">
+                                           </div>
+                                           <div class="col-lg-1" style="margin-top: 25px;">
+                                            <button type="button" class="btn btn-primary btn-sm"  style="width: 100%;" (click)="buscarLiterales()"><i class="fa fa-search" ></i> </button> 
+                                          </div>                 
+                                          <div class="col-lg-1" style="margin-top: 25px;">
+                                            <button type="button" class="btn btn-success btn-sm"  style="width: 100%;" (click)="datos_entidad(modal_datos,-1)"><i class="fa fa-plus" ></i> </button> 
+                                          </div>    
+                                          <div class="col-lg-1" style="margin-top: 25px;">
+                                            <button type="button" class="btn btn-danger btn-sm"  style="width: 100%;" (click)="limpiarEstEntidades()"><i class="fa fa-trash" ></i> </button> 
+                                          </div>                 
+                                        </div>                                            
+                                      </fieldset>                      
+                                    </div>
+                                    <!--BLOQUE TIPO ADMIN 3 -->      
+                                    <div class="col-lg-12" style="padding-left: 0px;" *ngIf="this.aux.select=='J'"> 
+                                      <fieldset style="margin-left: 10px;margin-right: 10px; margin-bottom: 40px; padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+                                        <legend style="font-size: 15px;"><i class="fa fa-user"></i>&nbsp;Busqueda de Personas Jurídicas</legend> 
+                                        <div class="row">
+                                           <div class="col-lg-5">
+                                              <p align="center" style="margin-bottom: 0px;">Nombre de la Persona Juridica</p>
+                                              <input type="text" 
+                                                class="form-control" 
+                                                [(ngModel)]="aux.ent_nombre">
+                                           </div>
+                                           <div class="col-lg-3">
+                                              <p align="center" style="margin-bottom: 0px;">Nº de RUC</p>
+                                              <input type="text" 
+                                                class="form-control" 
+                                                [(ngModel)]="aux.ent_ruc">
+                                           </div>
+                                           <div class="col-lg-2" style="margin-top: 25px;">
+                                            <button type="button" class="btn btn-primary btn-sm"  style="width: 100%;" (click)="buscarLiterales()"><i class="fa fa-search" ></i>&nbsp;&nbsp;Buscar </button> 
+                                          </div>                 
+                                          <div class="col-lg-2" style="margin-top: 25px;">
+                                            <button type="button" class="btn btn-primary btn-sm"  style="width: 100%;" (click)="datos_juridica(modal_juridica)"><i class="fa fa-plus" ></i>&nbsp;&nbsp;Agregar </button> 
+                                          </div>                 
+                                        </div>                                            
+                                      </fieldset>                      
+                                    </div>  
+                                    <!--BLOQUE TIPO ADMIN 4 -->      
+                                    <div class="col-lg-12" style="padding-left: 0px;" *ngIf="this.aux.select=='N'"> 
+                                      <fieldset style="margin-left: 10px;margin-right: 10px; margin-bottom: 40px; padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+                                        <legend style="font-size: 15px;"><i class="fa fa-user"></i>&nbsp;Relación de Personas Naturales</legend> 
+                                        <div class="row">
+                                           <div class="col-lg-3">
+                                              <p align="center" style="margin-bottom: 0px;">Nº de DNI</p>
+                                              <input type="text" 
+                                                class="form-control"
+                                                [(ngModel)]="aux.ent_ruc">
+                                           </div>
+                                           <div class="col-lg-5">
+                                              <p align="center" style="margin-bottom: 0px;">Nombre de la Persona Natural</p>
+                                              <input type="text" 
+                                                class="form-control"
+                                                [(ngModel)]="aux.ent_nombre">
+                                           </div>
+                                           <div class="col-lg-2" style="margin-top: 25px;">
+                                            <button type="button" class="btn btn-primary btn-sm"  style="width: 100%;" (click)="buscarLiterales()"><i class="fa fa-search" ></i>&nbsp;&nbsp;Buscar </button> 
+                                          </div>                 
+                                          <div class="col-lg-2" style="margin-top: 25px;">
+                                            <button type="button" class="btn btn-primary btn-sm"  style="width: 100%;"><i class="fa fa-plus" ></i>&nbsp;&nbsp;Agregar </button> 
+                                          </div>                 
+                                        </div>                                            
+                                      </fieldset>                      
+                                    </div>                                                 
+                                </div>        
+                            </div>
+                          </div>
+
+                          <div class="row" style="padding-left: 20px; padding-right: 20px;">
+                            <div class="col-lg-12">
+                              Listado de predios
+                              <div class="table-responsive">              
+                                <table class="table" style="font-size: 0.8rem;">
+                                  <thead>
+                                    <tr class="table100-head">														
+                                      <th>Item</th>
+                                      <th>Entidad Literal</th>                                          
+                                      <th>RUC</th>
+                                      <th>Entidad Estandarizada</th>
+                                      <th>Estado</th>
+                                      <th>Usuario</th>
+                                      <th>Ver</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody  class="table-bordered3">  
+                                    <ng-container>		                     										
+                                      <tr *ngFor="let entidad of dataEntidades; let i = index">                                    
+                                        <td>{{ entidad.ROW_NUMBER_ID }}</td>
+                                        <td>{{ entidad.NOMBRE_LITERAL }}</td>
+                                        <td>{{ entidad.RUC }}</td>
+                                        <td>{{ entidad.NOMBRE_ESTANDARIZADO }}</td>
+                                        <td>{{ entidad.ENTI_ESTADO }}</td>
+                                        <td>{{ entidad.ENT_USUARIO }}</td>           
+                                        <td>
+                                          <button class="btn btn-success margenButton" (click)="datos_entidad(modal_datos, i)">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                          </button>                               
+                                        </td>                                  
+                                      </tr>   
+                                      <tr *ngIf="dataEntidades.length == 0">
+                                        <td colspan="7">
+                                          <label for="">No se encontraron resultados</label>
+                                        </td>
+                                      </tr> 
+                                  </ng-container>                                                                 
+                                  </tbody>		                                    									
+                                </table>                     
+                              </div>
+                              <nav class="mt-3" *ngIf="total >= itemsPerPage">
+                                <ngb-pagination [collectionSize]="total" [pageSize]="itemsPerPage" [(page)]="aux.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+                              </nav>
+                            </div>
+                          </div>
+
+                        </div>
+
+
+
+                      
+
+
+                        <!--RUC-->
+                        <div class="tab-pane fade" id="nav-ruc" role="tabpanel" aria-labelledby="nav-ruc-tab">                            
+                          <div class="row">                        
+                            <div class="col-lg-5">                   
+                              <div class="row">                                            
+                                  <div class="col-lg-12" style="padding-left: 0px;" > 
+                                    <fieldset style="margin-left: 10px;margin-right: 10px; margin-bottom: 40px; padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+                                      <legend style="font-size: 15px;"><i class="fa fa-user"></i>&nbsp;CUS Individual</legend> 
+                                      <div class="row">
+                                         <div class="col-lg-4">
+                                            <p align="center" style="margin-bottom: 0px;">Ingresar CUS</p>
+                                            <input type="text" 
+                                              class="form-control"
+                                              [(ngModel)]="datosEstCUSIndividual.nroCUS"
+                                              maxlength="8"
+                                              onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46">  
+                                         </div> 
+                                         <div class="col-lg-4">
+                                            <p align="center" style="margin-bottom: 0px;">Ingresar RUC</p>
+                                            <input type="text" 
+                                              class="form-control"
+                                              [(ngModel)]="datosEstCUSIndividual.nroRUC"
+                                              maxlength="11"
+                                              onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46">
+                                         </div>
+                                         <div class="col-lg-4" style="margin-top: 25px;">
+                                          <button type="button" 
+                                            class="btn btn-primary btn-sm"  
+                                            style="width: 100%;"
+                                            (click)="VincularCusIndividual()">
+                                            <i class="fa fa-search" ></i>&nbsp;&nbsp;Vincular 
+                                          </button> 
+                                        </div>                                                                          
+                                      </div>                                            
+                                    </fieldset>                      
+                                  </div>                                                                                  
+                              </div>        
+                          </div>
+                            <div class="col-lg-7">                   
+                                <div class="row">                                            
+                                    <div class="col-lg-12" style="padding-left: 0px;" > 
+                                      <fieldset style="margin-left: 10px;margin-right: 10px; margin-bottom: 40px; padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+                                        <legend style="font-size: 15px;"><i class="fa fa-user"></i>&nbsp;Listado CUS/RUC</legend> 
+                                        <div class="row">
+                                           <div class="col-lg-5">
+                                              <p align="center" style="margin-bottom: 0px;">Lista de CUS</p>
+                                              <angular-file-uploader
+                                                [config]="afuConfigCUS"
+                                                (ApiResponse)="AdjuntarCusMasivo($event)"
+                                                [resetUpload]="resetVarCUS">  
+                                              </angular-file-uploader>
+                                           </div>
+                                           <div class="col-lg-5">
+                                              <p align="center" style="margin-bottom: 0px;">Ingresar Nº de RUC</p>
+                                              <input type="text" 
+                                                class="form-control"
+                                                [(ngModel)]="datosEstCUSListado.nroRUC"
+                                                maxlength="11"
+                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46">
+                                           </div>
+                                           <div class="col-lg-2" style="margin-top: 25px;" *ngIf="estado_adjuntarCUS == false">
+                                            <button type="button" 
+                                              class="btn btn-primary btn-sm"  
+                                              style="width: 100%;"
+                                              (click)="VincularCusMasivo()">
+                                              <i class="fa fa-search" ></i>&nbsp;&nbsp;Vincular 
+                                            </button> 
+                                          </div>                                                                       
+                                        </div>                                            
+                                      </fieldset>                      
+                                    </div>                                                                                  
+                                </div>        
+                            </div>
+                          </div> 
+                        </div> 
+                        <!--CODIGO ACTO-->
+                        <div class="tab-pane fade" id="nav-acto" role="tabpanel" aria-labelledby="nav-acto-tab">                            
+                          <div class="row">                        
+                            <div class="col-lg-5">                   
+                              <div class="row">                                            
+                                  <div class="col-lg-12" style="padding-left: 0px;" > 
+                                    <fieldset style="margin-left: 10px;margin-right: 10px; margin-bottom: 40px; padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+                                      <legend style="font-size: 15px;"><i class="fa fa-user"></i>&nbsp;Código Acto Individual</legend> 
+                                      <div class="row">
+                                         <div class="col-lg-4">
+                                            <p align="center" style="margin-bottom: 0px;">Ingresar Código</p>
+                                            <input type="text" 
+                                              class="form-control"
+                                              [(ngModel)]="datosEstActoIndividual.nroCodigo"
+                                              maxlength="20">
+                                         </div> 
+                                         <div class="col-lg-4">
+                                            <p align="center" style="margin-bottom: 0px;">Ingresar RUC/DNI</p>
+                                            <input type="text" 
+                                              class="form-control"
+                                              [(ngModel)]="datosEstActoIndividual.nroRUC"
+                                              maxlength="11"
+                                              onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46">
+                                         </div>
+                                         <div class="col-lg-4" style="margin-top: 25px;">
+                                          <button type="button" 
+                                            class="btn btn-primary btn-sm"  
+                                            style="width: 100%;"
+                                            (click)="VincularActoIndividual()">
+                                            <i class="fa fa-search" ></i>&nbsp;&nbsp;Vincular 
+                                          </button> 
+                                        </div>                                                                            
+                                      </div>                                            
+                                    </fieldset>                      
+                                  </div>                                                                                  
+                              </div>        
+                          </div>
+                            <div class="col-lg-7">                   
+                                <div class="row">                                            
+                                    <div class="col-lg-12" style="padding-left: 0px;" > 
+                                      <fieldset style="margin-left: 10px;margin-right: 10px; margin-bottom: 40px; padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+                                        <legend style="font-size: 15px;"><i class="fa fa-user"></i>&nbsp;Listado Codigo</legend> 
+                                        <div class="row">
+                                           <div class="col-lg-5">
+                                              <p align="center" style="margin-bottom: 0px;">Lista de Codigos</p>
+                                              <!-- <button type="button" class="btn btn-success btn-sm"  style="width: 100%;"><i class="fa fa-search" ></i>&nbsp;&nbsp;Cargar Excel </button>  -->
+                                              <angular-file-uploader
+                                                [config]="afuConfig"
+                                                (ApiResponse)="AdjuntarActoMasivo($event)"
+                                                [resetUpload]="resetVar">
+                                              </angular-file-uploader>
+                                            </div>
+                                           <div class="col-lg-5">
+                                              <p align="center" style="margin-bottom: 0px;">Ingresar RUC/DNI</p>
+                                              <input type="text" 
+                                                class="form-control"
+                                                [(ngModel)]="datosEstActoListado.nroRUC"
+                                                maxlength="11"
+                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46">
+                                           </div>
+                                           <div class="col-lg-2" style="margin-top: 25px;" *ngIf="estado_adjuntarActo == false">
+                                            <button type="button" 
+                                              class="btn btn-primary btn-sm"  
+                                              style="width: 100%;"
+                                              (click)="VincularActoMasivo()">
+                                              <i class="fa fa-search" ></i>&nbsp;&nbsp;Vincular 
+                                            </button> 
+                                          </div>                                                                          
+                                        </div>                                            
+                                      </fieldset>                      
+                                    </div>                                                                                  
+                                </div>        
+                            </div>
+                          </div> 
+                        </div>
+                        <!--NIVELES-->
+                        <div class="tab-pane fade" id="nav-niveles" role="tabpanel" aria-labelledby="nav-niveles-tab">                            
+                          <div class="row">                                                    
+                            <div class="col-lg-12">
+                              <div class="row">                                            
+                                  <div class="col-lg-12" style="padding-left: 0px;" > 
+                                    <fieldset style="margin-left: 10px;margin-right: 10px; margin-bottom: 40px; padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+                                      <legend style="font-size: 15px;"><i class="fa fa-user"></i>&nbsp;Vincular Niveles</legend> 
+                                      <div class="row">
+                                         <div class="col-lg-3">
+                                            <p align="center" style="margin-bottom: 0px;">RUC ENTIDAD </p>
+                                            <input type="text" 
+                                              class="form-control"
+                                              [(ngModel)]="datosVincularNiveles.nroRUC"
+                                              onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46"
+                                              maxlength="11">
+                                            <p align="center" style="margin-bottom: 0px;">PRIMER NIVEL </p>
+                                         </div> 
+                                         <div class="col-lg-3">
+                                            <p align="center" style="margin-bottom: 0px;">RUC UND. EJECUTORA</p>
+                                            <input type="text" 
+                                              class="form-control"
+                                              [(ngModel)]="datosVincularNiveles.RucUnidadEjecutora"
+                                              onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46"
+                                              maxlength="11">
+                                              <p align="center" style="margin-bottom: 0px;">SEGUNDO NIVEL </p>
+                                         </div>
+                                         <div class="col-lg-3">
+                                            <p align="center" style="margin-bottom: 0px;">RUC UND. EJECUTORA</p>
+                                            <input type="text" 
+                                              class="form-control"
+                                              [(ngModel)]="datosVincularNiveles.RucUnidadxxx"
+                                              onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode ==46"
+                                              maxlength="11">
+                                              <p align="center" style="margin-bottom: 0px;">TERCER NIVEL </p>
+                                          </div>
+                                         <div class="col-lg-3" style="margin-top: 25px;">
+                                          <button type="button" 
+                                            class="btn btn-primary btn-sm"  
+                                            style="width: 100%;"
+                                            (click)="VincularNiveles()">
+                                            <i class="fa fa-search" ></i>&nbsp;&nbsp;Vincular 
+                                          </button> 
+                                        </div>                                                                          
+                                      </div>                                            
+                                    </fieldset>                      
+                                  </div>                                                                                  
+                              </div>        
+                            </div>                                                    
+                          </div> 
+                        </div>
+                        <!--UBICACION-->
+                        <div class="tab-pane fade" id="nav-ubicacion" role="tabpanel" aria-labelledby="nav-ubicacion-tab">                            
+                          <div class="row">                                                    
+                            <div class="col-lg-12">
+                              <div class="row">                                            
+                                  <div class="col-lg-12" style="padding-left: 0px;" > 
+                                    <fieldset style="margin-left: 10px;margin-right: 10px; margin-bottom: 40px; padding-left: 10px;padding-right: 15px;padding-top: 10px;padding-bottom: 10px;">                    
+                                      <legend style="font-size: 15px;"><i class="fa fa-user"></i>&nbsp;Vincular Niveles</legend> 
+                                      <div class="row">
+                                         <div class="col-lg-3">
+                                            <p align="center" style="margin-bottom: 0px;">RUC ENTIDAD </p>
+                                            <input type="text" 
+                                              class="form-control"
+                                              [(ngModel)]="datosVincularPredios.nroRUCEntidadPrimerNivel"
+                                              readonly>
+                                            <p align="center" style="margin-bottom: 0px;">PRIMER NIVEL </p>
+                                         </div> 
+                                         <div class="col-lg-3">
+                                            <p align="center" style="margin-bottom: 0px;">GOB. REGIONAL</p>
+                                            <select class="form-control form-control-sm" 
+                                                name="codigo_documento"
+                                                id="codigo_documento"
+                                                [(ngModel)]="datosVincularPredios.idgobiernoRegional" 
+                                                (change)="cambiar_gobRegional()"
+                                            >
+                                            <option value="0">--SELECCIONE REGION--</option>
+                                            <option *ngFor="let es of arrayListaGobRegionales" value="{{es.CODIGO_ENTE}}">{{es.NMB_ENTE}}</option>
+                                            </select>
+                                            <p align="center" style="margin-bottom: 0px;">CON COMPETENCIA SBN </p>
+                                         </div>
+                                         <div class="col-lg-3">
+                                            <p align="center" style="margin-bottom: 0px;">NUMERO DE RUC</p>
+                                            <input type="text" 
+                                              class="form-control"
+                                              [(ngModel)]="datosVincularPredios.nroRUCGobReg"
+                                              readonly>
+                                          </div>
+                                         <div class="col-lg-3" style="margin-top: 25px;">
+                                          <button type="button" 
+                                            class="btn btn-primary btn-sm"  
+                                            style="width: 100%;"
+                                            (click)="VincularPredios()">
+                                            <i class="fa fa-search" ></i>&nbsp;&nbsp;Vincular 
+                                          </button> 
+                                        </div>                                                                          
+                                      </div>                                            
+                                    </fieldset>                      
+                                  </div>                                                                                  
+                              </div>        
+                            </div>                                                    
+                          </div> 
+                        </div>                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>      
+</div>
+
+
+<ng-template #modalentidades let-modal>             
+  <div class="modal-header">  
+    <h4 class="modal-title" > Listado Entidades</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+        <span aria-hidden="true">&times;</span>
+      </button>    
+  </div>
+  <div class="modal-body" >                                 
+    <div class="row">          
+      <div class="col">
+          <div class="box box-solid box-danger">									
+              <div class="box-body">
+                <div class="row">               
+                  <div class="col-lg-12">
+                      <div class="box box-solid box-danger">
+                          <div class="box-header">                            
+                              <div class="box-tools pull-right">
+                              </div>
+                          </div>
+                          <div class="box-body">
+                              <div class="card-body table wrap-table100">
+                                <div >
+                                <table class="table" style="font-size: 0.6rem;">
+                                  <thead>
+                                      <tr class="table100-head">                                            
+                                          <th><p class="text-center">Item</p></th>                                      
+                                          <th><p class="text-center">Entidad Estandarizada</p></th>
+                                          <th><p class="text-center">RUC</p></th>                                        
+                                          <th><p class="text-center">Estado</p></th>                                          
+                                          <th><p class="text-center">Usuario</p></th>
+                                          <th><p class="text-center">Fecha</p></th>
+                                          <th><p class="text-center">Ver</p></th>
+                                      </tr>
+                                  </thead>
+                                  <tbody class="table-bordered3">
+                                      <tr>                                           
+                                          <td><p class="text-center">---</p></td>  
+                                          <td><p class="text-center">---</p></td>  
+                                          <td><p class="text-center">---</p></td>  
+                                          <td><p class="text-center">---</p></td>  
+                                          <td><p class="text-center">---</p></td>  
+                                          <td><p class="text-center">---</p></td> 
+                                          <th><p class="text-center">
+                                              <button type="button" class="btn btn-primary btn-sm"  style="width: 100%;" (click)="datos_entidad(modal_datos)"><i class="fa fa-plus"></i>&nbsp;&nbsp;Ver </button> 
+                                              </p>
+                                          </th> 
+                                         
+                                      </tr>
+                                  </tbody>
+                              </table>
+                              </div>
+                              <!--<nav class="mt-3" *ngIf="total1 >= itemsPerPage1">
+                                  <ngb-pagination [collectionSize]="total1" [pageSize]="itemsPerPage1" [(page)]="filtroSearch.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage1($event)"></ngb-pagination>
+                              </nav>-->
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                </div>                                 
+              </div>
+          </div>
+      </div>      
+  </div>
+  </div>   
+</ng-template>
+
+<ng-template #modal_datos let-modal>             
+  <div class="modal-header">  
+    <h4 class="modal-title" > Datos de la Entidad </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+        <span aria-hidden="true">&times;</span>
+      </button>    
+  </div>
+  <div class="modal-body" >                                 
+    <div class="row">          
+      <div class="col">
+          <div class="box box-solid box-danger">									
+              <div class="box-body">
+                <div class="row">               
+                  <div class="col-lg-12">
+                      <div class="box box-solid box-danger">
+                          <div class="box-header">                            
+                              <div class="box-tools pull-right">
+                              </div>
+                          </div>
+                          <div class="box-body">
+                              <div class="card-body table wrap-table100"> 
+                                <div class="row" style="margin-bottom: 10px;">
+                                  <div class="col-lg-4">                                                                        
+                                    <div class="row">
+                                      <div class="col-lg-2"><p  style="margin-bottom: 0px;">RUC</p></div>
+                                      <div class="col-lg-10">
+                                        <input type="text" 
+                                          class="form-control"
+                                          [(ngModel)]="datos.ruc"
+                                          maxlength="11"
+                                          (change)="obtenerDescripcionEntidad(datos.ruc)">
+                                      </div>
+                                     </div> 
+                                  </div>
+                                  <div class="col-lg-8">
+                                    <div class="row">
+                                        <div class="col-lg-4"><p style="margin-bottom: 0px;">Nombre Estandarizado</p></div>
+                                        <div class="col-lg-8">
+                                          <input type="text" 
+                                            class="form-control"
+                                            [(ngModel)]="datos.nombreEstandarizado"
+                                            [disabled]="bloquear== '1'"
+                                            maxlength="100">
+                                        </div>
+                                    </div>                                  
+                                  </div>                                               
+                               </div>
+                               <div class="row"  style="margin-bottom: 10px;">
+                                  <div class="col-lg-12">
+                                    <div class="row">
+                                      <div class="col-lg-4"><p style="margin-bottom: 0px;">Nombre Literal</p></div>
+                                      <div class="col-lg-8">
+                                        <input type="text" 
+                                          class="form-control"
+                                          [(ngModel)]="datos.nombreLiteral"
+                                          maxlength="100">
+                                      </div>
+                                  </div>                                     
+                                  </div>                                                                             
+                               </div>
+                               <div class="row"  style="margin-bottom: 10px;">
+                                  <div class="col-lg-12">
+                                    <div class="row">
+                                      <div class="col-lg-1">
+                                        <p style="margin-bottom: 0px;">Siglas</p>
+                                      </div>
+                                      <div class="col-lg-3">
+                                        <input type="text" 
+                                          class="form-control"
+                                          [(ngModel)]="datos.siglas"
+                                          maxlength="12">
+                                      </div>
+                                      <div class="col-lg-1">
+                                        <p style="margin-bottom: 0px;">Estado</p>
+                                      </div>
+                                      <div class="col-lg-3">
+                                        <select class="form-control" [(ngModel)]="datos.estado">
+                                          <option value="">--SELECCIONE ESTADO--</option>
+                                          <option value="A">Activo</option>
+                                          <option value="I">Desactivo</option>
+                                        </select>
+                                      </div>
+                                      <div class="col-lg-1" style="padding-left: 0px;">
+                                        <p  style="margin-bottom: 0px;height: 24px;">U. Org</p>
+                                      </div>
+                                      <div class="col-lg-3">
+                                        <input type="text" 
+                                          class="form-control"
+                                          [(ngModel)]="datos.org"
+                                          maxlength="50">
+                                      </div>
+                                    </div>                                     
+                                  </div>                                                                             
+                                </div>
+                                
+                                <div class="row"  style="margin-bottom: 10px;">
+                                  <div class="col-lg-12">
+                                    <div class="row">
+                                      <div class="col-lg-4">
+                                        <p style="margin-bottom: 0px;">Nivel de Gobierno</p>
+                                      </div>
+                                      <div class="col-lg-8">
+                                        <select class="form-control" [(ngModel)]="datos.nivelGobierno">
+                                          <option value="">--SELECCIONE NIVEL DE GOBIERNO--</option>
+                                          <option *ngFor="let es of arrayListaNivelGobierno" value="{{es.CODIGO}}">{{es.NOMBRE_MINISTERIO}}</option>
+                                        </select>
+                                      </div>
+                                    </div>                                     
+                                  </div>                                                                             
+                                </div>
+
+
+                                <div class="row"  style="margin-bottom: 10px;">
+                                  <div class="col-lg-12">
+                                    <div class="row">
+                                      <div class="col-lg-4">
+                                        <p  style="margin-bottom: 0px;">Nivel de General</p>
+                                      </div>
+                                      <div class="col-lg-8">
+                                        <select class="form-control" [(ngModel)]="datos.nivelGeneral">
+                                          <option value="">--SELECCIONE NIVEL GENERAL--</option>
+                                          <option *ngFor="let es of arrayListaNivelGeneral" value="{{es.CODIGO}}">{{es.NOMBRE_MINISTERIO}}</option>
+                                        </select>
+                                      </div>
+                                    </div>                                     
+                                  </div>                                                                             
+                                </div>
+                                <div class="row"  style="margin-bottom: 10px;">
+                                  <div class="col-lg-12">
+                                    <div class="row">
+                                      <div class="col-lg-4">
+                                        <p  style="margin-bottom: 0px;">Nivel Sectorial</p>
+                                      </div>
+                                      <div class="col-lg-8">
+                                        <select class="form-control" [(ngModel)]="datos.nivelSectorial">
+                                          <option value="">--SELECCIONE NIVEL SECTORIAL--</option>
+                                          <option *ngFor="let es of arrayListaNivelSectorial" value="{{es.CODIGO}}">{{es.NOMBRE_MINISTERIO}}</option>
+                                        </select>
+                                      </div>
+                                    </div>                                     
+                                  </div>                                                                             
+                                </div>
+                                <div class="row"  style="margin-bottom: 10px;">
+                                  <div class="col-lg-12">
+                                    <div class="row">
+                                      <div class="col-lg-4"><p  style="margin-bottom: 0px;">Organismo</p></div>
+                                      <div class="col-lg-8">
+                                        <select class="form-control" [(ngModel)]="datos.organismo">
+                                          <option value="">--SELECCIONE ORGANISMO--</option>
+                                          <option *ngFor="let es of arrayListaOrganismo" value="{{es.CODIGO}}">{{es.NOMBRE_MINISTERIO}}</option>
+                                        </select>
+                                      </div>
+                                    </div>                                     
+                                  </div>                                                                             
+                                </div>
+                                <div class="row" style="margin-bottom: 10px;">
+                                  <div class="col-lg-6">                                                                        
+                                    <div class="row">
+                                      <div class="col-lg-3">
+                                        <p  style="margin-bottom: 0px;">Usuario</p>
+                                      </div>
+                                      <div class="col-lg-9">
+                                        <input type="text" 
+                                          class="form-control"
+                                          [(ngModel)]="datos.usuario"
+                                          maxlength="30"
+                                          disabled>
+                                      </div>
+                                     </div> 
+                                  </div>
+                                  <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                          <p  style="margin-bottom: 0px;">Fecha</p>
+                                        </div>
+                                        <div class="col-lg-9">
+                                          <input type="text" 
+                                            class="form-control"
+                                            [(ngModel)]="datos.fecha"
+                                            disabled>
+                                        </div>
+                                    </div>                                  
+                                  </div>                                               
+                               </div>
+                               <div class="row" style="margin-bottom: 10px;">
+                                <div class="col-lg-10"></div>
+                                <div class="col-lg-2">
+                                  <div class="row">
+                                    <button type="button" class="btn btn-primary btn-sm"  style="width: 100%;" (click)="grabarEntidad()" ><i class="fa fa-save" ></i>&nbsp;&nbsp;Grabar </button> 
+                                  </div>                                  
+                                </div>                                               
+                             </div>
+                               
+                              </div>                             
+                          </div>
+                      </div>
+                  </div>
+                </div>                                 
+              </div>
+          </div>
+      </div>      
+  </div>
+  </div>   
+</ng-template>
+
+<ng-template #modaljuridica let-modal>             
+  <div class="modal-header">  
+    <h4 class="modal-title" > Listado Personas Juridicas</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+        <span aria-hidden="true">&times;</span>
+      </button>    
+  </div>
+  <div class="modal-body" >                                 
+    <div class="row">          
+      <div class="col">
+          <div class="box box-solid box-danger">									
+              <div class="box-body">
+                <div class="row">               
+                  <div class="col-lg-12">
+                      <div class="box box-solid box-danger">
+                          <div class="box-header">                            
+                              <div class="box-tools pull-right">
+                              </div>
+                          </div>
+                          <div class="box-body">
+                              <div class="card-body table wrap-table100">
+                                <div >
+                                <table class="table" style="font-size: 0.6rem;">
+                                  <thead>
+                                      <tr class="table100-head">                                            
+                                          <th><p class="text-center">Item</p></th>                                                                                
+                                          <th><p class="text-center">RUC</p></th>                                        
+                                          <th><p class="text-center">Nombre</p></th>                                          
+                                          <th><p class="text-center">Usuario</p></th>
+                                          <th><p class="text-center">Fecha</p></th>
+                                          <th><p class="text-center">Ver</p></th>
+                                      </tr>
+                                  </thead>
+                                  <tbody class="table-bordered3">
+                                      <tr>                                           
+                                          <td><p class="text-center">---</p></td>                                            
+                                          <td><p class="text-center">---</p></td>  
+                                          <td><p class="text-center">---</p></td>  
+                                          <td><p class="text-center">---</p></td>  
+                                          <td><p class="text-center">---</p></td> 
+                                          <th><p class="text-center">
+                                              <button type="button" class="btn btn-primary btn-sm"  style="width: 100%;" (click)="datos_juridica(modal_juridica)"><i class="fa fa-plus"></i>&nbsp;&nbsp;Ver </button> 
+                                              </p>
+                                          </th> 
+                                         
+                                      </tr>
+                                  </tbody>
+                              </table>
+                              </div>
+                              <!--<nav class="mt-3" *ngIf="total1 >= itemsPerPage1">
+                                  <ngb-pagination [collectionSize]="total1" [pageSize]="itemsPerPage1" [(page)]="filtroSearch.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage1($event)"></ngb-pagination>
+                              </nav>-->
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                </div>                                 
+              </div>
+          </div>
+      </div>      
+  </div>
+  </div>   
+</ng-template>
+
+<ng-template #modal_juridica let-modal>             
+  <div class="modal-header">  
+    <h4 class="modal-title" > Datos Persona Juridica </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close();">
+        <span aria-hidden="true">&times;</span>
+      </button>    
+  </div>
+  <div class="modal-body" >                                 
+    <div class="row">          
+      <div class="col">
+          <div class="box box-solid box-danger">									
+              <div class="box-body">
+                <div class="row">               
+                  <div class="col-lg-12">
+                      <div class="box box-solid box-danger">
+                          <div class="box-header">                            
+                              <div class="box-tools pull-right">
+                              </div>
+                          </div>
+                          <div class="box-body">
+                              <div class="card-body table wrap-table100"> 
+                                <div class="row" style="margin-bottom: 10px;">
+                                  <div class="col-lg-4">                                                                        
+                                    <div class="row">
+                                      <div  class="col-lg-2"><p  style="margin-bottom: 0px;">RUC</p></div>
+                                      <div  class="col-lg-10"><input type="text" class="form-control"></div>
+                                     </div> 
+                                  </div>
+                                  <div class="col-lg-8">
+                                    <div class="row">
+                                        <div  class="col-lg-4"><p style="margin-bottom: 0px;">Nombre Estandarizado</p></div>
+                                        <div  class="col-lg-8"><input type="text" class="form-control" [disabled]=" this.bloquear== '1'"></div>
+                                    </div>                                  
+                                  </div>                                               
+                               </div>
+                               <div class="row"  style="margin-bottom: 10px;">
+                                  <div class="col-lg-12">
+                                    <div class="row">
+                                      <div  class="col-lg-4"><p style="margin-bottom: 0px;">Nombre Literal</p></div>
+                                      <div  class="col-lg-8"><input type="text" class="form-control"></div>
+                                  </div>                                     
+                                  </div>                                                                             
+                               </div>
+                               <div class="row"  style="margin-bottom: 10px;">
+                                  <div class="col-lg-12">
+                                    <div class="row">
+                                      <div  class="col-lg-2"><p style="margin-bottom: 0px;">Siglas</p></div>
+                                      <div  class="col-lg-4"><input type="text" class="form-control"></div>
+                                      <div  class="col-lg-2"><p style="margin-bottom: 0px;">Estado</p></div>
+                                      <div  class="col-lg-4"><input type="text" class="form-control"></div>                                      
+                                    </div>                                     
+                                  </div>                                                                             
+                                </div>                                
+                                <div class="row" style="margin-bottom: 10px;">
+                                  <div class="col-lg-6">                                                                        
+                                    <div class="row">
+                                      <div  class="col-lg-3"><p  style="margin-bottom: 0px;">Usuario</p></div>
+                                      <div  class="col-lg-9"><input type="text" class="form-control"></div>
+                                     </div> 
+                                  </div>
+                                  <div class="col-lg-6">
+                                    <div class="row">
+                                        <div  class="col-lg-3"><p  style="margin-bottom: 0px;">Fecha</p></div>
+                                        <div  class="col-lg-9"><input type="text" class="form-control"></div>
+                                    </div>                                  
+                                  </div>                                               
+                               </div>
+                               <div class="row" style="margin-bottom: 10px;">
+                                <div class="col-lg-10"></div>
+                                <div class="col-lg-2">
+                                  <div class="row">
+                                    <button type="button" class="btn btn-primary btn-sm"  style="width: 100%;" (click)="grabar()" ><i class="fa fa-save" ></i>&nbsp;&nbsp;Grabar </button> 
+                                  </div>                                  
+                                </div>                                               
+                             </div>
+                               
+                              </div>                             
+                          </div>
+                      </div>
+                  </div>
+                </div>                                 
+              </div>
+          </div>
+      </div>      
+  </div>
+  </div>   
+</ng-template>
